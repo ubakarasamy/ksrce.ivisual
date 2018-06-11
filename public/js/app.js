@@ -43352,6 +43352,24 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   //datas declared
@@ -43363,6 +43381,9 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
       //role
       selectedrole: 'all',
       roleoptions: [{ text: 'all', value: 'all' }, { text: 'Hod', value: 'hod' }, { text: 'Professor', value: 'professor' }, { text: 'Asst Professor', value: 'asstprofessor' }],
+      //create occupation
+      occupation_selected: '',
+      occupation_options: [{ text: 'Hod', value: 'hod' }, { text: 'Professor', value: 'professor' }, { text: 'Asst Professor', value: 'asstprofessor' }],
 
       create_roleoptions: [{ text: 'SuperAdmin', value: 'superadmin' }, { text: 'Admin', value: 'admin' }, { text: 'Staff', value: 'staff' }, { text: 'SubStaff', value: 'substaff' }],
       create_departmentoptions: [{ text: 'ECE', value: 'ece' }, { text: 'EEE', value: 'eee' }, { text: 'MECH', value: 'mech' }, { text: 'CSE', value: 'cse' }, { text: 'IT', value: 'it' }, { text: 'CIVIL', value: 'civil' }],
@@ -43423,6 +43444,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
           _this2.staff.email = '';
           _this2.staff.password = '';
           _this2.staff.role = '';
+          _this2.staff.occupation = '';
           _this2.staff.department = '';
           _this2.staff.mojoined = '';
           _this2.staff.eid = '';
@@ -43446,6 +43468,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
           _this2.staff.email = '';
           _this2.staff.password = '';
           _this2.staff.role = '';
+          _this2.staff.occupation = '';
           _this2.staff.department = '';
           _this2.staff.mojoined = '';
           _this2.staff.eid = '';
@@ -43464,9 +43487,10 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
       this.staff.email = staff.email;
       this.staff.password = staff.password;
       this.staff.role = staff.role;
-      this.staff.department = '';
-      this.staff.mojoined = '';
-      this.staff.eid = '';
+      this.staff.occupation = staff.occupation;
+      this.staff.department = staff.department;
+      this.staff.mojoined = staff.mojoined;
+      this.staff.eid = staff.eid;
     }
   },
   computed: {
@@ -43824,109 +43848,195 @@ var render = function() {
                               })
                             ]),
                             _vm._v(" "),
-                            _c(
-                              "select",
-                              {
-                                directives: [
-                                  {
-                                    name: "model",
-                                    rawName: "v-model",
-                                    value: _vm.staff.role,
-                                    expression: "staff.role"
-                                  }
-                                ],
-                                on: {
-                                  change: function($event) {
-                                    var $$selectedVal = Array.prototype.filter
-                                      .call($event.target.options, function(o) {
-                                        return o.selected
-                                      })
-                                      .map(function(o) {
-                                        var val =
-                                          "_value" in o ? o._value : o.value
-                                        return val
-                                      })
-                                    _vm.$set(
-                                      _vm.staff,
-                                      "role",
-                                      $event.target.multiple
-                                        ? $$selectedVal
-                                        : $$selectedVal[0]
-                                    )
-                                  }
-                                }
-                              },
-                              _vm._l(_vm.create_roleoptions, function(
-                                create_roleoption
-                              ) {
-                                return _c(
-                                  "option",
-                                  {
-                                    domProps: { value: create_roleoption.value }
-                                  },
-                                  [
-                                    _vm._v(
-                                      "\n    " +
-                                        _vm._s(create_roleoption.text) +
-                                        "\n  "
-                                    )
-                                  ]
-                                )
-                              })
-                            ),
-                            _vm._v(" "),
-                            _c(
-                              "select",
-                              {
-                                directives: [
-                                  {
-                                    name: "model",
-                                    rawName: "v-model",
-                                    value: _vm.staff.department,
-                                    expression: "staff.department"
-                                  }
-                                ],
-                                on: {
-                                  change: function($event) {
-                                    var $$selectedVal = Array.prototype.filter
-                                      .call($event.target.options, function(o) {
-                                        return o.selected
-                                      })
-                                      .map(function(o) {
-                                        var val =
-                                          "_value" in o ? o._value : o.value
-                                        return val
-                                      })
-                                    _vm.$set(
-                                      _vm.staff,
-                                      "department",
-                                      $event.target.multiple
-                                        ? $$selectedVal
-                                        : $$selectedVal[0]
-                                    )
-                                  }
-                                }
-                              },
-                              _vm._l(_vm.create_departmentoptions, function(
-                                create_departmentoption
-                              ) {
-                                return _c(
-                                  "option",
-                                  {
-                                    domProps: {
-                                      value: create_departmentoption.value
+                            _c("div", { staticClass: "form-group" }, [
+                              _c("label", { attrs: { for: "staff_role" } }, [
+                                _vm._v("Dashboard Role")
+                              ]),
+                              _vm._v(" "),
+                              _c(
+                                "select",
+                                {
+                                  directives: [
+                                    {
+                                      name: "model",
+                                      rawName: "v-model",
+                                      value: _vm.staff.role,
+                                      expression: "staff.role"
                                     }
-                                  },
-                                  [
-                                    _vm._v(
-                                      "\n    " +
-                                        _vm._s(create_departmentoption.text) +
-                                        "\n  "
-                                    )
-                                  ]
-                                )
-                              })
-                            ),
+                                  ],
+                                  attrs: { id: "staff_role" },
+                                  on: {
+                                    change: function($event) {
+                                      var $$selectedVal = Array.prototype.filter
+                                        .call($event.target.options, function(
+                                          o
+                                        ) {
+                                          return o.selected
+                                        })
+                                        .map(function(o) {
+                                          var val =
+                                            "_value" in o ? o._value : o.value
+                                          return val
+                                        })
+                                      _vm.$set(
+                                        _vm.staff,
+                                        "role",
+                                        $event.target.multiple
+                                          ? $$selectedVal
+                                          : $$selectedVal[0]
+                                      )
+                                    }
+                                  }
+                                },
+                                _vm._l(_vm.create_roleoptions, function(
+                                  create_roleoption
+                                ) {
+                                  return _c(
+                                    "option",
+                                    {
+                                      domProps: {
+                                        value: create_roleoption.value
+                                      }
+                                    },
+                                    [
+                                      _vm._v(
+                                        "\n    " +
+                                          _vm._s(create_roleoption.text) +
+                                          "\n  "
+                                      )
+                                    ]
+                                  )
+                                })
+                              )
+                            ]),
+                            _vm._v(" "),
+                            _c("div", { staticClass: "form-group" }, [
+                              _c(
+                                "label",
+                                { attrs: { for: "staff_department" } },
+                                [_vm._v("Staff Department")]
+                              ),
+                              _vm._v(" "),
+                              _c(
+                                "select",
+                                {
+                                  directives: [
+                                    {
+                                      name: "model",
+                                      rawName: "v-model",
+                                      value: _vm.staff.department,
+                                      expression: "staff.department"
+                                    }
+                                  ],
+                                  attrs: { id: "staff_department" },
+                                  on: {
+                                    change: function($event) {
+                                      var $$selectedVal = Array.prototype.filter
+                                        .call($event.target.options, function(
+                                          o
+                                        ) {
+                                          return o.selected
+                                        })
+                                        .map(function(o) {
+                                          var val =
+                                            "_value" in o ? o._value : o.value
+                                          return val
+                                        })
+                                      _vm.$set(
+                                        _vm.staff,
+                                        "department",
+                                        $event.target.multiple
+                                          ? $$selectedVal
+                                          : $$selectedVal[0]
+                                      )
+                                    }
+                                  }
+                                },
+                                _vm._l(_vm.create_departmentoptions, function(
+                                  create_departmentoption
+                                ) {
+                                  return _c(
+                                    "option",
+                                    {
+                                      domProps: {
+                                        value: create_departmentoption.value
+                                      }
+                                    },
+                                    [
+                                      _vm._v(
+                                        "\n    " +
+                                          _vm._s(create_departmentoption.text) +
+                                          "\n  "
+                                      )
+                                    ]
+                                  )
+                                })
+                              )
+                            ]),
+                            _vm._v(" "),
+                            _c("div", { staticClass: "form-group" }, [
+                              _c(
+                                "label",
+                                { attrs: { for: "staff_occupation" } },
+                                [_vm._v("Staff Occupation")]
+                              ),
+                              _vm._v(" "),
+                              _c(
+                                "select",
+                                {
+                                  directives: [
+                                    {
+                                      name: "model",
+                                      rawName: "v-model",
+                                      value: _vm.staff.occupation,
+                                      expression: "staff.occupation"
+                                    }
+                                  ],
+                                  attrs: { id: "staff_occupation" },
+                                  on: {
+                                    change: function($event) {
+                                      var $$selectedVal = Array.prototype.filter
+                                        .call($event.target.options, function(
+                                          o
+                                        ) {
+                                          return o.selected
+                                        })
+                                        .map(function(o) {
+                                          var val =
+                                            "_value" in o ? o._value : o.value
+                                          return val
+                                        })
+                                      _vm.$set(
+                                        _vm.staff,
+                                        "occupation",
+                                        $event.target.multiple
+                                          ? $$selectedVal
+                                          : $$selectedVal[0]
+                                      )
+                                    }
+                                  }
+                                },
+                                _vm._l(_vm.occupation_options, function(
+                                  occupation_option
+                                ) {
+                                  return _c(
+                                    "option",
+                                    {
+                                      domProps: {
+                                        value: occupation_option.value
+                                      }
+                                    },
+                                    [
+                                      _vm._v(
+                                        "\n    " +
+                                          _vm._s(occupation_option.text) +
+                                          "\n  "
+                                      )
+                                    ]
+                                  )
+                                })
+                              )
+                            ]),
                             _vm._v(" "),
                             _vm._m(1)
                           ]

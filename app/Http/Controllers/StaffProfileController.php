@@ -41,6 +41,7 @@ class StaffProfileController extends Controller
            $staff->department = $request->input('department');
            $staff->mojoined = $request->input('mojoined');
            $staff->eid = $request->input('eid');
+           $staff->role = $request->input('occupation');
            $staff->save();
 
            $role = Role::where('name', $request->input('role'))->first();
@@ -58,6 +59,7 @@ class StaffProfileController extends Controller
                 $staff->department = $request->input('department');
                 $staff->mojoined = $request->input('mojoined');
                 $staff->eid = $request->input('eid');
+                $staff->role = $request->input('occupation');
                 $staff->save();
 
                 $staffrole = Role::where('name', $request->input('role'))->first();

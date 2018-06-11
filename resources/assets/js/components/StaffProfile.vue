@@ -64,17 +64,35 @@
     <input type="password" class="form-control" id="Staffpasswordcreate" placeholder="Password" v-model="staff.password">
   </div>
 
-<select v-model="staff.role">
+
+  <div class="form-group">
+    <label for="staff_role">Dashboard Role</label>
+<select v-model="staff.role" id="staff_role">
   <option v-for="create_roleoption in create_roleoptions" v-bind:value="create_roleoption.value">
     {{ create_roleoption.text }}
   </option>
 </select>
+  </div>
 
-<select v-model="staff.department">
+  <div class="form-group">
+    <label for="staff_department">Staff Department</label>
+<select v-model="staff.department" id="staff_department">
   <option v-for="create_departmentoption in create_departmentoptions" v-bind:value="create_departmentoption.value">
     {{ create_departmentoption.text }}
   </option>
 </select>
+  </div>
+
+<div class="form-group">
+    <label for="staff_occupation">Staff Occupation</label>
+<select v-model="staff.occupation" id="staff_occupation"> 
+  <option v-for="occupation_option in occupation_options" v-bind:value="occupation_option.value">
+    {{ occupation_option.text }}
+  </option>
+</select>
+</div>
+
+
 
 
     <div class="modal-footer">
@@ -145,6 +163,13 @@ export default {
         { text: 'Professor', value: 'professor' },
         { text: 'Asst Professor', value: 'asstprofessor' }
     ],
+    //create occupation
+    occupation_selected: '',
+    occupation_options:[
+      { text: 'Hod', value: 'hod' },
+      { text: 'Professor', value: 'professor'},
+      { text: 'Asst Professor', value: 'asstprofessor'}
+    ],
 
 
 create_roleoptions: [
@@ -212,6 +237,7 @@ staffs: [],
             this.staff.email = '';
             this.staff.password = '';
             this.staff.role = '';
+            this.staff.occupation = '';
             this.staff.department = '';
             this.staff.mojoined = '';
             this.staff.eid = '';
@@ -234,6 +260,7 @@ staffs: [],
             this.staff.email = '';
             this.staff.password = '';
             this.staff.role = '';
+            this.staff.occupation = '';
             this.staff.department = '';
             this.staff.mojoined = '';
             this.staff.eid = '';
@@ -251,9 +278,10 @@ staffs: [],
       this.staff.email = staff.email;
       this.staff.password = staff.password;
       this.staff.role = staff.role;
-      this.staff.department = '';
-      this.staff.mojoined = '';
-      this.staff.eid = '';
+      this.staff.occupation = staff.occupation;
+      this.staff.department = staff.department;
+      this.staff.mojoined = staff.mojoined;
+      this.staff.eid = staff.eid;
     }
     },
     computed: {
