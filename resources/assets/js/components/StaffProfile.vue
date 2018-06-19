@@ -6,25 +6,53 @@
                     <button type="button" class="btn btn-primary float-right" data-toggle="modal" data-target="#createStaff">
   Create New Staff
 </button>
-<select v-model="selected">
+<br>
+<br>
+<label for="staff_filter_department">Department</label>
+<div class="filter-options">
+<select class="form-control" v-model="selected" style="width:120px;display:inline-block;">
   <option v-for="option in options" v-bind:value="option.value">
     {{ option.text }}
   </option>
 </select>
 
-
-<select v-model="selectedrole">
+<label for="staff_filter_occupation">Occupation</label>
+<select class="form-control" id="staff_filter_occupation" v-model="selectedrole" style="width:120px;display:inline-block;">
   <option v-for="roleoption in roleoptions" v-bind:value="roleoption.value">
     {{ roleoption.text }}
   </option>
 </select>
+</div>
 
-                </div>
-                <div class="card-body">
-                    <div class="row">
-                        <div class="col-md-12">
+</div>
+<div class="card-body">
+<div class="row">
+<div class="col-md-12">
+<!-- Button trigger modal -->
 
-                            <!-- Button trigger modal -->
+<!-- Modal View-->
+<div class="modal fade" id="viewStaff" tabindex="-1" role="dialog" aria-labelledby="createStaffLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="createStaffLabel">{{staff.name}}</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+          <img :src="default_pic" alt="staff image" class="mx-auto d-block" style="width: 135px;border-radius: 7%;margin: 10px;">
+        <table class="table" style="text-transform:uppercase;">
+          <tr><td>Name:</td><td>{{staff.name}}</td></tr>
+          <tr><td>Department:</td><td>{{staff.department}}</td></tr>
+          <tr><td>Designation:</td><td>{{staff.occupation}}</td></tr>
+          <tr><td>Employee ID:</td><td>{{staff.eid}}</td></tr>
+          <tr><td>Joined On:</td><td>{{staff.mojoined}}</td></tr>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
 
 <!-- Modal -->
 <div class="modal fade" id="createStaff" tabindex="-1" role="dialog" aria-labelledby="createStaffLabel" aria-hidden="true">
@@ -32,11 +60,17 @@
     <div class="modal-content">
       <div class="modal-header">
         <h5 class="modal-title" id="createStaffLabel">Create New Staff</h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+        <button type="button" class="close" v-on:click="closeEditbar" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
       <div class="modal-body">
+
+         <p v-if="errors.length">
+    <ul>
+      <li class="text-danger" v-for="error in errors">{{ error }}</li>
+    </ul>
+  </p>
         <form @submit.prevent="addStaff">
 <div class="form-group">
     <label for="Staffnamecreate">Name</label>
@@ -67,7 +101,7 @@
 
   <div class="form-group">
     <label for="staff_role">Dashboard Role</label>
-<select v-model="staff.role" id="staff_role">
+<select class="form-control" v-model="staff.role" id="staff_role" style="width:120px;">
   <option v-for="create_roleoption in create_roleoptions" v-bind:value="create_roleoption.value">
     {{ create_roleoption.text }}
   </option>
@@ -76,7 +110,7 @@
 
   <div class="form-group">
     <label for="staff_department">Staff Department</label>
-<select v-model="staff.department" id="staff_department">
+<select class="form-control" v-model="staff.department" id="staff_department" style="width:120px;">
   <option v-for="create_departmentoption in create_departmentoptions" v-bind:value="create_departmentoption.value">
     {{ create_departmentoption.text }}
   </option>
@@ -85,7 +119,7 @@
 
 <div class="form-group">
     <label for="staff_occupation">Staff Occupation</label>
-<select v-model="staff.occupation" id="staff_occupation"> 
+<select class="form-control" v-model="staff.occupation" id="staff_occupation" style="width:120px;"> 
   <option v-for="occupation_option in occupation_options" v-bind:value="occupation_option.value">
     {{ occupation_option.text }}
   </option>
@@ -96,7 +130,7 @@
 
 
     <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-secondary" data-dismiss="modal" v-on:click="closeEditbar">Close</button>
         <button type="submit" class="btn btn-primary">Save</button>
       </div>
 </form>
@@ -125,7 +159,12 @@
       <td>{{ staff.department }}</td>
       <td>{{ staff.occupation }}</td>
       <td><button type="button" class="btn btn-outline-primary btn-sm" data-toggle="modal" @click="editStaff(staff)" data-target="#createStaff">
+        
   Edit
+</button></td>
+<td><button type="button" class="btn btn-outline-primary btn-sm" data-toggle="modal" @click="viewStaff(staff)" data-target="#viewStaff">
+        
+  View
 </button></td>
     </tr>
   </tbody>
@@ -144,6 +183,7 @@ export default {
     //datas declared
     data(){
         return{
+          default_pic: '/img/profile_default_pic.png',
         //department
              selected: 'all',
     options: [
@@ -188,6 +228,7 @@ create_departmentoptions: [
 ],
 
 staffs: [],
+errors:[],
       staff: {
         id: '',
         name: '',
@@ -210,9 +251,15 @@ staffs: [],
     },
     // create methods here
     methods:{
+      checkForm:function(e) {
+      if(this.name) return true;
+      this.errors = [];
+      if(!this.name && !this.email  && !this.password  && !this.role  && !this.occupation  && !this.department  && !this.mojoined && !this.eid) this.errors.push("All Fields Required");
+      e.preventDefault();
+    },
          fetchUsers(page_url) {
       let vm = this;
-      page_url = page_url || '/api/staffprofile';
+      page_url = page_url || 'api/staffprofile';
       fetch(page_url)
         .then(res => res.json())
         .then(res => {
@@ -222,6 +269,7 @@ staffs: [],
      }
     ,
      addStaff() {
+       this.checkForm();
       if (this.edit === false) {
         // Add
         fetch('api/staffprofile', {
@@ -282,13 +330,35 @@ staffs: [],
       this.staff.department = staff.department;
       this.staff.mojoined = staff.mojoined;
       this.staff.eid = staff.eid;
+    },
+    viewStaff(staff) {
+      this.staff.id = staff.id;
+      this.staff.user_id = staff.id;
+      this.staff.name = staff.name;
+      this.staff.email = staff.email;
+      this.staff.password = staff.password;
+      this.staff.role = staff.role;
+      this.staff.occupation = staff.occupation;
+      this.staff.department = staff.department;
+      this.staff.mojoined = staff.mojoined;
+      this.staff.eid = staff.eid;
+    },
+    closeEditbar(){
+     this.staff.name = '';
+            this.staff.email = '';
+            this.staff.password = '';
+            this.staff.role = '';
+            this.staff.occupation = '';
+            this.staff.department = '';
+            this.staff.mojoined = '';
+            this.staff.eid = ''
     }
     },
     computed: {
         filteredItems: function() {
-			var vm = this;
-			var department = vm.selected;
-			var occupation = vm.selectedrole;
+			let vm = this;
+			let department = vm.selected;
+			let occupation = vm.selectedrole;
 
 			if(department === "all" && occupation === "all") {
 				//save performance, juste return the default array:

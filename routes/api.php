@@ -29,3 +29,19 @@ Route::post('staffprofile', 'StaffProfileController@store');
 
 // Update Staff
 Route::put('staffprofile', 'StaffProfileController@store');
+
+
+// List Students
+Route::get('studentProfile', 'StudentProfileController@index');
+
+// Create new Staff
+Route::post('studentProfile', 'StudentProfileController@store');
+
+// Update Staff
+Route::put('studentProfile', 'StudentProfileController@store');
+
+
+
+// Update Semester
+Route::post('semester', 'HomeController@closeSemester');
+

@@ -16,6 +16,8 @@ window.Vue = require('vue');
  */
 
 Vue.component('staff-profile', require('./components/StaffProfile.vue'));
+Vue.component('student-profile', require('./components/StudentProfile.vue'));
+Vue.component('close-semeter', require('./components/CloseSemester.vue'));
 
 const app = new Vue({
     el: '#app'

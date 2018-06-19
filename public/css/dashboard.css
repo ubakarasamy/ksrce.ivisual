@@ -275,7 +275,19 @@ input:checked + .slider:before {
 
 
 
-
+.home_profiles 
+{
+	padding: 10px;
+	box-shadow:0 0 9px #366bce;
+}
+.home_profiles p.title{
+	font-weight: bolder;
+}
+.home_profiles i{
+	color: #007bff;
+	font-size: 30px;
+	padding: 15px;
+}
 
 
 

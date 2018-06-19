@@ -9,16 +9,17 @@
     <meta name="csrf-token" content="{{ csrf_token() }}">
 <script>window.Laravel = { csrfToken: '{{ csrf_token() }}' }</script>
 
-    <title>{{ config('app.name', 'Laravel') }}</title>
+    <title>KSRCE</title>
 
-    <!-- Styles -->
+    {{-- fonts --}}
+    <link href="https://fonts.googleapis.com/css?family=Bitter|Noto+Serif|Open+Sans|Roboto+Mono" rel="stylesheet">    <!-- Styles -->
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
 
     <link rel="stylesheet" href="{{ asset('css/bootstrap.min.css') }}">
     <link rel="stylesheet" href="{{ asset('css/fontawesome-all.min.css') }}">
     <link rel="stylesheet" href="{{ asset('css/dashboard.css') }}">
 </head>
-<body>
+<body style="font-family: 'Roboto Mono', monospace;">
 <!--************************* #app start *****************************************-->
 <div id="app">
 <!--d-flux start  -->
@@ -26,11 +27,13 @@
 <!--************************* Sidebar *****************************************-->
 <div class="sidebar ksrce-sidebar">
         <div class="sidebar-brand">
-            <p><img src="{{ asset('img/ksrceLogo.png') }}" height="60px" class="p-1"> Smart System</p>    
+            <p><img src="{{ asset('img/ksrceLogo.png') }}" height="60px" class="p-1">Smart System</p>    
         </div>
         <ul class="list-unstyled">
-            <li><a href="{{route('home')}}"><i class="fa fa-fw fa-link"></i>Home</a></li>
-            <li class="active"><a href="{{route('staffprofile-home')}}"><i class="fa fa-fw fa-link"></i> Staff Profile</a></li>
+            <li class=" @if($route = Route::current()->getName() == 'home') <?php echo "active"?> @endif"><a href="{{route('home')}}"><i class="fas fa-home"></i>Home</a></li>
+            <li class=" @if($route = Route::current()->getName() == 'staffprofile-home') <?php echo "active" ?> @endif"><a href="{{route('staffprofile-home')}}"><i class="fas fa-user"></i> Staff Profile</a></li>
+            <li class=" @if($route = Route::current()->getName() == 'studentprofile-home') <?php echo "active" ?> @endif"><a href="{{route('studentprofile-home')}}"><i class="fas fa-graduation-cap"></i> Student Profile</a></li>
+            <li class=" @if($route = Route::current()->getName() == 'close-semester') <?php echo "active" ?> @endif"><a href="{{route('close-semester')}}"><i class="fas fa-graduation-cap"></i>Update Semester</a></li>
         </ul>
     </div>
 <!--************************* Content start *****************************************-->
