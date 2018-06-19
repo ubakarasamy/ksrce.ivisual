@@ -20,8 +20,11 @@
 export default {
     data(){
         return {
-            test: {
-                test: 'closesem'
+             student:{
+            id: '',
+            name: '',
+            email: '',
+            test:'closesem'
             },
             confirm: ''
         }
@@ -33,16 +36,18 @@ export default {
             if(this.confirm === true){
              fetch('api/semester', {
           method: 'post',
-          body: JSON.stringify(this.test),
+          body: JSON.stringify(this.student),
           headers: {
             'content-type': 'application/json'
           }
         })
           .then(res => res.json())
           .then(data => {
+              this.student.test = ""
             alert('Success');
           })
           .catch(err => console.log(err));
+          alert('The Semester Status Updated successfully');
         }
         }
        

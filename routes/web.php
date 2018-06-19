@@ -22,4 +22,7 @@ Route::get('/staffprofile', 'StaffProfileController@showPage')->name('staffprofi
 Route::get('/studentprofile', 'StudentProfileController@showPage')->name('studentprofile-home');
 
 
-Route::get('/semester', 'HomeController@closeSemesterview')->name('close-semester');
+Route::get('/semester', 'PagesController@closeSemesterview')->name('close-semester');
+
+Route::get('/staff/attendance/create', 'StaffAttendanceController@createAttendance')->name('staffattendance-create');
+

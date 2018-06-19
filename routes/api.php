@@ -43,5 +43,9 @@ Route::put('studentProfile', 'StudentProfileController@store');
 
 
 // Update Semester
-Route::post('semester', 'HomeController@closeSemester');
+Route::post('semester', 'PagesController@closeSemester');
+
+
+// Update Semester
+Route::post('staffattendance', 'StaffAttendanceController@storeDateStaff');
 
