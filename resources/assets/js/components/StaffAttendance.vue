@@ -7,12 +7,13 @@
                            </h3>
                        </div>
                        <div class="card-body">
+                           <div class="showCreateAttendance" v-if="showCreateAttendance">
                             <!-- Form  -->
-                       <form @submit.prevent="makeDate">
+                            <form @submit.prevent="makeDate">
                                <div class="row">
                                     <div class="form-group col-md-4">
                                             <label for="date">Date </label>
-                                            <input type="date" id="date" v-model="test.makeDate" name="date" max="3000-12-31" min="1000-01-01" class="form-control" style="width:200px;">
+                                            <input type="date" id="date" v-model="test.makedate" name="date" max="3000-12-31" min="1000-01-01" class="form-control" style="width:200px;">
                                             <p class="text-muted">Please double Check the Date</p>
                                        </div>
                                        <div class="form-group col-md-4">
@@ -22,7 +23,12 @@
                                        </div>
                                </div>
                                <button type="submit" class="btn btn-primary">Submit</button>
-                           </form>
+                            </form>
+                           </div>
+
+                           <div class="showNew" v-if="showCreateAttendance === false">
+                               <h1>hello</h1>
+                           </div>
                        </div>
                    </div>
 
@@ -34,9 +40,10 @@ export default {
         return {
             tests:[],
             test:{
-                makeDate: '',
+                makedate: '',
                 eid: ''
-            }
+            },
+            showCreateAttendance: true
         }
     },
     methods: {
@@ -51,11 +58,10 @@ export default {
         })
           .then(res => res.json())
           .then(data => {
-            this.test.makeDate = '';
-            this.test.eid = '';
+            alert('Attendance Created');
           })
           .catch(err => console.log(err));
-          alert('Attendance Created');
+          this.showCreateAttendance = false;
         }
     }
 }

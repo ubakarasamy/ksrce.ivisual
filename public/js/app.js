@@ -46029,22 +46029,27 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
     data: function data() {
         return {
             tests: [],
             test: {
-                makeDate: '',
+                makedate: '',
                 eid: ''
-            }
+            },
+            showCreateAttendance: true
         };
     },
 
     methods: {
         makeDate: function makeDate() {
-            var _this = this;
-
             // Add
             fetch('/api/staffattendance', {
                 method: 'post',
@@ -46055,12 +46060,11 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             }).then(function (res) {
                 return res.json();
             }).then(function (data) {
-                _this.test.makeDate = '';
-                _this.test.eid = '';
+                alert('Attendance Created');
             }).catch(function (err) {
                 return console.log(err);
             });
-            alert('Attendance Created');
+            this.showCreateAttendance = false;
         }
     }
 });
@@ -46077,93 +46081,103 @@ var render = function() {
     _vm._m(0),
     _vm._v(" "),
     _c("div", { staticClass: "card-body" }, [
-      _c(
-        "form",
-        {
-          on: {
-            submit: function($event) {
-              $event.preventDefault()
-              return _vm.makeDate($event)
-            }
-          }
-        },
-        [
-          _c("div", { staticClass: "row" }, [
-            _c("div", { staticClass: "form-group col-md-4" }, [
-              _c("label", { attrs: { for: "date" } }, [_vm._v("Date ")]),
-              _vm._v(" "),
-              _c("input", {
-                directives: [
-                  {
-                    name: "model",
-                    rawName: "v-model",
-                    value: _vm.test.makeDate,
-                    expression: "test.makeDate"
-                  }
-                ],
-                staticClass: "form-control",
-                staticStyle: { width: "200px" },
-                attrs: {
-                  type: "date",
-                  id: "date",
-                  name: "date",
-                  max: "3000-12-31",
-                  min: "1000-01-01"
-                },
-                domProps: { value: _vm.test.makeDate },
+      _vm.showCreateAttendance
+        ? _c("div", { staticClass: "showCreateAttendance" }, [
+            _c(
+              "form",
+              {
                 on: {
-                  input: function($event) {
-                    if ($event.target.composing) {
-                      return
-                    }
-                    _vm.$set(_vm.test, "makeDate", $event.target.value)
+                  submit: function($event) {
+                    $event.preventDefault()
+                    return _vm.makeDate($event)
                   }
                 }
-              }),
-              _vm._v(" "),
-              _c("p", { staticClass: "text-muted" }, [
-                _vm._v("Please double Check the Date")
-              ])
-            ]),
-            _vm._v(" "),
-            _c("div", { staticClass: "form-group col-md-4" }, [
-              _c("label", { attrs: { for: "eid" } }, [_vm._v("Employee ID")]),
-              _vm._v(" "),
-              _c("input", {
-                directives: [
-                  {
-                    name: "model",
-                    rawName: "v-model",
-                    value: _vm.test.eid,
-                    expression: "test.eid"
-                  }
-                ],
-                staticClass: "form-control",
-                attrs: { type: "text", id: "eid", name: "eid" },
-                domProps: { value: _vm.test.eid },
-                on: {
-                  input: function($event) {
-                    if ($event.target.composing) {
-                      return
-                    }
-                    _vm.$set(_vm.test, "eid", $event.target.value)
-                  }
-                }
-              }),
-              _vm._v(" "),
-              _c("p", { staticClass: "text-muted" }, [
-                _vm._v("Enter Your Employee Id")
-              ])
-            ])
-          ]),
-          _vm._v(" "),
-          _c(
-            "button",
-            { staticClass: "btn btn-primary", attrs: { type: "submit" } },
-            [_vm._v("Submit")]
-          )
-        ]
-      )
+              },
+              [
+                _c("div", { staticClass: "row" }, [
+                  _c("div", { staticClass: "form-group col-md-4" }, [
+                    _c("label", { attrs: { for: "date" } }, [_vm._v("Date ")]),
+                    _vm._v(" "),
+                    _c("input", {
+                      directives: [
+                        {
+                          name: "model",
+                          rawName: "v-model",
+                          value: _vm.test.makedate,
+                          expression: "test.makedate"
+                        }
+                      ],
+                      staticClass: "form-control",
+                      staticStyle: { width: "200px" },
+                      attrs: {
+                        type: "date",
+                        id: "date",
+                        name: "date",
+                        max: "3000-12-31",
+                        min: "1000-01-01"
+                      },
+                      domProps: { value: _vm.test.makedate },
+                      on: {
+                        input: function($event) {
+                          if ($event.target.composing) {
+                            return
+                          }
+                          _vm.$set(_vm.test, "makedate", $event.target.value)
+                        }
+                      }
+                    }),
+                    _vm._v(" "),
+                    _c("p", { staticClass: "text-muted" }, [
+                      _vm._v("Please double Check the Date")
+                    ])
+                  ]),
+                  _vm._v(" "),
+                  _c("div", { staticClass: "form-group col-md-4" }, [
+                    _c("label", { attrs: { for: "eid" } }, [
+                      _vm._v("Employee ID")
+                    ]),
+                    _vm._v(" "),
+                    _c("input", {
+                      directives: [
+                        {
+                          name: "model",
+                          rawName: "v-model",
+                          value: _vm.test.eid,
+                          expression: "test.eid"
+                        }
+                      ],
+                      staticClass: "form-control",
+                      attrs: { type: "text", id: "eid", name: "eid" },
+                      domProps: { value: _vm.test.eid },
+                      on: {
+                        input: function($event) {
+                          if ($event.target.composing) {
+                            return
+                          }
+                          _vm.$set(_vm.test, "eid", $event.target.value)
+                        }
+                      }
+                    }),
+                    _vm._v(" "),
+                    _c("p", { staticClass: "text-muted" }, [
+                      _vm._v("Enter Your Employee Id")
+                    ])
+                  ])
+                ]),
+                _vm._v(" "),
+                _c(
+                  "button",
+                  { staticClass: "btn btn-primary", attrs: { type: "submit" } },
+                  [_vm._v("Submit")]
+                )
+              ]
+            )
+          ])
+        : _vm._e(),
+      _vm._v(" "),
+      _vm.showCreateAttendance === false
+        ? _c("div", { staticClass: "showNew" }, [_c("h1", [_vm._v("hello")])])
+        : _vm._e()
     ])
   ])
 }

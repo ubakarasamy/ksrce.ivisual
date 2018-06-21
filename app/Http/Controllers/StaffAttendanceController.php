@@ -4,7 +4,10 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\StaffAttendance;
+use App\StaffAttendanceRecord;
 use App\User;
+
+use App\Http\Resources\StudentAttendanceRecordResource;
 
 class StaffAttendanceController extends Controller
 {
@@ -28,28 +31,34 @@ class StaffAttendanceController extends Controller
     public function storeDateStaff(Request $request)
     {
         //if date already exists edit
-        
+        $date = StaffAttendance::where('attendanceDate', $request->input('makedate'));
+        if($date !== null){
+            //if alredy exists get data from attendance record table and return for editing
+
+
+            $attendanceData = StaffAttendanceRecord::where('attendanceDate', $request->input('makedate'));
+            
+            return view('staffattendance.staffrecord')->with('date', $request->input('makedate'));
+            
+        }else{
         //else create
-        $this->validate($request, array(
-            'staff_id'         => 'required|max:255',
-            'attendanceDate'          => 'required|max:255',
-            'eid'          => 'required|max:255'
-        ));
-
-$date = $request->input('attendanceDate');
-$eid = $request->input('eid');
-
-
         $attendance = new StaffAttendance;
-//$staff = User::where('eid', $eid)->first();
-        $attendance->staff_id = 1;
-        $attendance->attendanceDate = $request->input('attendanceDate');
+$staff = User::where('eid', $eid)->first();
+        $attendance->staff_id = $staff->id;
+        $attendance->attendanceDate = $request->input('makedate');
         $attendance->eid = $request->input('eid');
 $attendance->save();
+            //if alredy exists give attendance record table for inserting
 
-return 'hello';
+            $attendanceData = StaffAttendanceRecord::where('attendanceDate', $request->input('makedate'));
 
-    }
+            return view('staffattendance.staffrecord')->with('date', $request->input('makedate'),'data', $attendanceData);
+
+        }
+        
+
+
+}
     /**
      * Show the form for creating a new resource.
      *
