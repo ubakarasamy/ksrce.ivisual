@@ -307,6 +307,7 @@ student_section_create_options: [
             // this.student.semester = ''
             alert('Student Added');
             this.fetchStudents();
+            console.log(this.student)
           })
           .catch(err => console.log(err));
       } else {
@@ -332,6 +333,7 @@ student_section_create_options: [
             this.student.gurdian_name = ''
             // this.student.semester = ''
             alert('Student Updated');
+             console.log(JSON.stringify(this.student));
             this.fetchStudents();
           })
           .catch(err => console.log(err));

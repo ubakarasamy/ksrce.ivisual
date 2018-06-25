@@ -143,7 +143,7 @@
                             <table class="table">
   <thead>
     <tr>
-      <th scope="col">#ID</th>
+      <th scope="col">#EID</th>
       <th scope="col">Name</th>
       <th scope="col">Email</th>
       <th scope="col">Department</th>
@@ -153,11 +153,11 @@
   </thead>
   <tbody>
     <tr v-for="staff in filteredItems" v-bind:key="staff.id">
-      <th scope="row">{{ staff.id }}</th>
+      <th scope="row">{{ staff.eid }}</th>
       <td>{{ staff.name }}</td>
       <td>{{ staff.email }}</td>
-      <td>{{ staff.department }}</td>
-      <td>{{ staff.occupation }}</td>
+      <td style="text-transform:uppercase;">{{ staff.department }}</td>
+      <td style="text-transform:uppercase;">{{ staff.occupation }}</td>
       <td><button type="button" class="btn btn-outline-primary btn-sm" data-toggle="modal" @click="editStaff(staff)" data-target="#createStaff">
         
   Edit
@@ -184,7 +184,7 @@ export default {
     data(){
         return{
           default_pic: '/img/profile_default_pic.png',
-        //department
+        //departments for filter
              selected: 'all',
     options: [
       { text: 'all', value: 'all' },
@@ -193,7 +193,26 @@ export default {
         { text: 'MECH', value: 'mech' },
         { text: 'CSE', value: 'cse' },
         { text: 'IT', value: 'it' },
-        { text: 'CIVIL', value: 'civil' }
+        { text: 'CIVIL', value: 'civil' },
+        { text: 'AUTOMOBILE', value: 'automobile' },
+        { text: 'ENGLISH', value: 'english' },
+        { text: 'PHYSICS', value: 'physics' },
+        { text: 'CHEMISTRY', value: 'chemistry' },
+        { text: 'MATHEMATICS', value: 'mathematics' },
+        { text: 'ME-SE', value: 'me-se' },
+        { text: 'ME-CE&M', value: 'me-ce&m' },
+        { text: 'ME-CSE', value: 'me-cse' },
+        { text: 'ME-MMT', value: 'me-mmt' },
+        { text: 'ME-AE', value: 'me-ae' },
+        { text: 'ME-COM-SYS', value: 'me-com-sys' },
+        { text: 'ME-VLSI', value: 'me-vlsi' },
+        { text: 'ME-EST', value: 'me-est' },
+        { text: 'ME-PE&D', value: 'me-pe&d' },
+        { text: 'ME-ISE', value: 'me-ise' },
+        { text: 'MTECH-IT', value: 'mtech-it' },
+        { text: 'MBA', value: 'mba' },
+        { text: 'MCA', value: 'mca' }
+        
     ],
     //role
     selectedrole: 'all',
@@ -201,6 +220,7 @@ export default {
       { text: 'all', value: 'all' },
       { text: 'Hod', value: 'hod' },
         { text: 'Professor', value: 'professor' },
+        { text: 'Assoc Professor', value: 'assocprofessor' },
         { text: 'Asst Professor', value: 'asstprofessor' }
     ],
     //create occupation
@@ -208,6 +228,7 @@ export default {
     occupation_options:[
       { text: 'Hod', value: 'hod' },
       { text: 'Professor', value: 'professor'},
+      { text: 'Assoc Professor', value: 'assocprofessor' },
       { text: 'Asst Professor', value: 'asstprofessor'}
     ],
 
@@ -224,7 +245,25 @@ create_departmentoptions: [
         { text: 'MECH', value: 'mech' },
         { text: 'CSE', value: 'cse' },
         { text: 'IT', value: 'it' },
-        { text: 'CIVIL', value: 'civil' }
+        { text: 'CIVIL', value: 'civil' },
+        { text: 'AUTOMOBILE', value: 'automobile' },
+        { text: 'ENGLISH', value: 'english' },
+        { text: 'PHYSICS', value: 'physics' },
+        { text: 'CHEMISTRY', value: 'chemistry' },
+        { text: 'MATHEMATICS', value: 'mathematics' },
+        { text: 'ME-SE', value: 'me-se' },
+        { text: 'ME-CE&M', value: 'me-ce&m' },
+        { text: 'ME-CSE', value: 'me-cse' },
+        { text: 'ME-MMT', value: 'me-mmt' },
+        { text: 'ME-AE', value: 'me-ae' },
+        { text: 'ME-COM-SYS', value: 'me-com-sys' },
+        { text: 'ME-VLSI', value: 'me-vlsi' },
+        { text: 'ME-EST', value: 'me-est' },
+        { text: 'ME-PE&D', value: 'me-pe&d' },
+        { text: 'ME-ISE', value: 'me-ise' },
+        { text: 'MTECH-IT', value: 'mtech-it' },
+        { text: 'MBA', value: 'mba' },
+        { text: 'MCA', value: 'mca' }
 ],
 
 staffs: [],
@@ -251,11 +290,11 @@ errors:[],
     },
     // create methods here
     methods:{
-      checkForm:function(e) {
+      checkForm:function() {
       if(this.name) return true;
       this.errors = [];
-      if(!this.name && !this.email  && !this.password  && !this.role  && !this.occupation  && !this.department  && !this.mojoined && !this.eid) this.errors.push("All Fields Required");
-      e.preventDefault();
+      if(!this.name && !this.email  && !this.password  && !this.role  && !this.occupation  && !this.department && !this.eid) this.errors.push("All Fields Required");
+      
     },
          fetchUsers(page_url) {
       let vm = this;
@@ -269,7 +308,7 @@ errors:[],
      }
     ,
      addStaff() {
-       this.checkForm();
+       //this.checkForm();
       if (this.edit === false) {
         // Add
         fetch('api/staffprofile', {

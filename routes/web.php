@@ -26,3 +26,4 @@ Route::get('/semester', 'PagesController@closeSemesterview')->name('close-semest
 
 Route::get('/staff/attendance/create', 'StaffAttendanceController@createAttendance')->name('staffattendance-create');
 
+//Route::post('/staff/attendance/make', 'StaffAttendanceController@storeDateStaff');

@@ -49,3 +49,9 @@ Route::post('semester', 'PagesController@closeSemester');
 // Update Semester
 Route::post('staffattendance', 'StaffAttendanceController@storeDateStaff');
 
+Route::get('staffattendance/{makedate}', 'StaffAttendanceController@getStaffAttendance');
+
+Route::get('staffattendance/allstaffs', 'StaffAttendanceController@AllStaffs');
+
+Route::post('staffattendance/setstatus', 'StaffAttendanceController@SetStaffData');
+

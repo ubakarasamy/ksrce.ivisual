@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateAttendanceRecordTable extends Migration
+class CreateStaffAttendanceRecordTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,7 +13,7 @@ class CreateAttendanceRecordTable extends Migration
      */
     public function up()
     {
-        Schema::create('attendance_record', function (Blueprint $table) {
+        Schema::create('staff_attendance_record', function (Blueprint $table) {
             $table->increments('id');
             $table->date('attendanceDate');
             $table->integer('staff_id');
@@ -30,6 +30,6 @@ class CreateAttendanceRecordTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('attendance_record');
+        Schema::dropIfExists('staff_attendance_record');
     }
 }

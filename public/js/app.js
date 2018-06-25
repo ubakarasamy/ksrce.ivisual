@@ -43418,18 +43418,18 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
   data: function data() {
     return {
       default_pic: '/img/profile_default_pic.png',
-      //department
+      //departments for filter
       selected: 'all',
-      options: [{ text: 'all', value: 'all' }, { text: 'ECE', value: 'ece' }, { text: 'EEE', value: 'eee' }, { text: 'MECH', value: 'mech' }, { text: 'CSE', value: 'cse' }, { text: 'IT', value: 'it' }, { text: 'CIVIL', value: 'civil' }],
+      options: [{ text: 'all', value: 'all' }, { text: 'ECE', value: 'ece' }, { text: 'EEE', value: 'eee' }, { text: 'MECH', value: 'mech' }, { text: 'CSE', value: 'cse' }, { text: 'IT', value: 'it' }, { text: 'CIVIL', value: 'civil' }, { text: 'AUTOMOBILE', value: 'automobile' }, { text: 'ENGLISH', value: 'english' }, { text: 'PHYSICS', value: 'physics' }, { text: 'CHEMISTRY', value: 'chemistry' }, { text: 'MATHEMATICS', value: 'mathematics' }, { text: 'ME-SE', value: 'me-se' }, { text: 'ME-CE&M', value: 'me-ce&m' }, { text: 'ME-CSE', value: 'me-cse' }, { text: 'ME-MMT', value: 'me-mmt' }, { text: 'ME-AE', value: 'me-ae' }, { text: 'ME-COM-SYS', value: 'me-com-sys' }, { text: 'ME-VLSI', value: 'me-vlsi' }, { text: 'ME-EST', value: 'me-est' }, { text: 'ME-PE&D', value: 'me-pe&d' }, { text: 'ME-ISE', value: 'me-ise' }, { text: 'MTECH-IT', value: 'mtech-it' }, { text: 'MBA', value: 'mba' }, { text: 'MCA', value: 'mca' }],
       //role
       selectedrole: 'all',
-      roleoptions: [{ text: 'all', value: 'all' }, { text: 'Hod', value: 'hod' }, { text: 'Professor', value: 'professor' }, { text: 'Asst Professor', value: 'asstprofessor' }],
+      roleoptions: [{ text: 'all', value: 'all' }, { text: 'Hod', value: 'hod' }, { text: 'Professor', value: 'professor' }, { text: 'Assoc Professor', value: 'assocprofessor' }, { text: 'Asst Professor', value: 'asstprofessor' }],
       //create occupation
       occupation_selected: '',
-      occupation_options: [{ text: 'Hod', value: 'hod' }, { text: 'Professor', value: 'professor' }, { text: 'Asst Professor', value: 'asstprofessor' }],
+      occupation_options: [{ text: 'Hod', value: 'hod' }, { text: 'Professor', value: 'professor' }, { text: 'Assoc Professor', value: 'assocprofessor' }, { text: 'Asst Professor', value: 'asstprofessor' }],
 
       create_roleoptions: [{ text: 'SuperAdmin', value: 'superadmin' }, { text: 'Admin', value: 'admin' }, { text: 'Staff', value: 'staff' }, { text: 'SubStaff', value: 'substaff' }],
-      create_departmentoptions: [{ text: 'ECE', value: 'ece' }, { text: 'EEE', value: 'eee' }, { text: 'MECH', value: 'mech' }, { text: 'CSE', value: 'cse' }, { text: 'IT', value: 'it' }, { text: 'CIVIL', value: 'civil' }],
+      create_departmentoptions: [{ text: 'ECE', value: 'ece' }, { text: 'EEE', value: 'eee' }, { text: 'MECH', value: 'mech' }, { text: 'CSE', value: 'cse' }, { text: 'IT', value: 'it' }, { text: 'CIVIL', value: 'civil' }, { text: 'AUTOMOBILE', value: 'automobile' }, { text: 'ENGLISH', value: 'english' }, { text: 'PHYSICS', value: 'physics' }, { text: 'CHEMISTRY', value: 'chemistry' }, { text: 'MATHEMATICS', value: 'mathematics' }, { text: 'ME-SE', value: 'me-se' }, { text: 'ME-CE&M', value: 'me-ce&m' }, { text: 'ME-CSE', value: 'me-cse' }, { text: 'ME-MMT', value: 'me-mmt' }, { text: 'ME-AE', value: 'me-ae' }, { text: 'ME-COM-SYS', value: 'me-com-sys' }, { text: 'ME-VLSI', value: 'me-vlsi' }, { text: 'ME-EST', value: 'me-est' }, { text: 'ME-PE&D', value: 'me-pe&d' }, { text: 'ME-ISE', value: 'me-ise' }, { text: 'MTECH-IT', value: 'mtech-it' }, { text: 'MBA', value: 'mba' }, { text: 'MCA', value: 'mca' }],
 
       staffs: [],
       errors: [],
@@ -43457,11 +43457,10 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
   // create methods here
   methods: {
-    checkForm: function checkForm(e) {
+    checkForm: function checkForm() {
       if (this.name) return true;
       this.errors = [];
-      if (!this.name && !this.email && !this.password && !this.role && !this.occupation && !this.department && !this.mojoined && !this.eid) this.errors.push("All Fields Required");
-      e.preventDefault();
+      if (!this.name && !this.email && !this.password && !this.role && !this.occupation && !this.department && !this.eid) this.errors.push("All Fields Required");
     },
     fetchUsers: function fetchUsers(page_url) {
       var _this = this;
@@ -43479,7 +43478,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     addStaff: function addStaff() {
       var _this2 = this;
 
-      this.checkForm();
+      //this.checkForm();
       if (this.edit === false) {
         // Add
         fetch('api/staffprofile', {
@@ -44300,16 +44299,24 @@ var render = function() {
                 _vm._l(_vm.filteredItems, function(staff) {
                   return _c("tr", { key: staff.id }, [
                     _c("th", { attrs: { scope: "row" } }, [
-                      _vm._v(_vm._s(staff.id))
+                      _vm._v(_vm._s(staff.eid))
                     ]),
                     _vm._v(" "),
                     _c("td", [_vm._v(_vm._s(staff.name))]),
                     _vm._v(" "),
                     _c("td", [_vm._v(_vm._s(staff.email))]),
                     _vm._v(" "),
-                    _c("td", [_vm._v(_vm._s(staff.department))]),
+                    _c(
+                      "td",
+                      { staticStyle: { "text-transform": "uppercase" } },
+                      [_vm._v(_vm._s(staff.department))]
+                    ),
                     _vm._v(" "),
-                    _c("td", [_vm._v(_vm._s(staff.occupation))]),
+                    _c(
+                      "td",
+                      { staticStyle: { "text-transform": "uppercase" } },
+                      [_vm._v(_vm._s(staff.occupation))]
+                    ),
                     _vm._v(" "),
                     _c("td", [
                       _c(
@@ -44384,7 +44391,7 @@ var staticRenderFns = [
     var _c = _vm._self._c || _h
     return _c("thead", [
       _c("tr", [
-        _c("th", { attrs: { scope: "col" } }, [_vm._v("#ID")]),
+        _c("th", { attrs: { scope: "col" } }, [_vm._v("#EID")]),
         _vm._v(" "),
         _c("th", { attrs: { scope: "col" } }, [_vm._v("Name")]),
         _vm._v(" "),
@@ -44726,6 +44733,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
           // this.student.semester = ''
           alert('Student Added');
           _this2.fetchStudents();
+          console.log(_this2.student);
         }).catch(function (err) {
           return console.log(err);
         });
@@ -44743,6 +44751,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
           _this2.student.name = '', _this2.student.email = '', _this2.student.department = '', _this2.student.year = '', _this2.student.section = '', _this2.student.register_no = '', _this2.student.batch = '', _this2.student.phone = '', _this2.student.address = '', _this2.student.gurdian_name = '';
           // this.student.semester = ''
           alert('Student Updated');
+          console.log(JSON.stringify(_this2.student));
           _this2.fetchStudents();
         }).catch(function (err) {
           return console.log(err);
@@ -46035,38 +46044,170 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
-    data: function data() {
-        return {
-            tests: [],
-            test: {
-                makedate: '',
-                eid: ''
-            },
-            showCreateAttendance: true
-        };
+  data: function data() {
+    return {
+      Staffs: [],
+      search: '',
+      attendanceDatas: [],
+      createAttendance: {
+        makedate: '',
+        eid: ''
+      },
+      showCreateAttendance: true,
+      //set status
+      Staff: {
+        selectedStatus: '',
+        id: ''
+      },
+      setStatuses: [{ text: 'Not Updated', value: 'null' }, { text: 'Present', value: 'present' }, { text: 'CL', value: 'cl' }, { text: 'CPL', value: 'cpl' }, { text: 'Present-Permission', value: 'present-permission' }, { text: 'Present-Late', value: 'present-late' }, { text: 'OD', value: 'od' }, { text: 'SOD', value: 'sod' }, { text: 'Absent', value: 'absent' }],
+      settingStatus: {}
+
+    };
+  },
+
+  methods: {
+    makeDate: function makeDate() {
+      fetch("/api/staffattendance", {
+        method: "post",
+        body: JSON.stringify(this.createAttendance),
+        headers: {
+          "content-type": "application/json"
+        }
+      }).then(function (res) {
+        return res.json();
+      }).then(function (data) {
+        alert("Attendance Created");
+      }).catch(function (err) {
+        return console.log(err);
+      });
+
+      this.showCreateAttendance = false;
+      this.fetchAttendanceData(this.createAttendance.makedate);
+      this.fetchAllstaffs();
     },
 
-    methods: {
-        makeDate: function makeDate() {
-            // Add
-            fetch('/api/staffattendance', {
-                method: 'post',
-                body: JSON.stringify(this.test),
-                headers: {
-                    'content-type': 'application/json'
-                }
-            }).then(function (res) {
-                return res.json();
-            }).then(function (data) {
-                alert('Attendance Created');
-            }).catch(function (err) {
-                return console.log(err);
-            });
-            this.showCreateAttendance = false;
+    //Fetch Attendance Data
+    fetchAttendanceData: function fetchAttendanceData(makedate) {
+      var _this = this;
+
+      var vm = this;
+      //page_url = '/api/staffattendance/{makedate}';
+      fetch("/api/staffattendance/" + makedate + "").then(function (res) {
+        return res.json();
+      }).then(function (res) {
+        //this.staffs = res.data;
+        _this.attendanceDatas = res.data;
+        // console.log(res.data);
+      }).catch(function (err) {
+        return console.log(err);
+      });
+    },
+
+    //Featch all Staffs
+    fetchAllstaffs: function fetchAllstaffs() {
+      var _this2 = this;
+
+      fetch("/api/staffprofile").then(function (res) {
+        return res.json();
+      }).then(function (res) {
+        _this2.Staffs = res.data;
+        //console.log(res.data);
+      }).catch(function (err) {
+        return console.log(err);
+      });
+    },
+
+    // Get status
+    getStatus: function getStatus(id) {
+
+      // var status;
+      // this.attendanceDatas.forEach(element => { 
+      //   if (element.staff_id === id) {
+      //     status = element.status;
+      //   }
+      // });
+      // return status;
+      var status;
+      Array.prototype.forEach.call(this.attendanceDatas, function (child) {
+        if (child.staff_id === id) {
+          status = child.status;
         }
+        return status;
+      });
+    },
+
+    // set status
+    SetStatus: function SetStatus(Staff) {
+      var _this3 = this;
+
+      var PassData = { staff_id: Staff.id, staff_status: Staff.selectedStatus, date: this.createAttendance.makedate };
+
+      fetch("/api/staffattendance/setstatus", {
+        method: "post",
+        body: JSON.stringify(PassData),
+        headers: {
+          "content-type": "application/json"
+        }
+      }).then(function (res) {
+        return res.json();
+      }).then(function (data) {
+        _this3.Staff.selectedStatus = '', _this3.Staff.id = '';
+      }).catch(function (err) {
+        return console.log(err);
+      });
+      this.fetchAllstaffs();
+      console.log(JSON.stringify(PassData));
     }
+  },
+
+  computed: {
+    searchStaffs: function searchStaffs() {
+      var self = this;
+      return this.Staffs.filter(function (cust) {
+        return cust.eid.toLowerCase().indexOf(self.search.toLowerCase()) >= 0;
+      });
+      //return this.customers;
+    }
+  }
 });
 
 /***/ }),
@@ -46078,7 +46219,15 @@ var render = function() {
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
   return _c("div", { staticClass: "card" }, [
-    _vm._m(0),
+    _c("div", { staticClass: "card-header" }, [
+      _c("h3", { staticClass: "card-title" }, [
+        _vm._v(
+          "\n                               Make Attendance for " +
+            _vm._s(_vm.createAttendance.makedate) +
+            " \n                           "
+        )
+      ])
+    ]),
     _vm._v(" "),
     _c("div", { staticClass: "card-body" }, [
       _vm.showCreateAttendance
@@ -46103,8 +46252,8 @@ var render = function() {
                         {
                           name: "model",
                           rawName: "v-model",
-                          value: _vm.test.makedate,
-                          expression: "test.makedate"
+                          value: _vm.createAttendance.makedate,
+                          expression: "createAttendance.makedate"
                         }
                       ],
                       staticClass: "form-control",
@@ -46116,13 +46265,17 @@ var render = function() {
                         max: "3000-12-31",
                         min: "1000-01-01"
                       },
-                      domProps: { value: _vm.test.makedate },
+                      domProps: { value: _vm.createAttendance.makedate },
                       on: {
                         input: function($event) {
                           if ($event.target.composing) {
                             return
                           }
-                          _vm.$set(_vm.test, "makedate", $event.target.value)
+                          _vm.$set(
+                            _vm.createAttendance,
+                            "makedate",
+                            $event.target.value
+                          )
                         }
                       }
                     }),
@@ -46142,19 +46295,23 @@ var render = function() {
                         {
                           name: "model",
                           rawName: "v-model",
-                          value: _vm.test.eid,
-                          expression: "test.eid"
+                          value: _vm.createAttendance.eid,
+                          expression: "createAttendance.eid"
                         }
                       ],
                       staticClass: "form-control",
                       attrs: { type: "text", id: "eid", name: "eid" },
-                      domProps: { value: _vm.test.eid },
+                      domProps: { value: _vm.createAttendance.eid },
                       on: {
                         input: function($event) {
                           if ($event.target.composing) {
                             return
                           }
-                          _vm.$set(_vm.test, "eid", $event.target.value)
+                          _vm.$set(
+                            _vm.createAttendance,
+                            "eid",
+                            $event.target.value
+                          )
                         }
                       }
                     }),
@@ -46176,7 +46333,121 @@ var render = function() {
         : _vm._e(),
       _vm._v(" "),
       _vm.showCreateAttendance === false
-        ? _c("div", { staticClass: "showNew" }, [_c("h1", [_vm._v("hello")])])
+        ? _c("div", { staticClass: "showNew" }, [
+            _c("input", {
+              directives: [
+                {
+                  name: "model",
+                  rawName: "v-model",
+                  value: _vm.search,
+                  expression: "search"
+                }
+              ],
+              staticClass: "form-control col-md-4",
+              staticStyle: {
+                "text-transform": "uppercase",
+                "margin-botom": "20px"
+              },
+              attrs: { type: "text", placeholder: "Search with Employee Id" },
+              domProps: { value: _vm.search },
+              on: {
+                input: function($event) {
+                  if ($event.target.composing) {
+                    return
+                  }
+                  _vm.search = $event.target.value
+                }
+              }
+            }),
+            _vm._v(" "),
+            _c("table", { staticClass: "table" }, [
+              _vm._m(0),
+              _vm._v(" "),
+              _c(
+                "tbody",
+                _vm._l(_vm.searchStaffs, function(Staff) {
+                  return _c("tr", { key: Staff.id }, [
+                    _c("td", [_vm._v(_vm._s(Staff.eid))]),
+                    _vm._v(" "),
+                    _c("td", [_vm._v(_vm._s(Staff.name))]),
+                    _vm._v(" "),
+                    _c("td", [_vm._v(_vm._s(Staff.department))]),
+                    _vm._v(" "),
+                    _c("td", [
+                      _vm.getStatus(Staff.id) != null
+                        ? _c("span", { staticStyle: { color: "#89729E" } }, [
+                            _vm._v(_vm._s(_vm.getStatus(Staff.id)))
+                          ])
+                        : _vm._e(),
+                      _vm._v(" "),
+                      _vm.getStatus(Staff.id) == null
+                        ? _c("span", { staticStyle: { color: "#F47983" } }, [
+                            _vm._v("Not Updated")
+                          ])
+                        : _vm._e()
+                    ]),
+                    _vm._v(" "),
+                    _c("td", [
+                      _c("div", { staticClass: "form-group" }, [
+                        _c(
+                          "select",
+                          {
+                            directives: [
+                              {
+                                name: "model",
+                                rawName: "v-model",
+                                value: Staff.selectedStatus,
+                                expression: "Staff.selectedStatus"
+                              }
+                            ],
+                            staticClass: "form-control",
+                            staticStyle: { width: "120px" },
+                            attrs: { id: "selectedStatus" },
+                            on: {
+                              change: [
+                                function($event) {
+                                  var $$selectedVal = Array.prototype.filter
+                                    .call($event.target.options, function(o) {
+                                      return o.selected
+                                    })
+                                    .map(function(o) {
+                                      var val =
+                                        "_value" in o ? o._value : o.value
+                                      return val
+                                    })
+                                  _vm.$set(
+                                    Staff,
+                                    "selectedStatus",
+                                    $event.target.multiple
+                                      ? $$selectedVal
+                                      : $$selectedVal[0]
+                                  )
+                                },
+                                function($event) {
+                                  _vm.SetStatus(Staff)
+                                }
+                              ]
+                            }
+                          },
+                          _vm._l(_vm.setStatuses, function(setStatuse) {
+                            return _c(
+                              "option",
+                              { domProps: { value: setStatuse.value } },
+                              [
+                                _vm._v(
+                                  "\n    " + _vm._s(setStatuse.text) + "\n  "
+                                )
+                              ]
+                            )
+                          })
+                        )
+                      ])
+                    ])
+                  ])
+                })
+              )
+            ])
+          ])
         : _vm._e()
     ])
   ])
@@ -46186,12 +46457,16 @@ var staticRenderFns = [
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "card-header" }, [
-      _c("h3", { staticClass: "card-title" }, [
-        _vm._v(
-          "\n                           Make Attendance\n                       "
-        )
-      ])
+    return _c("thead", [
+      _c("th", [_vm._v("#EID")]),
+      _vm._v(" "),
+      _c("th", [_vm._v("Name")]),
+      _vm._v(" "),
+      _c("th", [_vm._v("Department")]),
+      _vm._v(" "),
+      _c("th", [_vm._v("Status")]),
+      _vm._v(" "),
+      _c("th", [_vm._v("Change Status")])
     ])
   }
 ]
