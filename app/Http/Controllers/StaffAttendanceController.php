@@ -78,6 +78,7 @@ $date1 = $request->input('makedate');
 
 
     public function SetStaffData(Request $request){
+
         $id = $request->input('staff_id');
         $status = $request->input('staff_status');
         $date = $request->input('date');
@@ -86,6 +87,18 @@ $date1 = $request->input('makedate');
 
         $staff_eid = $staff->eid;
 
+        $ifExists = StaffAttendanceRecord::where([['staff_id', '=', $id], ['attendanceDate', '=', $date]])->first();
+        if($ifExists !== null){
+            //edit
+        $record = StaffAttendanceRecord::where([['staff_id', '=', $id], ['attendanceDate', '=', $date]])->first();
+        $record->attendanceDate = $date;
+        $record->staff_id = $id;
+        $record->status = $status;
+        $record->eid = $staff_eid;
+        $record->save();
+        return 'data Edited';
+        }else{
+            //create
         $record = new StaffAttendanceRecord;
         $record->attendanceDate = $date;
         $record->staff_id = $id;
@@ -93,6 +106,9 @@ $date1 = $request->input('makedate');
         $record->eid = $staff_eid;
         $record->save();
         return 'data Entered';
+        }
+
+        
 
     }
 

@@ -11,10 +11,6 @@
 
                            <div class="showCreateAttendance" v-if="showCreateAttendance">
 
-
-
-
-
                             <!-- Form  -->
                             <form @submit.prevent="makeDate">
                                <div class="row">
@@ -76,38 +72,34 @@ export default {
   data() {
     return {
       Staffs: [],
-      search: '',
+      search: "",
       attendanceDatas: [],
       createAttendance: {
-        makedate: '',
-        eid: ''
+        makedate: "",
+        eid: ""
       },
       showCreateAttendance: true,
-//set status
-Staff:{
-  selectedStatus: '',
-  id: ''
-},
-setStatuses:[
-        { text: 'Not Updated', value: 'null'},
-        { text: 'Present', value: 'present'},
-        { text: 'CL', value: 'cl'},
-        { text: 'CPL', value: 'cpl'},
-        { text: 'Present-Permission', value: 'present-permission'},
-        { text: 'Present-Late', value: 'present-late'},
-        { text: 'OD', value: 'od'},
-        { text: 'SOD', value: 'sod'},
-        { text: 'Absent', value: 'absent'}
+      //set status
+      Staff: {
+        selectedStatus: "",
+        id: ""
+      },
+      setStatuses: [
+        { text: "Not Updated", value: "null" },
+        { text: "Present", value: "present" },
+        { text: "CL", value: "cl" },
+        { text: "CPL", value: "cpl" },
+        { text: "Present-Permission", value: "present-permission" },
+        { text: "Present-Late", value: "present-late" },
+        { text: "OD", value: "od" },
+        { text: "SOD", value: "sod" },
+        { text: "Absent", value: "absent" }
       ],
-settingStatus:{
-
-}
-
-
+      settingStatus: {}
     };
   },
   methods: {
-
+    
     makeDate() {
       fetch("/api/staffattendance", {
         method: "post",
@@ -126,55 +118,48 @@ settingStatus:{
       this.fetchAttendanceData(this.createAttendance.makedate);
       this.fetchAllstaffs();
     },
-//Fetch Attendance Data
+    //Fetch Attendance Data
     fetchAttendanceData(makedate) {
       let vm = this;
       //page_url = '/api/staffattendance/{makedate}';
       fetch("/api/staffattendance/" + makedate + "")
         .then(res => res.json())
         .then(res => {
-          //this.staffs = res.data;
           this.attendanceDatas = res.data;
-          // console.log(res.data);
         })
         .catch(err => console.log(err));
     },
-//Featch all Staffs
+    //Featch all Staffs
     fetchAllstaffs() {
       fetch("/api/staffprofile")
         .then(res => res.json())
         .then(res => {
           this.Staffs = res.data;
-          //console.log(res.data);
         })
         .catch(err => console.log(err));
     },
-// Get status
+    // Get status
     getStatus(id) {
-
-      // var status;
-      // this.attendanceDatas.forEach(element => { 
-      //   if (element.staff_id === id) {
-      //     status = element.status;
-      //   }
-      // });
-      // return status;
-var status;
-      Array.prototype.forEach.call(this.attendanceDatas, child => {
-  if(child.staff_id === id){
-    status = child.status;
-  }
-  return status;
-});
-     
-
+      var status;
+      var aData;
+      var child;
+      aData = this.attendanceDatas;
+      for (var child in aData) {
+        if (aData[child].staff_id === id) {
+          status = aData[child].status;
+        }
+      }
+      return status;
     },
-// set status
-SetStatus(Staff){
+    // set status
+    SetStatus(Staff) {
+      const PassData = {
+        staff_id: Staff.id,
+        staff_status: Staff.selectedStatus,
+        date: this.createAttendance.makedate
+      };
 
-  const PassData = {staff_id: Staff.id,staff_status: Staff.selectedStatus,date:this.createAttendance.makedate};
-
-  fetch("/api/staffattendance/setstatus", {
+      fetch("/api/staffattendance/setstatus", {
         method: "post",
         body: JSON.stringify(PassData),
         headers: {
@@ -183,25 +168,23 @@ SetStatus(Staff){
       })
         .then(res => res.json())
         .then(data => {
-            this.Staff.selectedStatus = '',
-            this.Staff.id = ''
+          (this.Staff.selectedStatus = ""), (this.Staff.id = "");
         })
         .catch(err => console.log(err));
-        this.fetchAllstaffs();
-  console.log(JSON.stringify(PassData));
-},
-
-  
-},
-
-  computed:
-{
-    searchStaffs:function()
-    {
-    	 var self=this;
-       return this.Staffs.filter(function(cust){return cust.eid.toLowerCase().indexOf(self.search.toLowerCase())>=0;});
-       //return this.customers;
+      this.fetchAttendanceData(this.createAttendance.makedate);
+       this.fetchAllstaffs();
+      //console.log(JSON.stringify(PassData));
     }
-}
+  },
+
+  computed: {
+    searchStaffs: function() {
+      var self = this;
+      return this.Staffs.filter(function(cust) {
+        return cust.eid.toLowerCase().indexOf(self.search.toLowerCase()) >= 0;
+      });
+      //return this.customers;
+    }
+  }
 };
 </script>

@@ -7,6 +7,7 @@
 
 require('./bootstrap');
 
+
 window.Vue = require('vue');
 
 /**
@@ -14,6 +15,9 @@ window.Vue = require('vue');
  * the page. Then, you may begin adding components to this application
  * or customize the JavaScript scaffolding to fit your unique needs.
  */
+import moment from 'moment'
+
+Vue.prototype.moment = moment
 
 Vue.component('staff-profile', require('./components/StaffProfile.vue'));
 Vue.component('student-profile', require('./components/StudentProfile.vue'));
@@ -21,6 +25,8 @@ Vue.component('close-semeter', require('./components/CloseSemester.vue'));
 Vue.component('staff-attendance', require('./components/StaffAttendance.vue'));
 
 
+
 const app = new Vue({
     el: '#app'
+    
 });
