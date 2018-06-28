@@ -18,26 +18,19 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 });
 
 
-// List Users
+// Staff Profile
 Route::get('staffprofile', 'StaffProfileController@index');
-
-//show user
-Route::post('staffprofile/{id}', 'StaffProfileController@show');
-
 // Create new Staff
 Route::post('staffprofile', 'StaffProfileController@store');
-
 // Update Staff
 Route::put('staffprofile', 'StaffProfileController@store');
 
 
-// List Students
+// Student Profile
 Route::get('studentProfile', 'StudentProfileController@index');
-
-// Create new Staff
+// Create new Student
 Route::post('studentProfile', 'StudentProfileController@store');
-
-// Update Staff
+// Update Student
 Route::put('studentProfile', 'StudentProfileController@store');
 
 
@@ -46,7 +39,7 @@ Route::put('studentProfile', 'StudentProfileController@store');
 Route::post('semester', 'PagesController@closeSemester');
 
 
-// Update Semester
+// Staff Attendance
 Route::post('staffattendance', 'StaffAttendanceController@storeDateStaff');
 
 Route::get('staffattendance/{makedate}', 'StaffAttendanceController@getStaffAttendance');
@@ -55,3 +48,9 @@ Route::get('staffattendance/allstaffs', 'StaffAttendanceController@AllStaffs');
 
 Route::post('staffattendance/setstatus', 'StaffAttendanceController@SetStaffData');
 
+
+Route::post('studentattendance', 'StudentAttendanceController@storeDateStaff');
+
+Route::get('studentattendance/{makedate}', 'StudentAttendanceController@getStudentAttendance');
+
+Route::post('studentattendance/setstatus', 'StudentAttendanceController@SetStudentData');

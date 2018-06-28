@@ -23,6 +23,7 @@ Vue.component('staff-profile', require('./components/StaffProfile.vue'));
 Vue.component('student-profile', require('./components/StudentProfile.vue'));
 Vue.component('close-semeter', require('./components/CloseSemester.vue'));
 Vue.component('staff-attendance', require('./components/StaffAttendance.vue'));
+Vue.component('student-attendance', require('./components/StudentAttendance.vue'));
 
 
 

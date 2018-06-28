@@ -18,6 +18,7 @@ class StudentResource extends Resource
             'id' => $this->id,
             'name' => $this->name,
             'email' => $this->email,
+            'degree' => $this->degree,
             'department' => $this->department,
             'register_no' => $this->register_no,
             'batch' => $this->batch,

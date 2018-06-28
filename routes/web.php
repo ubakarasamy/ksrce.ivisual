@@ -17,13 +17,16 @@ Auth::routes();
 
 Route::get('/', 'HomeController@index')->name('home');
 
+//Staff Profile
 Route::get('/staffprofile', 'StaffProfileController@showPage')->name('staffprofile-home');
-
+//Student Profile
 Route::get('/studentprofile', 'StudentProfileController@showPage')->name('studentprofile-home');
 
-
+//Close Profile
 Route::get('/semester', 'PagesController@closeSemesterview')->name('close-semester');
 
+//Staff Attendance
 Route::get('/staff/attendance/create', 'StaffAttendanceController@createAttendance')->name('staffattendance-create');
 
-//Route::post('/staff/attendance/make', 'StaffAttendanceController@storeDateStaff');
+//Student Attendance
+Route::get('/student/attendance/create', 'StudentAttendanceController@createAttendance')->name('studentattendance-create');

@@ -19,6 +19,7 @@ class PagesController extends Controller
         if($request->test === 'closesem'){
         foreach($students as $student){
         
+        if($student->degree === 'be'){
         if($student->semester < 8 && $student->semester == 2 || $student->semester == 4 || $student->semester == 6){
             //increase Semester and Year
             $student->semester = $student->semester + 1;
@@ -27,8 +28,25 @@ class PagesController extends Controller
         }elseif($student->semester < 8){
             //increase semester
             $student->semester = $student->semester + 1;
+        }elseif($student->semester == 8){
+            $student->status = 'passed-out';
         }
             $student->save();
+     
+        }else if($student->degree === 'me'){
+            if($student->semester < 4 && $student->semester == 2){
+                //increase Semester and Year
+                $student->semester = $student->semester + 1;
+                $student->year = $student->year + 1;
+                
+            }elseif($student->semester < 4){
+                //increase semester
+                $student->semester = $student->semester + 1;
+            }elseif($student->semester == 4){
+                $student->status = 'passed-out';
+            }
+                $student->save();
+            }
         }
     }
     }

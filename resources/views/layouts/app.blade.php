@@ -35,6 +35,7 @@
             <li class=" @if($route = Route::current()->getName() == 'studentprofile-home') <?php echo "active" ?> @endif"><a href="{{route('studentprofile-home')}}"><i class="fas fa-graduation-cap"></i> Student Profile</a></li>
             <li class=" @if($route = Route::current()->getName() == 'close-semester') <?php echo "active" ?> @endif"><a href="{{route('close-semester')}}"><i class="fas fa-graduation-cap"></i>Update Semester</a></li>
             <li class=" @if($route = Route::current()->getName() == 'staffattendance-create') <?php echo "active" ?> @endif"><a href="{{route('staffattendance-create')}}"><i class="fas fa-graduation-cap"></i>Staff Attendace</a></li>
+            <li class=" @if($route = Route::current()->getName() == 'studentattendance-create') <?php echo "active" ?> @endif"><a href="{{route('studentattendance-create')}}"><i class="fas fa-graduation-cap"></i>Student Attendace</a></li>
         </ul>
     </div>
 <!--************************* Content start *****************************************-->
@@ -84,10 +85,6 @@
     <script src="{{ asset('js/bootadmin.min.js') }}"></script>
     <script src="{{ asset('js/charts.min.js') }}"></script>
     <script src="{{ asset('js/chartsoverall.js') }}"></script>
-    <script>
-   import moment from 'moment'
 
-Vue.prototype.moment = moment
-    </script>
 </body>
 </html>

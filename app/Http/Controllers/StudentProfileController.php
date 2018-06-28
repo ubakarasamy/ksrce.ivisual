@@ -35,7 +35,8 @@ class StudentProfileController extends Controller
             $student->gurdian_name = $request->input('gurdian_name');
             $student->year = $request->input('year');
             $student->section = $request->input('section');
-            $student->semester = '1';
+            $student->semester = $request->input('semester'); //semester
+            $student->degree = $request->input('degree');
             $student->save();
  
             if($student->save()) {
@@ -54,7 +55,8 @@ class StudentProfileController extends Controller
                 $student->gurdian_name = $request->input('gurdian_name');
                 $student->year = $request->input('year');
                 $student->section = $request->input('section');
-                $student->semester = '1';
+                $student->semester = $request->input('semester');
+                $student->degree = $request->input('degree');
                 $student->save();
             if($student->save()) {
                 return new StudentResource($student);

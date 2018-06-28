@@ -9,6 +9,12 @@
 <br>
 <br>
 <div class="filter-options col-md-12">
+
+ <label for="student_degree_filter">Degree</label>
+<select class="form-control" id="student_degree_filter" style="width:120px;display:inline-block;" v-model="student_degree_filter_selected">
+  <option v-for="student_degree_filter_option in student_degree_filter_options" v-bind:value="student_degree_filter_option.value">{{ student_degree_filter_option.text }}</option>
+</select>
+
    <label for="student_department_filter">Department</label>
 <select class="form-control" id="student_department_filter" style="width:120px;display:inline-block;" v-model="student_department_filter_selected">
   <option v-for="student_department_filter_option in student_department_filter_options" v-bind:value="student_department_filter_option.value">{{ student_department_filter_option.text }}</option>
@@ -94,6 +100,22 @@
     <label for="Studentbatchcreate">Batch</label>
     <input type="text" class="form-control" id="Studentbatchcreate" v-model="student.batch" aria-describedby="StudentbatchHelp" placeholder="Batch" >
   </div>
+  <div class="form-group">
+    <label for="student_filter_degree">Degree</label>
+<select class="form-control" v-model="student.degree" id="student_filter_degree" style="width:120px;"> 
+  <option v-for="degreeOption in degreeOptions" v-bind:value="degreeOption.value">
+    {{degreeOption.text}}
+  </option>
+</select>
+</div>
+  <div class="form-group">
+    <label for="student_filter_semester">Semester</label>
+<select class="form-control" v-model="student.semester" id="student_filter_semester" style="width:120px;"> 
+  <option v-for="semesterOption in semesterOptions" v-bind:value="semesterOption.value">
+    {{semesterOption.text}}
+  </option>
+</select>
+</div>
 <div class="form-group">
     <label for="Studentphonecreate">Phone</label>
     <input type="tel" class="form-control" id="Studentphonecreate" v-model="student.phone" aria-describedby="StudentphoneHelp" placeholder="Phone No" >
@@ -109,7 +131,7 @@
   <div class="form-group">
     <label for="student_filter_department">Department</label>
 <select class="form-control" id="student_filter_department" v-model="student.department" style="width:120px;">
-  <option v-for="student_department_create_option in student_department_create_options" v-bind:value="student_department_create_option.value">
+  <option v-for="student_department_create_option in filteredDepartments" v-bind:value="student_department_create_option.value">
     {{ student_department_create_option.text }}
   </option>
 </select>
@@ -118,7 +140,7 @@
   <div class="form-group">
     <label for="student_filter_year">Year</label>
 <select class="form-control" id="student_filter_year" v-model="student.year" style="width:120px;">
-  <option v-for="student_year_create_option in student_year_create_options" v-bind:value="student_year_create_option.value">
+  <option v-for="student_year_create_option in filteredYears" v-bind:value="student_year_create_option.value">
     {{student_year_create_option.text}}
   </option>
 </select>
@@ -199,11 +221,25 @@ export default {
             batch: '',
             phone: '',
             address: '',
-            gurdian_name: ''
-            // semester: ''
+            gurdian_name: '',
+            degree: '',
+            semester: ''
         },
         edit: false,
         student_id: '',
+        degreeOptions:[
+          { text:'BE', value: 'be'},
+          { text:'ME', value: 'me'}
+        ],
+
+// student section filter
+student_degree_filter_selected: 'all',
+student_degree_filter_options: [
+      { text: 'all', value: 'all' },
+      { text: 'BE', value: 'be' },
+      { text: 'ME', value: 'me' }
+],
+
 // student department filter
 student_department_filter_selected: 'all',
 student_department_filter_options: [
@@ -234,34 +270,47 @@ student_section_filter_options: [
       { text: 'D', value: 'd' }
 ],
 // student department filter
-student_department_create_selected: 'all',
+student_department_create_selected: '',
 student_department_create_options: [
-  { text: 'all', value: 'all' },
-      { text: 'ECE', value: 'ece' },
-        { text: 'EEE', value: 'eee' },
-        { text: 'MECH', value: 'mech' },
-        { text: 'CSE', value: 'cse' },
-        { text: 'IT', value: 'it' },
-        { text: 'CIVIL', value: 'civil' }
+      { text: 'ECE', value: 'ece', degree: 'be' },
+        { text: 'EEE', value: 'eee', degree: 'be'  },
+        { text: 'MECH', value: 'mech', degree: 'be'  },
+        { text: 'CSE', value: 'cse', degree: 'be'  },
+        { text: 'IT', value: 'it', degree: 'be'  },
+        { text: 'CIVIL', value: 'civil', degree: 'be'  },
+        { text: 'AUTOMOBILE', value: 'automobile', degree: 'be'  },
+        { text: 'ME-CSE', value: 'me-cse', degree: 'me'  },
+        { text: 'ME-CEM', value: 'me-cem', degree: 'me'  },
+        { text: 'ME-EST', value: 'me-est', degree: 'me'  },
+        { text: 'ME-ISE', value: 'me-ise', degree: 'me'  },
+        { text: 'ME-PED', value: 'me-ped', degree: 'me'  },
+        { text: 'ME-SE', value: 'me-se', degree: 'me'  },
+        { text: 'ME-VLSI', value: 'me-vlsi', degree: 'me'  },
+        { text: 'MTECH-IT', value: 'mtech-it', degree: 'me'  },
+        { text: 'MBA', value: 'mba', degree: 'me'  }
 ],
 // student Year filter
-student_year_create_selected: 'all',
+student_year_create_selected: '',
 student_year_create_options: [
-      { text: 'all', value: 'all' },
-      { text: '1st Year', value: '1' },
-      { text: '2nd year', value: '2' },
-      { text: '3rd year', value: '3' },
-      { text: 'Final year', value: '4' }
+      { text: '1st Year', value: '1', degree: 'me'   },
+      { text: '2nd year', value: '2', degree: 'me'   },
+      { text: '3rd year', value: '3', degree: 'be'   },
+      { text: 'Final year', value: '4', degree: 'be'   }
 ],
 // student section filter
-student_section_create_selected: 'all',
+student_section_create_selected: '',
 student_section_create_options: [
-      { text: 'all', value: 'all' },
       { text: 'A', value: 'a' },
       { text: 'B', value: 'b' },
       { text: 'C', value: 'c' },
       { text: 'D', value: 'd' }
-]
+],
+ semesterOptions:[
+          { text:'1', value: '1', degree: 'be'  },
+          { text:'3', value: '3', degree: 'be'  },
+          { text:'5', value: '5', degree: 'me'  },
+          { text:'7', value: '7', degree: 'me'  }
+        ],
 
     }
     },
@@ -283,6 +332,7 @@ student_section_create_options: [
         },
         addStudent() {
           //this.checkForm();
+          console.log(this.student);
       if (this.edit === false) {
         // Add
         fetch('api/studentProfile', {
@@ -293,7 +343,7 @@ student_section_create_options: [
           }
         })
           .then(res => res.json())
-          .then(data => {
+          .then(data => {        
             this.student.name = '',
             this.student.email = '',
             this.student.department = '',
@@ -303,8 +353,9 @@ student_section_create_options: [
             this.student.batch = '',
             this.student.phone = '',
             this.student.address = '',
-            this.student.gurdian_name = ''
-            // this.student.semester = ''
+            this.student.gurdian_name = '',
+            this.student.degree = '',
+            this.student.semester = ''
             alert('Student Added');
             this.fetchStudents();
             console.log(this.student)
@@ -330,8 +381,9 @@ student_section_create_options: [
             this.student.batch = '',
             this.student.phone = '',
             this.student.address = '',
-            this.student.gurdian_name = ''
-            // this.student.semester = ''
+            this.student.gurdian_name = '',
+            this.student.degree = '',
+            this.student.semester = ''
             alert('Student Updated');
              console.log(JSON.stringify(this.student));
             this.fetchStudents();
@@ -353,7 +405,8 @@ student_section_create_options: [
       this.student.phone = student.phone;
       this.student.address = student.address;
       this.student.gurdian_name = student.gurdian_name;
-      // this.student.semester = student.semester;
+      this.student.degree = student.degree;
+      this.student.semester = student.semester;
     },viewStudent(student){
       this.student.id = student.id;
       this.student.student_id = student.id;
@@ -366,7 +419,7 @@ student_section_create_options: [
       this.student.batch = student.batch;
       this.student.phone = student.phone;
       this.student.address = student.address;
-      this.student.gurdian_name = student.gurdian_name;
+      this.student.degree = student.degree;
     }
     ,closeEdit(){
       this.student.name = '',
@@ -378,7 +431,9 @@ student_section_create_options: [
             this.student.batch = '',
             this.student.phone = '',
             this.student.address = '',
-            this.student.gurdian_name = ''
+            this.student.gurdian_name = '',
+            this.student.degree = '',
+            this.student.semester = ''
     }
     },
     computed: {
@@ -387,20 +442,48 @@ student_section_create_options: [
         let filterDepartment = vm.student_department_filter_selected;
         let filterYear = vm.student_year_filter_selected;
         let filterSection = vm.student_section_filter_selected;
+        let filterDegree = vm.student_degree_filter_selected;
 
-
-        if(filterDepartment === 'all' && filterYear === 'all' && filterSection === 'all'){
+        if(filterDepartment === 'all' && filterYear === 'all' && filterSection === 'all' && filterDegree === 'all'){
           return vm.students;
         }else{
           return vm.students.filter(function(student){
             
-            return (filterDepartment === 'all' || student.department === filterDepartment) && (filterYear === 'all' || student.year === filterYear) && (filterSection === 'all' || student.section === filterSection);
+            return (filterDepartment === 'all' || student.department === filterDepartment) && (filterYear === 'all' || student.year === filterYear) && (filterSection === 'all' || student.section === filterSection) && (filterDegree === 'all' || student.degree === filterDegree);
 
           });
 
           }
+        },
+      filteredDepartments(){
+        let vm =this;
+        let Degree;
+        let Departments;
+        Degree = vm.student.degree;
+        Departments = vm.student_department_create_options;
+        if(Degree === null){
+          
+        }else{
+        return Departments.filter(function(Department){
+          return (Department.degree === Degree);
+        });
         }
+      },
+      filteredYears(){
+         let vm =this;
+        let Degree;
+        let Years;
+        Degree = vm.student.degree;
+        Years = vm.student_year_create_options;
+        if(Degree === 'be'){
+          return Years;
+        }else{
+        return Years.filter(function(Year){
+          return (Year.degree === 'me');
+        });
       }
+      }
+    }
     
 }
 </script>
