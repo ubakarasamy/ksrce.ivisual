@@ -80,13 +80,24 @@ class StudentAttendanceController extends Controller
         $record->attendancedate = $date;
         $record->student_id = $id;
         $record->regno = $student_regno;
-        if($h1){ $record->h1 = $h1; }
-        if($h2){ $record->h2 = $h2; }
-        if($h3){ $record->h3 = $h3; }
-        if($h4){ $record->h4 = $h4; }
-        if($h5){ $record->h5 = $h5; }
-        if($h6){ $record->h6 = $h6; }
-        if($h7){ $record->h7 = $h7; }
+        if($h1){ $record->h1 = $h1;}
+        if($h2){ $record->h2 = $h2;}
+        if($h3){ $record->h3 = $h3;}
+        if($h4){ $record->h4 = $h4;}
+        if($h5){ $record->h5 = $h5;}
+        if($h6){ $record->h6 = $h6;}
+        if($h7){ $record->h7 = $h7;}
+        if($h1 == 'present' || $h2 == 'present' || $h3 == 'present' || $h4 == 'present' || $h5 == 'present' || $h6 == 'present' || $h7 === 'present'){
+            if($record->h1 == 'present'){ $h1 = 1; }else{ $h1 = 0; }
+            if($record->h2 == 'present'){ $h2 = 1;}else{ $h2 = 0;}  
+            if($record->h3 == 'present'){ $h3 = 1;}else{$h3 = 0;} 
+            if($record->h4 == 'present'){ $h4 = 1;}else{$h4 = 0;} 
+            if($record->h5 == 'present'){ $h5 = 1;}else{$h5 = 0;} 
+            if($record->h6 == 'present'){ $h6 = 1;}else{$h6 = 0;} 
+            if($record->h7 == 'present'){ $h7 = 1;}else{$h7 = 0;}
+            $record->hrspresent = $h1 + $h2 + $h3+ $h4 + $h5 + $h6 + $h7;
+        }
+        
         $record->save();
         return 'data Edited';
         }else{
@@ -102,9 +113,18 @@ class StudentAttendanceController extends Controller
         if($h5){ $record->h5 = $h5; }
         if($h6){ $record->h6 = $h6; }
         if($h7){ $record->h7 = $h7; }
+        if($h1 === 'present' || $h2 === 'present' || $h3 === 'present' || $h4 === 'present' || $h5 === 'present' || $h6 === 'present' || $h7 === 'present'){
+            $record->hrspresent = $ph1 + $ph2 + $ph3 + $ph4 + $ph5 + $ph6 + $ph7;
+        }
         $record->save();
         return 'data Entered';
         }
+    }
+
+
+    //get attendance by month
+    public function attendanceByMonth(){
+        return view('studentattendance.bymonth');
     }
         
 }

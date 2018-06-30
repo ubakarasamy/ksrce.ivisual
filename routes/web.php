@@ -30,3 +30,13 @@ Route::get('/staff/attendance/create', 'StaffAttendanceController@createAttendan
 
 //Student Attendance
 Route::get('/student/attendance/create', 'StudentAttendanceController@createAttendance')->name('studentattendance-create');
+
+//get staff attendance data by month
+Route::get('/staff/attendance/month', 'StaffAttendanceController@attendanceByMonth')->name('staff-attendance-bymonth');
+
+//get student attendance data by month
+Route::get('/student/attendance/month', 'StudentAttendanceController@attendanceByMonth')->name('student-attendance-bymonth');
+
+Route::get('/staffprofile/myprofile', 'StaffProfileController@showStaffProfile')->name('staffprofile.myprofile');
+
+Route::get('/staffprofile/myapprovals', 'StaffProfileController@showMyapprovals')->name('staffprofile-myapprovals');

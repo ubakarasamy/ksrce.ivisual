@@ -14,7 +14,7 @@ class StudentProfileController extends Controller
     }
 
     public function index(){
-        $students = Student::all();
+        $students = Student::where([['status', '!=', 'passed-out']])->get();
        // Return collection of Users as a resource
        return StudentResource::collection($students);
     }

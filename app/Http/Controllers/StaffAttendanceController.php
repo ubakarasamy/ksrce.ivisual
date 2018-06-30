@@ -107,10 +107,16 @@ $date1 = $request->input('makedate');
         $record->save();
         return 'data Entered';
         }
-
-        
-
     }
+
+    public function attendanceByMonth(){
+       // StaffAttendanceRecord::whereMonth('attendanceDate' , Carbon::today()->month);
+       
+        return view('staffattendance.bymonth');
+    }
+
+
+    
 
 
 }

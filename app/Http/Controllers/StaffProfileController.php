@@ -70,7 +70,17 @@ class StaffProfileController extends Controller
            }
        }
        
+    }
+       public function showStaffProfile(){
+        $user = auth()->user();
+           return view('staffprofile.myprofile')->with('user', $user);
+       }
 
+
+       public function showMyApprovals(){
+           
+           return view('staffprofile.myapprovals');
+       }
       
-   }
+   
 }
