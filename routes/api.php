@@ -54,3 +54,6 @@ Route::post('studentattendance', 'StudentAttendanceController@storeDateStaff');
 Route::get('studentattendance/{makedate}', 'StudentAttendanceController@getStudentAttendance');
 
 Route::post('studentattendance/setstatus', 'StudentAttendanceController@SetStudentData');
+
+
+Route::post('staffapprovals/create', 'StaffApprovalController@createApproval');

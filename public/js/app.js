@@ -17458,7 +17458,7 @@ module.exports = Cancel;
 /***/ (function(module, exports, __webpack_require__) {
 
 __webpack_require__(136);
-module.exports = __webpack_require__(187);
+module.exports = __webpack_require__(190);
 
 
 /***/ }),
@@ -17495,6 +17495,7 @@ Vue.component('close-semeter', __webpack_require__(170));
 Vue.component('staff-attendance', __webpack_require__(173));
 Vue.component('student-attendance', __webpack_require__(176));
 Vue.component('staffattendance-bymonth', __webpack_require__(184));
+Vue.component('staff-myapprovals', __webpack_require__(187));
 
 var app = new Vue({
   el: '#app'
@@ -65201,6 +65202,179 @@ if (false) {
 
 /***/ }),
 /* 187 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var disposed = false
+var normalizeComponent = __webpack_require__(2)
+/* script */
+var __vue_script__ = __webpack_require__(188)
+/* template */
+var __vue_template__ = __webpack_require__(189)
+/* template functional */
+var __vue_template_functional__ = false
+/* styles */
+var __vue_styles__ = null
+/* scopeId */
+var __vue_scopeId__ = null
+/* moduleIdentifier (server only) */
+var __vue_module_identifier__ = null
+var Component = normalizeComponent(
+  __vue_script__,
+  __vue_template__,
+  __vue_template_functional__,
+  __vue_styles__,
+  __vue_scopeId__,
+  __vue_module_identifier__
+)
+Component.options.__file = "resources/assets/js/components/StaffApprovals.vue"
+
+/* hot reload */
+if (false) {(function () {
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), false)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-ff3b0cf2", Component.options)
+  } else {
+    hotAPI.reload("data-v-ff3b0cf2", Component.options)
+  }
+  module.hot.dispose(function (data) {
+    disposed = true
+  })
+})()}
+
+module.exports = Component.exports
+
+
+/***/ }),
+/* 188 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+    data: function data() {
+        return {
+            approvals: [{ text: 'CPL', value: 'cpl' }, { text: 'CL', value: 'cl' }, { text: 'OD', value: 'od' }]
+        };
+    }
+});
+
+/***/ }),
+/* 189 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c("div", { staticClass: "card" }, [
+    _vm._m(0),
+    _vm._v(" "),
+    _c("div", { staticClass: "cord-body" }, [
+      _c("div", { staticClass: "myapprovals-list" }),
+      _vm._v(" "),
+      _c("div", { staticClass: "create-approval" }, [
+        _c("form", [
+          _c("div", { staticClass: "form-group" }, [
+            _c(
+              "select",
+              {
+                attrs: {
+                  name: "approvalfor",
+                  id: "approvalfor",
+                  "aria-placeholder": "select"
+                }
+              },
+              _vm._l(_vm.approvals, function(approval) {
+                return _c("option", { attrs: { value: "cpl" } }, [
+                  _vm._v(_vm._s(approval.text))
+                ])
+              })
+            )
+          ]),
+          _vm._v(" "),
+          _vm._m(1),
+          _vm._v(" "),
+          _c(
+            "button",
+            { staticClass: "btn btn-primary", attrs: { type: "submit" } },
+            [_vm._v("submit")]
+          )
+        ])
+      ])
+    ])
+  ])
+}
+var staticRenderFns = [
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "card-header" }, [
+      _c("h1", [_vm._v("My Approvals")])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "form-group" }, [
+      _c("textarea", {
+        attrs: {
+          name: "description",
+          id: "",
+          description: "",
+          rows: "4",
+          placeholder: "description"
+        }
+      })
+    ])
+  }
+]
+render._withStripped = true
+module.exports = { render: render, staticRenderFns: staticRenderFns }
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+    require("vue-hot-reload-api")      .rerender("data-v-ff3b0cf2", module.exports)
+  }
+}
+
+/***/ }),
+/* 190 */
 /***/ (function(module, exports) {
 
 // removed by extract-text-webpack-plugin
