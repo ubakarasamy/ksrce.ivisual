@@ -39,4 +39,7 @@ Route::get('/student/attendance/month', 'StudentAttendanceController@attendanceB
 
 Route::get('/staffprofile/myprofile', 'StaffProfileController@showStaffProfile')->name('staffprofile.myprofile');
 
-Route::get('/staffprofile/myapprovals', 'StaffProfileController@showMyapprovals')->name('staffprofile-myapprovals');
+Route::get('/staffapprovals/myapprovals', 'StaffProfileController@showMyapprovals')->name('staffapprovals-myapprovals');
+
+Route::get('/staffapprovals/approve', 'StaffProfileController@Approve')->name('staffapprovals-approve');
+

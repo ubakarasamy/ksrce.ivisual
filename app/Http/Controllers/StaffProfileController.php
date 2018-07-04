@@ -4,12 +4,18 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Http\Response;
 use App\User;
 use App\Role;
+use Auth;
 use App\Http\Resources\UserResource;
 
 class StaffProfileController extends Controller
 {
+    public function getAuthUser(){
+        $user = User::findOrFail(1);
+        return UserResource::collection($user);
+    }
     public function showPage(){
         return view('staffprofile.index');
     }
@@ -81,6 +87,10 @@ class StaffProfileController extends Controller
            
            return view('staffprofile.myapprovals');
        }
+
+       public function Approve(){
+        return view('staffprofile.approve');
+    }
       
    
 }

@@ -57,6 +57,7 @@
         </li>
             {{-- Semester --}}
             <li class=" @if($route = Route::current()->getName() == 'close-semester') <?php echo "active" ?> @endif"><a href="{{route('close-semester')}}"><i class="fas fa-graduation-cap"></i>Update Semester</a></li>
+            <li class=" @if($route = Route::current()->getName() == 'staffapprovals-approve') <?php echo "active" ?> @endif"><a href="{{route('staffapprovals-approve')}}"><i class="fas fa-graduation-cap"></i>Leave Approvals</a></li>
         </ul>
     </div>
 <!--************************* Content start *****************************************-->
@@ -64,15 +65,14 @@
 <!--************************* Navbar *****************************************-->
             <nav class="navbar navbar-expand ksrce-main-navbar">
         <a class="sidebar-toggle mr-3" href="#"><i class="fa fa-bars"></i></a>
-        <p class="navbar-brand pt-4" > DASHBOARD</p>
-    
+        <p class="navbar-brand pt-4"> DASHBOARD</p>
         <div class="navbar-collapse collapse">
             <ul class="navbar-nav ml-auto">
                 <li class="nav-item dropdown">
                     <a href="#" id="dd_user" class="nav-link dropdown-toggle" data-toggle="dropdown"><i class="fa fa-user"></i>&nbsp&nbsp  {{ Auth::user()->name }}</a>
                     <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dd_user">
                         <a href="{{ route('staffprofile.myprofile') }}" class="dropdown-item">Profile</a>
-                        <a href="{{ route('staffprofile-myapprovals') }}" class="dropdown-item">My Approvals</a>
+                        <a href="{{ route('staffapprovals-myapprovals') }}" class="dropdown-item">My Approvals</a>
                         <a class="dropdown-item" href="{{ route('logout') }}"
                                             onclick="event.preventDefault();
                                                      document.getElementById('logout-form').submit();">

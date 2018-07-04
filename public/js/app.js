@@ -17458,7 +17458,7 @@ module.exports = Cancel;
 /***/ (function(module, exports, __webpack_require__) {
 
 __webpack_require__(136);
-module.exports = __webpack_require__(190);
+module.exports = __webpack_require__(193);
 
 
 /***/ }),
@@ -17496,6 +17496,7 @@ Vue.component('staff-attendance', __webpack_require__(173));
 Vue.component('student-attendance', __webpack_require__(176));
 Vue.component('staffattendance-bymonth', __webpack_require__(184));
 Vue.component('staff-myapprovals', __webpack_require__(187));
+Vue.component('approve-leaves', __webpack_require__(190));
 
 var app = new Vue({
   el: '#app'
@@ -65283,12 +65284,152 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
     data: function data() {
         return {
+            StaffApprovals: [],
+            sendData: {
+                approvalFor: '',
+                forDescription: '',
+                date: ''
+            },
             approvals: [{ text: 'CPL', value: 'cpl' }, { text: 'CL', value: 'cl' }, { text: 'OD', value: 'od' }]
         };
+    },
+    created: function created() {
+        this.fetchApprovals();
+    },
+
+    props: {
+        userId: Number
+    },
+    methods: {
+        fetchApprovals: function fetchApprovals() {
+            var _this = this;
+
+            fetch("/api/staffapprovals/" + this.userId + "").then(function (res) {
+                return res.json();
+            }).then(function (res) {
+                _this.StaffApprovals = res.data;
+            }).catch(function (err) {
+                return console.log(err);
+            });
+        },
+        createApproval: function createApproval() {
+            var _this2 = this;
+
+            var passData = {
+                approvalFor: this.sendData.approvalFor,
+                forDescription: this.sendData.forDescription,
+                date: this.sendData.date,
+                userId: this.userId
+                // console.log(passData);
+            };fetch("/api/staffapprovals/create", {
+                method: "post",
+                body: JSON.stringify(passData),
+                headers: {
+                    "content-type": "application/json"
+                }
+            }).then(function (res) {
+                return res.json();
+            }).then(function (data) {
+                _this2.sendData.approvalFor = '', _this2.sendData.forDescription = '';
+            }).catch(function (err) {
+                return console.log(err);
+            });
+            this.sendData.date = '';
+            this.sendData.approvalFor = '';
+            this.sendData.forDescription = '';
+            this.fetchApprovals();
+        },
+        removeApproval: function removeApproval(id) {
+            var passData = {
+                removeId: id
+            };
+            fetch("/api/staffapprovals", {
+                method: "delete",
+                body: JSON.stringify(passData),
+                headers: {
+                    "content-type": "application/json"
+                }
+            }).then(function (res) {
+                return res.json();
+            }).then(function (data) {}).catch(function (err) {
+                return console.log(err);
+            });
+            alert('removed');
+            this.fetchApprovals();
+        }
     }
 });
 
@@ -65301,37 +65442,215 @@ var render = function() {
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
   return _c("div", { staticClass: "card" }, [
-    _vm._m(0),
-    _vm._v(" "),
-    _c("div", { staticClass: "cord-body" }, [
-      _c("div", { staticClass: "myapprovals-list" }),
+    _c("div", { staticClass: "card-body" }, [
+      _vm._m(0),
+      _vm._v(" "),
+      _c("hr"),
       _vm._v(" "),
       _c("div", { staticClass: "create-approval" }, [
-        _c("form", [
-          _c("div", { staticClass: "form-group" }, [
-            _c(
-              "select",
-              {
+        _c("h3", [_vm._v("Create Approval")]),
+        _vm._v(" "),
+        _c("p", { staticClass: "text-info" }, [
+          _vm._v(
+            "You need to contact attendance manager if you have applicable leave balances and forgot to apply before"
+          )
+        ]),
+        _vm._v(" "),
+        _c(
+          "form",
+          {
+            on: {
+              submit: function($event) {
+                $event.preventDefault()
+                return _vm.createApproval($event)
+              }
+            }
+          },
+          [
+            _c("div", { staticClass: "form-group" }, [
+              _c("label", { attrs: { for: "date" } }, [
+                _vm._v("Approval Date")
+              ]),
+              _vm._v(" "),
+              _c("input", {
+                directives: [
+                  {
+                    name: "model",
+                    rawName: "v-model",
+                    value: _vm.sendData.date,
+                    expression: "sendData.date"
+                  }
+                ],
+                staticClass: "form-control",
+                staticStyle: { width: "200px" },
                 attrs: {
-                  name: "approvalfor",
-                  id: "approvalfor",
-                  "aria-placeholder": "select"
+                  type: "date",
+                  id: "date",
+                  name: "date",
+                  max: "3000-12-31",
+                  min: "1000-01-01"
+                },
+                domProps: { value: _vm.sendData.date },
+                on: {
+                  input: function($event) {
+                    if ($event.target.composing) {
+                      return
+                    }
+                    _vm.$set(_vm.sendData, "date", $event.target.value)
+                  }
                 }
-              },
-              _vm._l(_vm.approvals, function(approval) {
-                return _c("option", { attrs: { value: "cpl" } }, [
-                  _vm._v(_vm._s(approval.text))
-                ])
               })
+            ]),
+            _vm._v(" "),
+            _c("div", { staticClass: "form-group" }, [
+              _c("label", { attrs: { for: "approvalfor" } }, [
+                _vm._v("Approval For")
+              ]),
+              _vm._v(" "),
+              _c(
+                "select",
+                {
+                  directives: [
+                    {
+                      name: "model",
+                      rawName: "v-model",
+                      value: _vm.sendData.approvalFor,
+                      expression: "sendData.approvalFor"
+                    }
+                  ],
+                  staticClass: "form-control",
+                  staticStyle: { width: "150px" },
+                  attrs: {
+                    name: "approvalfor",
+                    id: "approvalfor",
+                    "aria-placeholder": "select"
+                  },
+                  on: {
+                    change: function($event) {
+                      var $$selectedVal = Array.prototype.filter
+                        .call($event.target.options, function(o) {
+                          return o.selected
+                        })
+                        .map(function(o) {
+                          var val = "_value" in o ? o._value : o.value
+                          return val
+                        })
+                      _vm.$set(
+                        _vm.sendData,
+                        "approvalFor",
+                        $event.target.multiple
+                          ? $$selectedVal
+                          : $$selectedVal[0]
+                      )
+                    }
+                  }
+                },
+                _vm._l(_vm.approvals, function(approval) {
+                  return _c(
+                    "option",
+                    { key: approval.value, attrs: { value: "cpl" } },
+                    [_vm._v(_vm._s(approval.text))]
+                  )
+                })
+              )
+            ]),
+            _vm._v(" "),
+            _c("div", { staticClass: "form-group" }, [
+              _c("textarea", {
+                directives: [
+                  {
+                    name: "model",
+                    rawName: "v-model",
+                    value: _vm.sendData.forDescription,
+                    expression: "sendData.forDescription"
+                  }
+                ],
+                staticClass: "form-control",
+                staticStyle: { width: "300px" },
+                attrs: {
+                  name: "description",
+                  id: "description",
+                  rows: "3",
+                  cols: "40",
+                  placeholder: "Description"
+                },
+                domProps: { value: _vm.sendData.forDescription },
+                on: {
+                  input: function($event) {
+                    if ($event.target.composing) {
+                      return
+                    }
+                    _vm.$set(
+                      _vm.sendData,
+                      "forDescription",
+                      $event.target.value
+                    )
+                  }
+                }
+              })
+            ]),
+            _vm._v(" "),
+            _c(
+              "button",
+              { staticClass: "btn btn-primary", attrs: { type: "submit" } },
+              [_vm._v("submit")]
             )
-          ]),
-          _vm._v(" "),
+          ]
+        )
+      ]),
+      _vm._v(" "),
+      _c("hr"),
+      _vm._v(" "),
+      _c("div", { staticClass: "my-approvals" }, [
+        _c("h3", [_vm._v("My Approvals")]),
+        _vm._v(" "),
+        _c("table", { staticClass: "table" }, [
           _vm._m(1),
           _vm._v(" "),
           _c(
-            "button",
-            { staticClass: "btn btn-primary", attrs: { type: "submit" } },
-            [_vm._v("submit")]
+            "tbody",
+            _vm._l(_vm.StaffApprovals, function(StaffApproval) {
+              return _c("tr", { key: StaffApproval.id }, [
+                _c("td", [_vm._v(_vm._s(StaffApproval.date))]),
+                _vm._v(" "),
+                _c("td", [_vm._v(_vm._s(StaffApproval.approvalfor))]),
+                _vm._v(" "),
+                _c("td", [
+                  StaffApproval.status == 1
+                    ? _c("span", { staticClass: "text-success" }, [
+                        _vm._v("Approved")
+                      ])
+                    : _vm._e(),
+                  _vm._v(" "),
+                  StaffApproval.status == 0
+                    ? _c("span", { staticClass: "text-danger" }, [
+                        _vm._v("DisApproved")
+                      ])
+                    : _vm._e(),
+                  _vm._v(" "),
+                  StaffApproval.attempt == 0
+                    ? _c("span", { staticClass: "text-secondary" }, [
+                        _vm._v("Waiting")
+                      ])
+                    : _vm._e()
+                ]),
+                _vm._v(" "),
+                _c("td", [
+                  _c(
+                    "button",
+                    {
+                      staticClass: "btn btn-outline-danger",
+                      on: {
+                        click: function($event) {
+                          _vm.removeApproval(StaffApproval.id)
+                        }
+                      }
+                    },
+                    [_vm._v("Cancel")]
+                  )
+                ])
+              ])
+            })
           )
         ])
       ])
@@ -65343,24 +65662,122 @@ var staticRenderFns = [
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "card-header" }, [
-      _c("h1", [_vm._v("My Approvals")])
+    return _c("div", { staticClass: "approvals" }, [
+      _c("h3", [_vm._v("My Applicables")]),
+      _vm._v(" "),
+      _c("div", { staticClass: "row" }, [
+        _c("div", { staticClass: "col-md-3" }, [
+          _c(
+            "div",
+            {
+              staticClass: "card",
+              staticStyle: { width: "18rem", margin: "10px" }
+            },
+            [
+              _c("div", { staticClass: "card-body" }, [
+                _c("h5", { staticClass: "card-title" }, [
+                  _vm._v("Over all Attendance")
+                ]),
+                _vm._v(" "),
+                _c("h6", { staticClass: "card-subtitle mb-2 text-muted" }, [
+                  _vm._v("This year")
+                ]),
+                _vm._v(" "),
+                _c("h1", [
+                  _c("span", { staticClass: "text-primary" }, [_vm._v("10")]),
+                  _vm._v(" / 20")
+                ])
+              ])
+            ]
+          )
+        ]),
+        _vm._v(" "),
+        _c("div", { staticClass: "col-md-3" }, [
+          _c(
+            "div",
+            {
+              staticClass: "card",
+              staticStyle: { width: "18rem", margin: "10px" }
+            },
+            [
+              _c("div", { staticClass: "card-body" }, [
+                _c("h5", { staticClass: "card-title" }, [_vm._v("CPL")]),
+                _vm._v(" "),
+                _c("h6", { staticClass: "card-subtitle mb-2 text-muted" }, [
+                  _vm._v("This year")
+                ]),
+                _vm._v(" "),
+                _c("h1", [
+                  _c("span", { staticClass: "text-primary" }, [_vm._v("10")]),
+                  _vm._v(" / 20")
+                ])
+              ])
+            ]
+          )
+        ]),
+        _vm._v(" "),
+        _c("div", { staticClass: "col-md-3" }, [
+          _c(
+            "div",
+            {
+              staticClass: "card",
+              staticStyle: { width: "18rem", margin: "10px" }
+            },
+            [
+              _c("div", { staticClass: "card-body" }, [
+                _c("h5", { staticClass: "card-title" }, [_vm._v("CL")]),
+                _vm._v(" "),
+                _c("h6", { staticClass: "card-subtitle mb-2 text-muted" }, [
+                  _vm._v("This year")
+                ]),
+                _vm._v(" "),
+                _c("h1", [
+                  _c("span", { staticClass: "text-primary" }, [_vm._v("10")]),
+                  _vm._v(" / 20")
+                ])
+              ])
+            ]
+          )
+        ]),
+        _vm._v(" "),
+        _c("div", { staticClass: "col-md-3" }, [
+          _c(
+            "div",
+            {
+              staticClass: "card",
+              staticStyle: { width: "18rem", margin: "10px" }
+            },
+            [
+              _c("div", { staticClass: "card-body" }, [
+                _c("h5", { staticClass: "card-title" }, [_vm._v("OD")]),
+                _vm._v(" "),
+                _c("h6", { staticClass: "card-subtitle mb-2 text-muted" }, [
+                  _vm._v("This year")
+                ]),
+                _vm._v(" "),
+                _c("h1", [
+                  _c("span", { staticClass: "text-primary" }, [_vm._v("10")]),
+                  _vm._v(" / 20")
+                ])
+              ])
+            ]
+          )
+        ])
+      ])
     ])
   },
   function() {
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "form-group" }, [
-      _c("textarea", {
-        attrs: {
-          name: "description",
-          id: "",
-          description: "",
-          rows: "4",
-          placeholder: "description"
-        }
-      })
+    return _c("thead", [
+      _c("th", [_vm._v("Date")]),
+      _vm._v(" "),
+      _c("th", [_vm._v("Approval For")]),
+      _vm._v(" "),
+      _c("th", [_vm._v("Status")]),
+      _vm._v(" "),
+      _c("th", [_vm._v("Cancel")])
     ])
   }
 ]
@@ -65375,6 +65792,408 @@ if (false) {
 
 /***/ }),
 /* 190 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var disposed = false
+var normalizeComponent = __webpack_require__(2)
+/* script */
+var __vue_script__ = __webpack_require__(191)
+/* template */
+var __vue_template__ = __webpack_require__(192)
+/* template functional */
+var __vue_template_functional__ = false
+/* styles */
+var __vue_styles__ = null
+/* scopeId */
+var __vue_scopeId__ = null
+/* moduleIdentifier (server only) */
+var __vue_module_identifier__ = null
+var Component = normalizeComponent(
+  __vue_script__,
+  __vue_template__,
+  __vue_template_functional__,
+  __vue_styles__,
+  __vue_scopeId__,
+  __vue_module_identifier__
+)
+Component.options.__file = "resources/assets/js/components/ApproveLeaves.vue"
+
+/* hot reload */
+if (false) {(function () {
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), false)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-0a48f522", Component.options)
+  } else {
+    hotAPI.reload("data-v-0a48f522", Component.options)
+  }
+  module.hot.dispose(function (data) {
+    disposed = true
+  })
+})()}
+
+module.exports = Component.exports
+
+
+/***/ }),
+/* 191 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+    data: function data() {
+        return {
+
+            Staffs: [],
+            StaffApprovals: [],
+            selectedDepartment: '',
+            //staff department
+            departmentOptions: [{ text: 'all', value: 'all' }, { text: 'ECE', value: 'ece' }, { text: 'EEE', value: 'eee' }, { text: 'MECH', value: 'mech' }, { text: 'CSE', value: 'cse' }, { text: 'IT', value: 'it' }, { text: 'CIVIL', value: 'civil' }, { text: 'AUTOMOBILE', value: 'automobile' }, { text: 'ENGLISH', value: 'english' }, { text: 'PHYSICS', value: 'physics' }, { text: 'CHEMISTRY', value: 'chemistry' }, { text: 'MATHEMATICS', value: 'mathematics' }, { text: 'ME-SE', value: 'me-se' }, { text: 'ME-CE&M', value: 'me-ce&m' }, { text: 'ME-CSE', value: 'me-cse' }, { text: 'ME-MMT', value: 'me-mmt' }, { text: 'ME-AE', value: 'me-ae' }, { text: 'ME-COM-SYS', value: 'me-com-sys' }, { text: 'ME-VLSI', value: 'me-vlsi' }, { text: 'ME-EST', value: 'me-est' }, { text: 'ME-PE&D', value: 'me-pe&d' }, { text: 'ME-ISE', value: 'me-ise' }, { text: 'MTECH-IT', value: 'mtech-it' }, { text: 'MBA', value: 'mba' }, { text: 'MCA', value: 'mca' }]
+        };
+    },
+    created: function created() {
+        this.fetchApprovals();
+        this.fetchAllstaffs();
+        //remove attempted
+        this.removeAttempts();
+    },
+
+    methods: {
+
+        //Featch all Staffs
+        fetchAllstaffs: function fetchAllstaffs() {
+            var _this = this;
+
+            fetch("/api/staffprofile").then(function (res) {
+                return res.json();
+            }).then(function (res) {
+                _this.Staffs = res.data;
+            }).catch(function (err) {
+                return console.log(err);
+            });
+        },
+
+        //fetch approvals
+        fetchApprovals: function fetchApprovals() {
+            var _this2 = this;
+
+            fetch("/api/staffapprovals").then(function (res) {
+                return res.json();
+            }).then(function (res) {
+                _this2.StaffApprovals = res.data;
+            }).catch(function (err) {
+                return console.log(err);
+            });
+        },
+
+        //getstaff name
+        StaffName: function StaffName(id) {
+            var name;
+            for (var child in this.Staffs) {
+                if (this.Staffs[child].id === id) {
+                    name = this.Staffs[child].name;
+                }
+            }
+            return name;
+        },
+        StaffEid: function StaffEid(id) {
+            var eid;
+            for (var child in this.Staffs) {
+                if (this.Staffs[child].id === id) {
+                    eid = this.Staffs[child].eid;
+                }
+            }
+            return eid;
+        },
+        acceptApproval: function acceptApproval(Aid, status, date, Sid, approvalfor) {
+            var _this3 = this;
+
+            if (status === 1) {
+                //approved set attendnace
+                this.SetStatus(Sid, approvalfor, date);
+            }
+            var passData = {
+                status: status,
+                Aid: Aid,
+                Attempt: 1
+            };
+            fetch("/api/staffapprovals/create", {
+                method: "put",
+                body: JSON.stringify(passData),
+                headers: {
+                    "content-type": "application/json"
+                }
+            }).then(function (res) {
+                return res.json();
+            }).then(function (data) {
+                _this3.sendData.approvalFor = '', _this3.sendData.forDescription = '';
+            }).catch(function (err) {
+                return console.log(err);
+            });
+            this.fetchApprovals();
+        },
+
+
+        //set attendance status
+        SetStatus: function SetStatus(id, approvalfor, date) {
+            var _this4 = this;
+
+            var PassData = {
+                staff_id: id,
+                staff_status: approvalfor,
+                date: date
+            };
+
+            fetch("/api/staffattendance/setstatus", {
+                method: "post",
+                body: JSON.stringify(PassData),
+                headers: {
+                    "content-type": "application/json"
+                }
+            }).then(function (res) {
+                return res.json();
+            }).then(function (data) {
+                _this4.Staff.selectedStatus = "", _this4.Staff.id = "";
+            }).catch(function (err) {
+                return console.log(err);
+            });
+            //console.log(JSON.stringify(PassData));
+        },
+        removeApproval: function removeApproval(id) {
+            var passData = {
+                removeId: id
+            };
+            fetch("/api/staffapprovals", {
+                method: "delete",
+                body: JSON.stringify(passData),
+                headers: {
+                    "content-type": "application/json"
+                }
+            }).then(function (res) {
+                return res.json();
+            }).then(function (data) {}).catch(function (err) {
+                return console.log(err);
+            });
+            this.fetchApprovals();
+        },
+        removeAttempts: function removeAttempts() {
+            for (var child in this.StaffApprovals) {
+                if (this.StaffApprovals[child].attempt === 1 && this.StaffApprovals[child].date >= date('Y-m-d', strtotime(Date()))) {
+                    //remove
+                    this.removeApproval(this.StaffApprovals[child].id);
+                }
+                console.log('removed' + this.StaffApprovals[child].id);
+            }
+        }
+    },
+    computed: {
+        filterapprovals: function filterapprovals() {
+            //filter with department
+            return this.StaffApprovals.filter(function (StaffApproval) {
+                return StaffApproval.attempt != 1;
+            });
+        }
+    }
+});
+
+/***/ }),
+/* 192 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c("div", { staticClass: "card" }, [
+    _c("div", { staticClass: "card-header" }, [
+      _c("h2", [_vm._v("Staff Approvals")]),
+      _vm._v(" "),
+      _c("div", { staticClass: "form-group" }, [
+        _c("label", { attrs: { for: "staff_filter_department" } }, [
+          _vm._v("Department")
+        ]),
+        _vm._v(" "),
+        _c("div", { staticClass: "filter-options" }, [
+          _c(
+            "select",
+            {
+              directives: [
+                {
+                  name: "model",
+                  rawName: "v-model",
+                  value: _vm.selectedDepartment,
+                  expression: "selectedDepartment"
+                }
+              ],
+              staticClass: "form-control",
+              staticStyle: { width: "120px", display: "inline-block" },
+              on: {
+                change: function($event) {
+                  var $$selectedVal = Array.prototype.filter
+                    .call($event.target.options, function(o) {
+                      return o.selected
+                    })
+                    .map(function(o) {
+                      var val = "_value" in o ? o._value : o.value
+                      return val
+                    })
+                  _vm.selectedDepartment = $event.target.multiple
+                    ? $$selectedVal
+                    : $$selectedVal[0]
+                }
+              }
+            },
+            _vm._l(_vm.departmentOptions, function(departmentOption) {
+              return _c(
+                "option",
+                { domProps: { value: departmentOption.value } },
+                [_vm._v("\n    " + _vm._s(departmentOption.text) + "\n  ")]
+              )
+            })
+          )
+        ])
+      ]),
+      _vm._v(" "),
+      _c("div", { staticClass: "card-body" }, [
+        _c("table", { staticClass: "table text-center" }, [
+          _vm._m(0),
+          _vm._v(" "),
+          _c(
+            "tbody",
+            _vm._l(_vm.filterapprovals, function(staffApproval) {
+              return _c("tr", { key: staffApproval.id }, [
+                _c("td", [
+                  _vm._v(_vm._s(_vm.StaffEid(staffApproval.staff_id)))
+                ]),
+                _vm._v(" "),
+                _c("td", [
+                  _vm._v(_vm._s(_vm.StaffName(staffApproval.staff_id)))
+                ]),
+                _vm._v(" "),
+                _c("td", [_vm._v(_vm._s(staffApproval.approvalfor))]),
+                _vm._v(" "),
+                _c("td", [_vm._v(_vm._s(staffApproval.description))]),
+                _vm._v(" "),
+                _c("td", [_vm._v(_vm._s(staffApproval.date))]),
+                _vm._v(" "),
+                _c("td", [
+                  _c(
+                    "button",
+                    {
+                      staticClass: "btn btn-outline-primary",
+                      on: {
+                        click: function($event) {
+                          _vm.acceptApproval(
+                            staffApproval.id,
+                            1,
+                            staffApproval.date,
+                            staffApproval.staff_id,
+                            staffApproval.approvalfor
+                          )
+                        }
+                      }
+                    },
+                    [_vm._v("Approve")]
+                  ),
+                  _c(
+                    "button",
+                    {
+                      staticClass: "ml-3 btn btn-outline-danger",
+                      on: {
+                        click: function($event) {
+                          _vm.acceptApproval(
+                            staffApproval.id,
+                            0,
+                            staffApproval.date,
+                            staffApproval.staff_id,
+                            staffApproval.approvalfor
+                          )
+                        }
+                      }
+                    },
+                    [_vm._v("DisApprove")]
+                  )
+                ])
+              ])
+            })
+          )
+        ])
+      ])
+    ])
+  ])
+}
+var staticRenderFns = [
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("thead", [
+      _c("th", [_vm._v("Staff EID")]),
+      _vm._v(" "),
+      _c("th", [_vm._v("Name")]),
+      _vm._v(" "),
+      _c("th", [_vm._v("Request For")]),
+      _vm._v(" "),
+      _c("th", [_vm._v("Request On")]),
+      _vm._v(" "),
+      _c("th", [_vm._v("Approve / Disapprove")])
+    ])
+  }
+]
+render._withStripped = true
+module.exports = { render: render, staticRenderFns: staticRenderFns }
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+    require("vue-hot-reload-api")      .rerender("data-v-0a48f522", module.exports)
+  }
+}
+
+/***/ }),
+/* 193 */
 /***/ (function(module, exports) {
 
 // removed by extract-text-webpack-plugin

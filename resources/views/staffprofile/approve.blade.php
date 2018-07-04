@@ -2,7 +2,7 @@
 
 @section('content')
             <div class="dashboard" style="margin:30px;">
-                 <staff-myapprovals :user-id={{ Auth::user()->id }}></staff-myapprovals>
+                 <approve-leaves></approve-leaves>
             </div>
 @endsection
 

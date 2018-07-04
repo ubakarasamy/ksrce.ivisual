@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class AddStatusToStudentsTable extends Migration
+class AddDateToStaffapprovalsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,8 +13,8 @@ class AddStatusToStudentsTable extends Migration
      */
     public function up()
     {
-        Schema::table('students', function($table){
-            $table->string('status');
+        Schema::table('staffapprovals', function($table){
+            $table->string('date');
         });
     }
 
@@ -25,8 +25,8 @@ class AddStatusToStudentsTable extends Migration
      */
     public function down()
     {
-        Schema::table('students', function($table){
-            $table->dropColumn('status');
+        Schema::table('staffapprovals', function($table){
+            $table->dropColumn('date');
         });
     }
 }

@@ -1,33 +1,98 @@
 <template>
 <div class="card">
-    <div class="card-header">
-        <h1>My Approvals</h1>
-    </div>
     <div class="card-body">
         <div class="approvals">
-
+             <h3>My Applicables</h3>
+            <!-- CPL -->
+            <div class="row">
+                <div class="col-md-3">
+                    <div class="card" style="width: 18rem; margin:10px;">
+                        <!-- Over All -->
+  <div class="card-body">
+    <h5 class="card-title">Over all Attendance</h5>
+    <h6 class="card-subtitle mb-2 text-muted">This year</h6>
+    <h1><span class="text-primary">10</span> / 20</h1>
+  </div>
+</div>
+                </div>
+                <div class="col-md-3">
+                    <div class="card" style="width: 18rem; margin:10px;">
+                        <!-- Over All -->
+  <div class="card-body">
+    <h5 class="card-title">CPL</h5>
+    <h6 class="card-subtitle mb-2 text-muted">This year</h6>
+    <h1><span class="text-primary">10</span> / 20</h1>
+  </div>
+</div>
+                </div>
+                <div class="col-md-3">
+                    <div class="card" style="width: 18rem; margin:10px;">
+                        <!-- Over All -->
+  <div class="card-body">
+    <h5 class="card-title">CL</h5>
+    <h6 class="card-subtitle mb-2 text-muted">This year</h6>
+    <h1><span class="text-primary">10</span> / 20</h1>
+  </div>
+</div>
+                </div>
+                <div class="col-md-3">
+                    <div class="card" style="width: 18rem; margin:10px;">
+                        <!-- Over All -->
+  <div class="card-body">
+    <h5 class="card-title">OD</h5>
+    <h6 class="card-subtitle mb-2 text-muted">This year</h6>
+    <h1><span class="text-primary">10</span> / 20</h1>
+  </div>
+</div>
+                </div>
+            </div>
         </div>
-        <div class="myapprovals-list">
-            <!-- <ul>
-            <li v-for="option in options">
-                {{option.approvalFor}} {{option.reason}}
-            </li>
-        </ul> -->
-        </div>
-        <div class="create-approval">
-            <h3>You need to contact attendance manager if you have applicable leave balances and forgot to apply before</h3>
-            <form>
+<hr>        
+<div class="create-approval">
+    <h3>Create Approval</h3>
+    <p class="text-info">You need to contact attendance manager if you have applicable leave balances and forgot to apply before</p>
+            <form @submit.prevent="createApproval">
                 <div class="form-group">
-                    <select name="approvalfor" id="approvalfor" aria-placeholder="select" v-model="approvalFor">
+                    <label for="date">Approval Date</label>
+                    <input type="date" id="date" v-model="sendData.date" name="date" max="3000-12-31" min="1000-01-01" class="form-control" style="width:200px;">
+                </div>
+                <div class="form-group">
+                    <label for="approvalfor">Approval For</label>
+                    <select name="approvalfor" class="form-control" style="width:150px;" id="approvalfor" aria-placeholder="select" v-model="sendData.approvalFor">
                         <option value="cpl" v-for="approval in approvals" v-bind:key="approval.value">{{approval.text}}</option>
                     </select>
                 </div>
                 <div class="form-group">
-                    <textarea name="description" v-model="forDescription" id="description" rows="4" placeholder="description"></textarea>
+                    <textarea name="description" class="form-control" style="width:300px;" v-model="sendData.forDescription" id="description" rows="3" cols="40" placeholder="Description"></textarea>
                 </div>
                 <button type="submit" class="btn btn-primary">submit</button>
             </form>
-        </div>
+</div>
+<hr>
+<div class="my-approvals">
+        <h3>My Approvals</h3>
+        <table class="table">
+                <thead>
+                    <th>Date</th>
+                    <th>Approval For</th>
+                    <th>Status</th>
+                    <th>Cancel</th>
+                </thead>
+                <tbody>
+                    <tr v-for="StaffApproval in StaffApprovals" v-bind:key="StaffApproval.id">
+                        <td>{{StaffApproval.date}}</td>
+                        <td>{{StaffApproval.approvalfor}}</td>
+                        <td>
+                            <span class="text-success" v-if="StaffApproval.status == 1">Approved</span>
+                            <span class="text-danger" v-if="StaffApproval.status == 0">DisApproved</span>
+                            <span  class="text-secondary" v-if="StaffApproval.attempt == 0">Waiting</span>
+                        </td>
+                        <td><button @click="removeApproval(StaffApproval.id)" class="btn btn-outline-danger">Cancel</button></td>
+                    </tr>
+                </tbody>
+            </table>
+    </div>
+
     </div>
 </div>
 </template>
@@ -36,32 +101,79 @@
 export default {
     data(){
         return{
-            approvalFor:'',
+            StaffApprovals:[],
+            sendData:{
+                approvalFor:'',
             forDescription:'',
+            date: ''
+            },
             approvals:[
                 {text:'CPL',value:'cpl'},
                 {text:'CL',value:'cl'},
                 {text:'OD',value:'od'}
             ]
         }
-    }
-    ,methods:{
+    },
+    created(){
+        this.fetchApprovals();
+    },
+    props: {
+            userId: Number ,
+    },
+    methods:{
+        fetchApprovals(){
+            fetch("/api/staffapprovals/"+this.userId+"")
+        .then(res => res.json())
+        .then(res => {
+          this.StaffApprovals = res.data;
+        })
+        .catch(err => console.log(err));
+        },
         createApproval(){
-            sendData = [this.approvalFor,this.forDescription];
-            fetch('staffapprovals/create', {
-                method: 'post',
-                body: JSON.stringify(sendData),
-                headers:  {
-                   'content-type': 'application/json'
-                }
+            const passData = {
+                approvalFor: this.sendData.approvalFor,
+                forDescription: this.sendData.forDescription,
+                date:this.sendData.date,
+                userId: this.userId
+            }
+           // console.log(passData);
+            fetch("/api/staffapprovals/create", {
+            method: "post",
+            body: JSON.stringify(passData),
+            headers: {
+            "content-type": "application/json"
+            }
             })
             .then(res => res.json())
             .then(data => {
-                this.approvalFor = '',
-                this.forDescription = ''
+                this.sendData.approvalFor = '',
+            this.sendData.forDescription = ''
             })
-            .catch(err => console.log(err));
-           
+            .catch(err => console.log(err));  
+            this.sendData.date = '';
+            this.sendData.approvalFor = '';
+            this.sendData.forDescription = '';
+             this.fetchApprovals();
+    },
+    removeApproval(id){
+        const passData = {
+            removeId:id
+        }
+         fetch("/api/staffapprovals", {
+            method: "delete",
+            body: JSON.stringify(passData),
+            headers: {
+            "content-type": "application/json"
+            }
+            })
+            .then(res => res.json())
+            .then(data => {
+                
+            })
+            .catch(err => console.log(err));  
+            alert('removed');
+            this.fetchApprovals();
     }
+}
 }
 </script>

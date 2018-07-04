@@ -57,3 +57,12 @@ Route::post('studentattendance/setstatus', 'StudentAttendanceController@SetStude
 
 
 Route::post('staffapprovals/create', 'StaffApprovalController@createApproval');
+
+Route::put('staffapprovals/create', 'StaffApprovalController@createApproval');
+
+
+Route::get('staffapprovals/{id}', 'StaffApprovalController@getStatus');
+
+Route::delete('staffapprovals', 'StaffApprovalController@removeApproval');
+
+Route::get('staffapprovals', 'StaffApprovalController@getAllApprovals');
