@@ -4,7 +4,7 @@ namespace App\Http\Resources;
 
 use Illuminate\Http\Resources\Json\Resource;
 
-class StaffAttendanceRecordResource extends Resource
+class TimetablesResource extends Resource
 {
     /**
      * Transform the resource into an array.
@@ -14,11 +14,6 @@ class StaffAttendanceRecordResource extends Resource
      */
     public function toArray($request)
     {
-        return [
-            'attendanceDate' => $this->attendanceDate,
-            'staff_id' => $this->staff_id,
-            'status' => $this->status,
-            'eid' => $this->eid,
-        ];
+        return parent::toArray($request);
     }
 }

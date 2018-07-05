@@ -27,6 +27,8 @@ Vue.component('student-attendance', require('./components/StudentAttendance.vue'
 Vue.component('staffattendance-bymonth', require('./components/StaffAttendance-bymonth.vue'));
 Vue.component('staff-myapprovals', require('./components/StaffApprovals.vue'));
 Vue.component('approve-leaves', require('./components/ApproveLeaves.vue'));
+Vue.component('time-tables', require('./components/Timetables.vue'));
+Vue.component('stud-attendance-view', require('./components/StudAttendanceView.vue'));
 
 
 const app = new Vue({

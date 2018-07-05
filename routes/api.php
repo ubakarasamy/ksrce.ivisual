@@ -33,8 +33,9 @@ Route::post('studentProfile', 'StudentProfileController@store');
 // Update Student
 Route::put('studentProfile', 'StudentProfileController@store');
 
+Route::get('fetchsemester', 'PagesController@fetchSemester');
 
-
+Route::post('academicyear', 'PagesController@postAcademic');
 // Update Semester
 Route::post('semester', 'PagesController@closeSemester');
 
@@ -66,3 +67,7 @@ Route::get('staffapprovals/{id}', 'StaffApprovalController@getStatus');
 Route::delete('staffapprovals', 'StaffApprovalController@removeApproval');
 
 Route::get('staffapprovals', 'StaffApprovalController@getAllApprovals');
+
+Route::post('academic/timetable', 'TimeTablesController@createTable');
+
+Route::get('academic/timetable', 'TimeTablesController@showAllTable');

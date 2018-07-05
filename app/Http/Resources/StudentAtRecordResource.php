@@ -27,6 +27,11 @@ class StudentAtRecordResource extends Resource
             'h6' => $this->h6,
             'h7' => $this->h7,
             'h8' => $this->h8,
+            'department' => $this->department,
+            'year' => $this->year,
+            'degree' => $this->degree,
+            'section' => $this->section,
+            'semester' => $this->semester
         ];
     }
 }

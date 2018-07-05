@@ -43,3 +43,4 @@ Route::get('/staffapprovals/myapprovals', 'StaffProfileController@showMyapproval
 
 Route::get('/staffapprovals/approve', 'StaffProfileController@Approve')->name('staffapprovals-approve');
 
+Route::get('/student/timetables', 'TimeTablesController@timeTables')->name('time-tables');
