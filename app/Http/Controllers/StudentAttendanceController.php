@@ -75,7 +75,7 @@ class StudentAttendanceController extends Controller
 
         $ifExists = StudentAtRecord::where([['student_id', '=', $id], ['attendancedate', '=', $date]])->first();
         if($ifExists !== null){
-            //edit
+            //edit attendance
         $record = StudentAtRecord::where([['student_id', '=', $id], ['attendancedate', '=', $date]])->first();
         $record->attendancedate = $date;
         $record->student_id = $id;
@@ -87,9 +87,7 @@ class StudentAttendanceController extends Controller
         if($h5){ $record->h5 = $h5;}
         if($h6){ $record->h6 = $h6;}
         if($h7){ $record->h7 = $h7;}
-        
         $record->hrspresent = null;
-        
         $record->degree = $student->degree;
         $record->department = $student->department;
         $record->year = $student->year;
@@ -98,7 +96,7 @@ class StudentAttendanceController extends Controller
         $record->save();
         return 'data Edited';
         }else{
-            //create
+            //create attendance
         $record = new StudentAtRecord;
         $record->attendancedate = $date;
         $record->student_id = $id;
@@ -111,8 +109,8 @@ class StudentAttendanceController extends Controller
         if($h6){ $record->h6 = $h6; }
         if($h7){ $record->h7 = $h7; }
         
-            $record->hrspresent = null;
-            $record->degree = $student->degree;
+        $record->hrspresent = null;
+        $record->degree = $student->degree;
         $record->department = $student->department;
         $record->year = $student->year;
         $record->section = $student->section;

@@ -71,3 +71,5 @@ Route::get('staffapprovals', 'StaffApprovalController@getAllApprovals');
 Route::post('academic/timetable', 'TimeTablesController@createTable');
 
 Route::get('academic/timetable', 'TimeTablesController@showAllTable');
+
+Route::post('createsubjects', 'TimeTablesController@subjects');

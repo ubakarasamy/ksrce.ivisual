@@ -21,7 +21,7 @@
     <div class="modal-content">
       <div class="modal-header">
         <h5 class="modal-title" id="exampleModalCenterTitle">Time table</h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+        <button type="button" @click="resetFrom()" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
@@ -351,13 +351,11 @@ fri1:'',fri2:'',fri3:'',fri4:'',fri5:'',fri6:'',fri7:''
         let Departments;
         Degree = vm.degreeSelected;
         Departments = vm.departmentOptions;
-        if(Degree === 'be'){
-          return Departments;
-        }else{
+        
         return Departments.filter(function(Department){
           return (Department.degree === Degree);
         });
-        }
+        
       },
         filteredYears(){
          let vm =this;
@@ -390,6 +388,13 @@ fri1:'',fri2:'',fri3:'',fri4:'',fri5:'',fri6:'',fri7:''
       }else{
           return Semester;
       }
+      },
+      resetFrom(){
+          this.timeTables.mon1 = '',this.timeTables.mon2 = '',this.timeTables.mon3 = '',this.timeTables.mon4 = '',this.timeTables.mon5 = '',this.timeTables.mon6 = '',this.timeTables.mon7 = '',
+            this.timeTables.tue1 = '',this.timeTables.tue2 = '',this.timeTables.tue3 = '',this.timeTables.tue4 = '',this.timeTables.tue5 = '',this.timeTables.tue6 = '',this.timeTables.tue7 = '',
+            this.timeTables.wed1 = '',this.timeTables.wed2 = '',this.timeTables.wed3 = '',this.timeTables.wed4 = '',this.timeTables.wed5 = '',this.timeTables.wed6 = '',this.timeTables.wed7 = '',
+            this.timeTables.thu1 = '',this.timeTables.thu2 = '',this.timeTables.thu3 = '',this.timeTables.thu4 = '',this.timeTables.thu5 = '',this.timeTables.thu6 = '',this.timeTables.thu7 = '',
+            this.timeTables.fri1 = '',this.timeTables.fri2 = '',this.timeTables.fri3 = '',this.timeTables.fri4 = '',this.timeTables.fri5 = '',this.timeTables.fri6 = '',this.timeTables.fri7 = ''
       }
     }
 }
@@ -399,5 +404,6 @@ fri1:'',fri2:'',fri3:'',fri4:'',fri5:'',fri6:'',fri7:''
     .input-table input
     {   
         text-transform: uppercase;
+        width: 100%;
     }
 </style>

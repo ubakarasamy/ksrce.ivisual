@@ -29,6 +29,7 @@ Vue.component('staff-myapprovals', require('./components/StaffApprovals.vue'));
 Vue.component('approve-leaves', require('./components/ApproveLeaves.vue'));
 Vue.component('time-tables', require('./components/Timetables.vue'));
 Vue.component('stud-attendance-view', require('./components/StudAttendanceView.vue'));
+Vue.component('create-subjects', require('./components/CreateSubjects.vue'));
 
 
 const app = new Vue({

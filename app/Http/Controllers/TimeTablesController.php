@@ -70,5 +70,13 @@ class TimeTablesController extends Controller
     public function showAllTable(){
         return TimetablesResource::collection(Timetables::all());
     }
+    public function createSubjects(){
+        return view('studentclass.class-subjects');
+    }
 
+
+    public function subjects(Request $request){
+        $data = $request->json()->all();
+        return $data;
+    }
 }

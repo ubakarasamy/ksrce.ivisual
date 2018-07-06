@@ -58,6 +58,7 @@
             {{-- Semester --}}
             <li class=" @if($route = Route::current()->getName() == 'close-semester') <?php echo "active" ?> @endif"><a href="{{route('close-semester')}}"><i class="fas fa-graduation-cap"></i>Year and Semester</a></li>
             <li class=" @if($route = Route::current()->getName() == 'time-tables') <?php echo "active" ?> @endif"><a href="{{route('time-tables')}}"><i class="fas fa-graduation-cap"></i>Time Tables</a></li>
+            <li class=" @if($route = Route::current()->getName() == 'create-subjects') <?php echo "active" ?> @endif"><a href="{{route('create-subjects')}}"><i class="fas fa-graduation-cap"></i>Create Subjects</a></li>
             <li class=" @if($route = Route::current()->getName() == 'staffapprovals-approve') <?php echo "active" ?> @endif"><a href="{{route('staffapprovals-approve')}}"><i class="fas fa-graduation-cap"></i>Leave Approvals</a></li>
         </ul>
     </div>
