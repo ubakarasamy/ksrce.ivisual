@@ -420,6 +420,7 @@ student_section_create_options: [
       this.student.phone = student.phone;
       this.student.address = student.address;
       this.student.degree = student.degree;
+      this.student.semester = student.semester;
     }
     ,closeEdit(){
       this.student.name = '',

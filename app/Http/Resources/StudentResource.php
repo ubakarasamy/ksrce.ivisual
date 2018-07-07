@@ -27,6 +27,7 @@ class StudentResource extends Resource
             'gurdian_name' => $this->gurdian_name,
             'year' => $this->year,
             'section' => $this->section,
+            'semester' => $this->semester,
             'created_at' => $this->created_at,
             'updated_at' => $this->updated_at,
         ];

@@ -23,22 +23,22 @@ class StudentProfileController extends Controller
 
         if($request->isMethod('put')){
             //Update Request
-            $student = Student::findOrFail($request->student_id);
-            $student->id = $request->input('student_id');
+            $student = Student::findOrFail($request->input('student_id'));
             $student->name = $request->input('name');
-            $student->email = $request->input('email');
-            $student->department = $request->input('department');
-            $student->register_no = $request->input('register_no');
-            $student->batch = $request->input('batch');
-            $student->phone = $request->input('phone');
-            $student->address = $request->input('address');
-            $student->gurdian_name = $request->input('gurdian_name');
-            $student->year = $request->input('year');
-            $student->section = $request->input('section');
-            $student->semester = $request->input('semester'); //semester
-            $student->degree = $request->input('degree');
+                $student->email = $request->input('email');
+                $student->department = $request->input('department');
+                $student->register_no = $request->input('register_no');
+                $student->batch = $request->input('batch');
+                $student->phone = $request->input('phone');
+                $student->address = $request->input('address');
+                $student->gurdian_name = $request->input('gurdian_name');
+                $student->year = $request->input('year');
+                $student->section = $request->input('section');
+                $student->semester = $request->input('semester');
+                $student->degree = $request->input('degree');
+                $student->status = 'current';
+            
             $student->save();
- 
             if($student->save()) {
                 return new StudentResource($student);
             }
@@ -57,6 +57,7 @@ class StudentProfileController extends Controller
                 $student->section = $request->input('section');
                 $student->semester = $request->input('semester');
                 $student->degree = $request->input('degree');
+                $student->status = 'current';
                 $student->save();
             if($student->save()) {
                 return new StudentResource($student);

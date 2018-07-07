@@ -126,6 +126,12 @@ class StudentAttendanceController extends Controller
         return view('studentattendance.bymonth');
     }
         
+
+    public function getAllStudentAttendance(){
+        $datas = StudentAtRecord::all();
+        return StudentAtRecordResource::collection($datas);
+    }
+
 }
 
 

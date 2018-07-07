@@ -59,7 +59,7 @@
                 <div class="form-group">
                     <label for="approvalfor">Approval For</label>
                     <select name="approvalfor" class="form-control" style="width:150px;" id="approvalfor" aria-placeholder="select" v-model="sendData.approvalFor">
-                        <option value="cpl" v-for="approval in approvals" v-bind:key="approval.value">{{approval.text}}</option>
+                        <option v-for="approval in approvals" v-bind="approval.value">{{approval.text}}</option>
                     </select>
                 </div>
                 <div class="form-group">

@@ -40,6 +40,9 @@
             <div class="form-group" style="width:300px;">
     <br>
     <h3>Semester: <strong>{{gotData.academic_semester}}</strong></h3>
+
+    <input type="date" v-model="academicStudent.semStart" id="datesem" name="datesem" class="form-control" style="width:200px;">
+
     <br>
     <button class="btn btn-primary" v-on:click="updateSem">Update Semester</button>
     
@@ -66,9 +69,9 @@ export default {
             },
             Semester:'',
             //test
-             student:{
-            email: '',
-            test:'closesem'
+            academicStudent:{
+            semStart: '',
+            close:'closesem'
             },
             //confirm
             confirm: ''
@@ -108,7 +111,7 @@ export default {
             if(this.confirm === true){
              fetch('api/semester', {
           method: 'post',
-          body: JSON.stringify(this.student),
+          body: JSON.stringify(this.academicStudent),
           headers: {
             'content-type': 'application/json'
           }
@@ -120,6 +123,7 @@ export default {
           .catch(err => console.log(err));
           alert('The Semester Status Updated successfully');
         }
+        this.fetchSem();
         }
        
     }

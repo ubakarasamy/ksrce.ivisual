@@ -45,6 +45,11 @@ Route::post('staffattendance', 'StaffAttendanceController@storeDateStaff');
 
 Route::get('staffattendance/{makedate}', 'StaffAttendanceController@getStaffAttendance');
 
+Route::get('staffattendance', 'StaffAttendanceController@getAllAttendance');
+
+//Route::get('getstaffattendance/', 'StaffAttendanceController@getTotaldays');
+
+
 Route::get('staffattendance/allstaffs', 'StaffAttendanceController@AllStaffs');
 
 Route::post('staffattendance/setstatus', 'StaffAttendanceController@SetStaffData');
@@ -73,3 +78,6 @@ Route::post('academic/timetable', 'TimeTablesController@createTable');
 Route::get('academic/timetable', 'TimeTablesController@showAllTable');
 
 Route::post('createsubjects', 'TimeTablesController@subjects');
+
+
+Route::get('staffoverall', 'StaffAttendanceController@StaffOverAll');

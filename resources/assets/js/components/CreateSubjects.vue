@@ -22,12 +22,12 @@
 </div>
 
 <div class="form-group col-md-2">
-<!-- Deaprtment -->
-<label for="student_filter_department">Department</label><br>
+    <!-- Deaprtment -->
+ <label for="student_filter_department">Department</label><br>
 <select class="form-control" id="student_filter_department" v-model="departmentSelected" style="width:120px;">
   <option v-for="departmentOption in filteredDepartments" v-bind:value="departmentOption.value">
     {{ departmentOption.text }}
-</option>
+  </option>
 </select>
 </div>
 
@@ -56,241 +56,59 @@
         <div class="card-body">
 
 <div class="row">
-<div class="col-sm-12">
+<div class="col-md-6 col-sm-12">
 <form @submit.prevent="createSubjects">
     <p class="text-info">
-        Fill having subjects, Leave other fields blank with Acronyms eg: EM-1 Engineering Mathematics - I 
+        Fill having subjects, Leave other fields blank 
     </p>
-
-<table class="table">
-    <thead>
-        <th>SL NO</th>
-        <th>subject code</th>
-        <th>subject acronym</th>
-        <th>subject title</th>
-        <th>staff name</th>
-        <th>staff Id</th>
-    </thead>
-    <tbody>
-        <tr>
-            <td>1</td>
-            <td>
-                 <input v-model="subjectcodes.sub1code" type="text" class="form-control" id="subject1" aria-describedby="emailHelp" >
-            </td>
-            <td>
-                 <input v-model="subjectacronyms.sub1acronym" type="text" class="form-control" id="subject1" aria-describedby="emailHelp" >
-            </td>
-            <td>
-                 <input v-model="subjecttitles.sub1title" type="text" class="form-control" id="subject1" aria-describedby="emailHelp" >
-            </td>
-            <td>
-                 <input v-model="subjectstaffs.sub1staff" type="text" class="form-control" id="subject1" aria-describedby="emailHelp" >
-            </td>
-            <td>
-                 <input v-model="subjectstaffids.sub1staffid" type="text" class="form-control" id="subject1" aria-describedby="emailHelp" >
-            </td>
-        </tr>
-        <tr>
-            <td>2</td>
-            <td>
-                 <input v-model="subjectcodes.sub2code" type="text" class="form-control" id="subject1" aria-describedby="emailHelp" >
-            </td>
-            <td>
-                 <input v-model="subjectacronyms.sub2acronym" type="text" class="form-control" id="subject1" aria-describedby="emailHelp" >
-            </td>
-            <td>
-                 <input v-model="subjecttitles.sub2title" type="text" class="form-control" id="subject1" aria-describedby="emailHelp" >
-            </td>
-            <td>
-                 <input v-model="subjectstaffs.sub2staff" type="text" class="form-control" id="subject1" aria-describedby="emailHelp" >
-            </td>
-            <td>
-                 <input v-model="subjectstaffids.sub2staffid" type="text" class="form-control" id="subject1" aria-describedby="emailHelp" >
-            </td>
-        </tr>
-        <tr>
-            <td>3</td>
-            <td>
-                 <input v-model="subjectcodes.sub3code" type="text" class="form-control" id="subject1" aria-describedby="emailHelp" >
-            </td>
-            <td>
-                 <input v-model="subjectacronyms.sub3acronym" type="text" class="form-control" id="subject1" aria-describedby="emailHelp" >
-            </td>
-            <td>
-                 <input v-model="subjecttitles.sub3title" type="text" class="form-control" id="subject1" aria-describedby="emailHelp" >
-            </td>
-            <td>
-                 <input v-model="subjectstaffs.sub3staff" type="text" class="form-control" id="subject1" aria-describedby="emailHelp" >
-            </td>
-            <td>
-                 <input v-model="subjectstaffids.sub3staffid" type="text" class="form-control" id="subject1" aria-describedby="emailHelp" >
-            </td>
-        </tr>
-        <tr>
-            <td>4</td>
-            <td>
-                 <input v-model="subjectcodes.sub4code" type="text" class="form-control" id="subject1" aria-describedby="emailHelp" >
-            </td>
-            <td>
-                 <input v-model="subjectacronyms.sub4acronym" type="text" class="form-control" id="subject1" aria-describedby="emailHelp" >
-            </td>
-            <td>
-                 <input v-model="subjecttitles.sub4title" type="text" class="form-control" id="subject1" aria-describedby="emailHelp" >
-            </td>
-            <td>
-                 <input v-model="subjectstaffs.sub4staff" type="text" class="form-control" id="subject1" aria-describedby="emailHelp" >
-            </td>
-            <td>
-                 <input v-model="subjectstaffids.sub4staffid" type="text" class="form-control" id="subject1" aria-describedby="emailHelp" >
-            </td>
-        </tr>
-        <tr>
-            <td>5</td>
-            <td>
-                 <input v-model="subjectcodes.sub5code" type="text" class="form-control" id="subject1" aria-describedby="emailHelp" >
-            </td>
-            <td>
-                 <input v-model="subjectacronyms.sub5acronym" type="text" class="form-control" id="subject1" aria-describedby="emailHelp" >
-            </td>
-            <td>
-                 <input v-model="subjecttitles.sub5title" type="text" class="form-control" id="subject1" aria-describedby="emailHelp" >
-            </td>
-            <td>
-                 <input v-model="subjectstaffs.sub5staff" type="text" class="form-control" id="subject1" aria-describedby="emailHelp" >
-            </td>
-            <td>
-                 <input v-model="subjectstaffids.sub5staffid" type="text" class="form-control" id="subject1" aria-describedby="emailHelp" >
-            </td>
-        </tr>
-        <tr>
-            <td>6</td>
-            <td>
-                 <input v-model="subjectcodes.sub6code" type="text" class="form-control" id="subject1" aria-describedby="emailHelp" >
-            </td>
-            <td>
-                 <input v-model="subjectacronyms.sub6acronym" type="text" class="form-control" id="subject1" aria-describedby="emailHelp" >
-            </td>
-            <td>
-                 <input v-model="subjecttitles.sub6title" type="text" class="form-control" id="subject1" aria-describedby="emailHelp" >
-            </td>
-            <td>
-                 <input v-model="subjectstaffs.sub6staff" type="text" class="form-control" id="subject1" aria-describedby="emailHelp" >
-            </td>
-            <td>
-                 <input v-model="subjectstaffids.sub6staffid" type="text" class="form-control" id="subject1" aria-describedby="emailHelp" >
-            </td>
-        </tr>
-        <tr>
-            <td>7</td>
-            <td>
-                 <input v-model="subjectcodes.sub7code" type="text" class="form-control" id="subject1" aria-describedby="emailHelp" >
-            </td>
-            <td>
-                 <input v-model="subjectacronyms.sub7acronym" type="text" class="form-control" id="subject1" aria-describedby="emailHelp" >
-            </td>
-            <td>
-                 <input v-model="subjecttitles.sub7title" type="text" class="form-control" id="subject1" aria-describedby="emailHelp" >
-            </td>
-            <td>
-                 <input v-model="subjectstaffs.sub7staff" type="text" class="form-control" id="subject1" aria-describedby="emailHelp" >
-            </td>
-            <td>
-                 <input v-model="subjectstaffids.sub7staffid" type="text" class="form-control" id="subject1" aria-describedby="emailHelp" >
-            </td>
-        </tr>
-        <tr>
-            <td>8</td>
-            <td>
-                 <input v-model="subjectcodes.sub8code" type="text" class="form-control" id="subject1" aria-describedby="emailHelp" >
-            </td>
-            <td>
-                 <input v-model="subjectacronyms.sub8acronym" type="text" class="form-control" id="subject1" aria-describedby="emailHelp" >
-            </td>
-            <td>
-                 <input v-model="subjecttitles.sub8title" type="text" class="form-control" id="subject1" aria-describedby="emailHelp" >
-            </td>
-            <td>
-                 <input v-model="subjectstaffs.sub8staff" type="text" class="form-control" id="subject1" aria-describedby="emailHelp" >
-            </td>
-            <td>
-                 <input v-model="subjectstaffids.sub8staffid" type="text" class="form-control" id="subject1" aria-describedby="emailHelp" >
-            </td>
-        </tr>
-        <tr>
-            <td>9</td>
-            <td>
-                 <input v-model="subjectcodes.sub9code" type="text" class="form-control" id="subject1" aria-describedby="emailHelp" >
-            </td>
-            <td>
-                 <input v-model="subjectacronyms.sub9acronym" type="text" class="form-control" id="subject1" aria-describedby="emailHelp" >
-            </td>
-            <td>
-                 <input v-model="subjecttitles.sub9title" type="text" class="form-control" id="subject1" aria-describedby="emailHelp" >
-            </td>
-            <td>
-                 <input v-model="subjectstaffs.sub9staff" type="text" class="form-control" id="subject1" aria-describedby="emailHelp" >
-            </td>
-            <td>
-                 <input v-model="subjectstaffids.sub9staffid" type="text" class="form-control" id="subject1" aria-describedby="emailHelp" >
-            </td>
-        </tr>
-        <tr>
-            <td>10</td>
-            <td>
-                 <input v-model="subjectcodes.sub10code" type="text" class="form-control" id="subject1" aria-describedby="emailHelp" >
-            </td>
-            <td>
-                 <input v-model="subjectacronyms.sub10acronym" type="text" class="form-control" id="subject1" aria-describedby="emailHelp" >
-            </td>
-            <td>
-                 <input v-model="subjecttitles.sub10title" type="text" class="form-control" id="subject1" aria-describedby="emailHelp" >
-            </td>
-            <td>
-                 <input v-model="subjectstaffs.sub10staff" type="text" class="form-control" id="subject1" aria-describedby="emailHelp" >
-            </td>
-            <td>
-                 <input v-model="subjectstaffids.sub10staffid" type="text" class="form-control" id="subject1" aria-describedby="emailHelp" >
-            </td>
-        </tr>
-        <tr>
-            <td>11</td>
-            <td>
-                 <input v-model="subjectcodes.sub11code" type="text" class="form-control" id="subject1" aria-describedby="emailHelp" >
-            </td>
-            <td>
-                 <input v-model="subjectacronyms.sub11acronym" type="text" class="form-control" id="subject1" aria-describedby="emailHelp" >
-            </td>
-            <td>
-                 <input v-model="subjecttitles.sub11title" type="text" class="form-control" id="subject1" aria-describedby="emailHelp" >
-            </td>
-            <td>
-                 <input v-model="subjectstaffs.sub11staff" type="text" class="form-control" id="subject1" aria-describedby="emailHelp" >
-            </td>
-            <td>
-                 <input v-model="subjectstaffids.sub11staffid" type="text" class="form-control" id="subject1" aria-describedby="emailHelp" >
-            </td>
-        </tr>
-        <tr>
-            <td>12</td>
-            <td>
-                 <input v-model="subjectcodes.sub12code" type="text" class="form-control" id="subject1" aria-describedby="emailHelp" >
-            </td>
-            <td>
-                 <input v-model="subjectacronyms.sub12acronym" type="text" class="form-control" id="subject1" aria-describedby="emailHelp" >
-            </td>
-            <td>
-                 <input v-model="subjecttitles.sub12title" type="text" class="form-control" id="subject1" aria-describedby="emailHelp" >
-            </td>
-            <td>
-                 <input v-model="subjectstaffs.sub12staff" type="text" class="form-control" id="subject1" aria-describedby="emailHelp" >
-            </td>
-            <td>
-                 <input v-model="subjectstaffids.sub12staffid" type="text" class="form-control" id="subject1" aria-describedby="emailHelp" >
-            </td>
-        </tr>
-
-    </tbody>
-</table>
+<div class="form-group">
+    <label for="subject1">Subject 1</label>
+    <input v-model="subjects.sub1" type="text" class="form-control" id="subject1" aria-describedby="emailHelp" >
+</div>
+<div class="form-group">
+    <label for="subject2">Subject 2</label>
+    <input v-model="subjects.sub2" type="text" class="form-control" id="subject2" aria-describedby="emailHelp" >
+</div>
+<div class="form-group">
+    <label for="subject3">Subject 3</label>
+    <input v-model="subjects.sub3" type="text" class="form-control" id="subject3" aria-describedby="emailHelp" >
+</div>
+<div class="form-group">
+    <label for="subject4">Subject 4</label>
+    <input v-model="subjects.sub4" type="text" class="form-control" id="subject4" aria-describedby="emailHelp" >
+</div>
+<div class="form-group">
+    <label for="subject5">Subject 5</label>
+    <input v-model="subjects.sub5" type="text" class="form-control" id="subject5" aria-describedby="emailHelp" >
+</div>
+<div class="form-group">
+    <label for="subject6">Subject 6</label>
+    <input v-model="subjects.sub6" type="text" class="form-control" id="subject6" aria-describedby="emailHelp" >
+</div>
+<div class="form-group">
+    <label for="subject7">Subject 7</label>
+    <input v-model="subjects.sub7" type="text" class="form-control" id="subject7" aria-describedby="emailHelp" >
+</div>
+<div class="form-group">
+    <label for="subject8">Subject 8</label>
+    <input v-model="subjects.sub8" type="text" class="form-control" id="subject8" aria-describedby="emailHelp" >
+</div>
+<div class="form-group">
+    <label for="subject9">Subject 9</label>
+    <input v-model="subjects.sub9" type="text" class="form-control" id="subject9" aria-describedby="emailHelp" >
+</div>
+<div class="form-group">
+    <label for="subject10">Subject 10</label>
+    <input v-model="subjects.sub10" type="text" class="form-control" id="subject10" aria-describedby="emailHelp" >
+</div>
+<div class="form-group">
+    <label for="subject11">Subject 11</label>
+    <input v-model="subjects.sub11" type="text" class="form-control" id="subject11" aria-describedby="emailHelp" >
+</div>
+<div class="form-group">
+    <label for="subject12">Subject 12</label>
+    <input v-model="subjects.sub12" type="text" class="form-control" id="subject12" aria-describedby="emailHelp" >
+</div>
 <button type="submit" class="btn btn-primary">
     submit
 </button>
@@ -305,74 +123,19 @@
 export default {
     data(){
         return{
-            subjectcodes:{
-                sub1code:'',
-                sub2code:'',
-                sub3code:'',
-                sub4code:'',
-                sub5code:'',
-                sub6code:'',
-                sub7code:'',
-                sub8code:'',
-                sub9code:'',
-                sub10code:'',
-                sub11code:'',
-                sub12code:''
-            },
-            subjectacronyms:{
-                sub1acronym:'',
-                sub2acronym:'',
-                sub3acronym:'',
-                sub41acronym:'',
-                sub5acronym:'',
-                sub6acronym:'',
-                sub7acronym:'',
-                sub8acronym:'',
-                sub9acronym:'',
-                sub10acronym:'',
-                sub11acronym:'',
-                sub12acronym:''
-            },
-            subjecttitles:{
-                sub1title:'',
-                sub2title:'',
-                sub3title:'',
-                sub4title:'',
-                sub5title:'',
-                sub6title:'',
-                sub7title:'',
-                sub8title:'',
-                sub9title:'',
-                sub10title:'',
-                sub11title:'',
-                sub12title:''
-            },
-            subjectstaffs:{
-                sub1staff:'',
-                sub2staff:'',
-                sub3staff:'',
-                sub4staff:'',
-                sub5staff:'',
-                sub6staff:'',
-                sub7staff:'',
-                sub8staff:'',
-                sub9staff:'',
-                sub10staff:'',
-                sub11staff:'',
-                sub12staff:''
-            },
-            subjectstaffids:{
-                sub1staffid:'',
-                sub2staffid:'',
-                sub3staffid:'',
-                sub4staffid:'',
-                sub5staffid:'',
-                sub6staffid:'',
-                sub7staffid:'',
-                sub8staffid:'',
-                sub9staffid:'',
-                sub10staffid:'',
-                sub12staffid:''
+            subjects:{
+                sub1:'',
+                sub2:'',
+                sub3:'',
+                sub4:'',
+                sub5:'',
+                sub6:'',
+                sub7:'',
+                sub8:'',
+                sub9:'',
+                sub10:'',
+                sub11:'',
+                sub12:''
             },
             //Degree
 degreeSelected:'',
@@ -439,11 +202,7 @@ sectionOptions: [
                 semester: this.semesterSelected,
                 section: this.sectionSelected,
                 department: this.departmentSelected,
-                subjectcodes:this.subjectcodes,
-                subjectacronyms:this.subjectacronyms,
-                subjecttitles:this.subjecttitles,
-                subjectstaffs:this.subjectstaffs,
-                subjectstaffids:this.subjectstaffids
+                subjects:this.subjects,
 
             }
             fetch('/api/createsubjects', {
@@ -456,7 +215,6 @@ sectionOptions: [
             .then(res => res.json())
             .then(res => {
                 //success
-                console.log(res.data);
             })
         }
 

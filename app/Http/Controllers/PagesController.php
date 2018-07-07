@@ -31,7 +31,12 @@ class PagesController extends Controller
             break; 
         }
         $students = Student::all();
-        if($request->test === 'closesem'){
+        if($request->input('close') === 'closesem'){
+
+            $aca = Academics::findOrFail(1);
+            $aca->academic_semester_start = $request->input('semStart');
+            $aca->save();
+
         foreach($students as $student){
         
         if($student->degree === 'be'){
@@ -63,6 +68,7 @@ class PagesController extends Controller
                 $student->save();
             }
         }
+        return 'closed';
     }
     }
 

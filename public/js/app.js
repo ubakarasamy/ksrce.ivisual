@@ -17768,7 +17768,7 @@ module.exports = Cancel;
 /***/ (function(module, exports, __webpack_require__) {
 
 __webpack_require__(138);
-module.exports = __webpack_require__(205);
+module.exports = __webpack_require__(209);
 
 
 /***/ }),
@@ -17809,7 +17809,8 @@ Vue.component('staff-myapprovals', __webpack_require__(187));
 Vue.component('approve-leaves', __webpack_require__(190));
 Vue.component('time-tables', __webpack_require__(193));
 Vue.component('stud-attendance-view', __webpack_require__(198));
-Vue.component('create-subjects', __webpack_require__(203));
+Vue.component('stud-attendance-view-bymonth', __webpack_require__(203));
+Vue.component('create-subjects', __webpack_require__(206));
 
 var app = new Vue({
   el: '#app'
@@ -61768,6 +61769,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
       this.student.phone = student.phone;
       this.student.address = student.address;
       this.student.degree = student.degree;
+      this.student.semester = student.semester;
     },
     closeEdit: function closeEdit() {
       this.student.name = '', this.student.email = '', this.student.department = '', this.student.year = '', this.student.section = '', this.student.register_no = '', this.student.batch = '', this.student.phone = '', this.student.address = '', this.student.gurdian_name = '', this.student.degree = '', this.student.semester = '';
@@ -63083,6 +63085,9 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
     data: function data() {
@@ -63098,9 +63103,9 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             },
             Semester: '',
             //test
-            student: {
-                email: '',
-                test: 'closesem'
+            academicStudent: {
+                semStart: '',
+                close: 'closesem'
             },
             //confirm
             confirm: ''
@@ -63151,7 +63156,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             if (this.confirm === true) {
                 fetch('api/semester', {
                     method: 'post',
-                    body: JSON.stringify(this.student),
+                    body: JSON.stringify(this.academicStudent),
                     headers: {
                         'content-type': 'application/json'
                     }
@@ -63164,6 +63169,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                 });
                 alert('The Semester Status Updated successfully');
             }
+            this.fetchSem();
         }
     }
 });
@@ -63417,6 +63423,33 @@ var render = function() {
                 _vm._v("Semester: "),
                 _c("strong", [_vm._v(_vm._s(_vm.gotData.academic_semester))])
               ]),
+              _vm._v(" "),
+              _c("input", {
+                directives: [
+                  {
+                    name: "model",
+                    rawName: "v-model",
+                    value: _vm.academicStudent.semStart,
+                    expression: "academicStudent.semStart"
+                  }
+                ],
+                staticClass: "form-control",
+                staticStyle: { width: "200px" },
+                attrs: { type: "date", id: "datesem", name: "datesem" },
+                domProps: { value: _vm.academicStudent.semStart },
+                on: {
+                  input: function($event) {
+                    if ($event.target.composing) {
+                      return
+                    }
+                    _vm.$set(
+                      _vm.academicStudent,
+                      "semStart",
+                      $event.target.value
+                    )
+                  }
+                }
+              }),
               _vm._v(" "),
               _c("br"),
               _vm._v(" "),
@@ -65506,11 +65539,197 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
-    data: function data() {},
+  data: function data() {
+    return {
+      staffs: [],
+      staffAttendance: []
+    };
+  },
+  created: function created() {
+    this.fetchUsers();
+    this.getoverallStaff();
+  },
 
-    methods: {}
+  methods: {
+    //get staffs
+    fetchUsers: function fetchUsers() {
+      var _this = this;
+
+      fetch('/api/staffprofile').then(function (res) {
+        return res.json();
+      }).then(function (res) {
+        _this.staffs = res.data;
+      }).catch(function (err) {
+        return console.log(err);
+      });
+    },
+
+    //get overall attendance
+    getoverallStaff: function getoverallStaff() {
+      var _this2 = this;
+
+      fetch('/api/staffoverall').then(function (res) {
+        return res.json();
+      }).then(function (res) {
+        _this2.staffAttendance = res.data;
+        //console.log(res.data);
+      });
+    },
+
+    // Get PRESENT
+    getPresent: function getPresent(id) {
+      var status;
+      var aData;
+      var child;
+      aData = this.staffAttendance;
+      for (var child in aData) {
+        if (aData[child].staff_id === id) {
+          status = aData[child].present;
+        }
+      }
+      if (status) {
+        return status;
+      }
+      return 0;
+    },
+
+    // Get ABSENT
+    getAbsent: function getAbsent(id) {
+      var status;
+      var aData;
+      var child;
+      aData = this.staffAttendance;
+      for (var child in aData) {
+        if (aData[child].staff_id === id) {
+          status = aData[child].absent;
+        }
+      }
+      if (status) {
+        return status;
+      }
+      return 0;
+    },
+
+    // Get CPL
+    getCpl: function getCpl(id) {
+      var status;
+      var aData;
+      var child;
+      aData = this.staffAttendance;
+      for (var child in aData) {
+        if (aData[child].staff_id === id) {
+          status = aData[child].cpl;
+        }
+      }
+      if (status) {
+        return status;
+      }
+      return 0;
+    },
+
+    // Get CL
+    getCl: function getCl(id) {
+      var status;
+      var aData;
+      var child;
+      aData = this.staffAttendance;
+      for (var child in aData) {
+        if (aData[child].staff_id === id) {
+          status = aData[child].cl;
+        }
+      }
+      if (status) {
+        return status;
+      }
+      return 0;
+    },
+
+    // Get PP
+    getPp: function getPp(id) {
+      var status;
+      var aData;
+      var child;
+      aData = this.staffAttendance;
+      for (var child in aData) {
+        if (aData[child].staff_id === id) {
+          status = aData[child].pp;
+        }
+      }
+      if (status) {
+        return status;
+      }
+      return 0;
+    },
+
+    // Get PL
+    getPl: function getPl(id) {
+      var status;
+      var aData;
+      var child;
+      aData = this.staffAttendance;
+      for (var child in aData) {
+        if (aData[child].staff_id === id) {
+          status = aData[child].pl;
+        }
+      }
+      if (status) {
+        return status;
+      }
+      return 0;
+    },
+
+    // Get OD
+    getOd: function getOd(id) {
+      var status;
+      var aData;
+      var child;
+      aData = this.staffAttendance;
+      for (var child in aData) {
+        if (aData[child].staff_id === id) {
+          status = aData[child].od;
+        }
+      }
+      if (status) {
+        return status;
+      }
+      return 0;
+    },
+
+    // Get SOD
+    getSod: function getSod(id) {
+      var status;
+      var aData;
+      var child;
+      aData = this.staffAttendance;
+      for (var child in aData) {
+        if (aData[child].staff_id === id) {
+          status = aData[child].sod;
+        }
+      }
+      if (status) {
+        return status;
+      }
+      return 0;
+    }
+  },
+  computed: {}
+
 });
 
 /***/ }),
@@ -65521,33 +65740,65 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _vm._m(0)
+  return _c("div", { staticClass: "staff-atbymonth" }, [
+    _vm._v("\n" + _vm._s(_vm.staffAttendance.length) + "\n    "),
+    _c("table", { staticClass: "table" }, [
+      _vm._m(0),
+      _vm._v(" "),
+      _c(
+        "tbody",
+        _vm._l(_vm.staffs, function(staff) {
+          return _c("tr", { key: staff.id }, [
+            _c("td", [_vm._v(_vm._s(staff.eid))]),
+            _vm._v(" "),
+            _c("td", [_vm._v(_vm._s(staff.name))]),
+            _vm._v(" "),
+            _c("td", [_vm._v(_vm._s(_vm.getPresent(staff.id)))]),
+            _vm._v(" "),
+            _c("td", [_vm._v(_vm._s(_vm.getAbsent(staff.id)))]),
+            _vm._v(" "),
+            _c("td", [_vm._v(_vm._s(_vm.getCpl(staff.id)))]),
+            _vm._v(" "),
+            _c("td", [_vm._v(_vm._s(_vm.getCl(staff.id)))]),
+            _vm._v(" "),
+            _c("td", [_vm._v(_vm._s(_vm.getSod(staff.id)))]),
+            _vm._v(" "),
+            _c("td", [_vm._v(_vm._s(_vm.getOd(staff.id)))]),
+            _vm._v(" "),
+            _c("td", [_vm._v(_vm._s(_vm.getPl(staff.id)))]),
+            _vm._v(" "),
+            _c("td", [_vm._v(_vm._s(_vm.getPp(staff.id)))])
+          ])
+        })
+      )
+    ])
+  ])
 }
 var staticRenderFns = [
   function() {
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("table", { staticClass: "table" }, [
-      _c("thead", [
-        _c("th", [_vm._v("Staffs / Dates")]),
-        _vm._v(" "),
-        _c("th", [_vm._v("1/")]),
-        _vm._v(" "),
-        _c("th", [_vm._v("July")]),
-        _vm._v(" "),
-        _c("th", [_vm._v("Augest")]),
-        _vm._v(" "),
-        _c("th", [_vm._v("September")]),
-        _vm._v(" "),
-        _c("th", [_vm._v("November")]),
-        _vm._v(" "),
-        _c("th", [_vm._v("December")])
-      ]),
+    return _c("thead", [
+      _c("th", [_vm._v("Staff EID")]),
       _vm._v(" "),
-      _c("tbody", [
-        _c("tr", [_c("td", [_vm._v("Staff name")]), _vm._v(" "), _c("td")])
-      ])
+      _c("th", [_vm._v("Name")]),
+      _vm._v(" "),
+      _c("th", [_vm._v("Present")]),
+      _vm._v(" "),
+      _c("th", [_vm._v("Absent")]),
+      _vm._v(" "),
+      _c("th", [_vm._v("cpl")]),
+      _vm._v(" "),
+      _c("th", [_vm._v("cl")]),
+      _vm._v(" "),
+      _c("th", [_vm._v("sod")]),
+      _vm._v(" "),
+      _c("th", [_vm._v("od")]),
+      _vm._v(" "),
+      _c("th", [_vm._v("pl")]),
+      _vm._v(" "),
+      _c("th", [_vm._v("pp")])
     ])
   }
 ]
@@ -65907,7 +66158,7 @@ var render = function() {
                 _vm._l(_vm.approvals, function(approval) {
                   return _c(
                     "option",
-                    { key: approval.value, attrs: { value: "cpl" } },
+                    _vm._b({}, "option", approval.value, false),
                     [_vm._v(_vm._s(approval.text))]
                   )
                 })
@@ -68810,20 +69061,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
@@ -69027,467 +69264,329 @@ var render = function() {
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
   return _c("div", { staticClass: "stud-at-view" }, [
-    _vm._m(0),
-    _vm._v(" "),
-    _c(
-      "div",
-      { staticClass: "tab-content", attrs: { id: "pills-tabContent" } },
-      [
-        _c(
-          "div",
-          {
-            staticClass: "tab-pane fade show active",
-            attrs: {
-              id: "pills-home",
-              role: "tabpanel",
-              "aria-labelledby": "pills-home-tab"
-            }
-          },
-          [
-            _c("div", { staticClass: "day-view" }, [
-              _c("div", { staticClass: "filter-options col-md-12 m-5" }, [
-                _c("label", { attrs: { for: "student_department_filter" } }, [
-                  _vm._v("Department")
-                ]),
-                _vm._v(" "),
-                _c(
-                  "select",
-                  {
-                    directives: [
-                      {
-                        name: "model",
-                        rawName: "v-model",
-                        value: _vm.student_department_filter_selected,
-                        expression: "student_department_filter_selected"
-                      }
-                    ],
-                    staticClass: "form-control",
-                    staticStyle: { width: "120px", display: "inline-block" },
-                    attrs: { id: "student_department_filter" },
-                    on: {
-                      change: function($event) {
-                        var $$selectedVal = Array.prototype.filter
-                          .call($event.target.options, function(o) {
-                            return o.selected
-                          })
-                          .map(function(o) {
-                            var val = "_value" in o ? o._value : o.value
-                            return val
-                          })
-                        _vm.student_department_filter_selected = $event.target
-                          .multiple
-                          ? $$selectedVal
-                          : $$selectedVal[0]
-                      }
-                    }
-                  },
-                  _vm._l(_vm.student_department_filter_options, function(
-                    student_department_filter_option
-                  ) {
-                    return _c(
-                      "option",
-                      {
-                        domProps: {
-                          value: student_department_filter_option.value
-                        }
-                      },
-                      [_vm._v(_vm._s(student_department_filter_option.text))]
-                    )
-                  })
-                ),
-                _vm._v(" "),
-                _c("label", { attrs: { for: "student_year_filter" } }, [
-                  _vm._v("Year")
-                ]),
-                _vm._v(" "),
-                _c(
-                  "select",
-                  {
-                    directives: [
-                      {
-                        name: "model",
-                        rawName: "v-model",
-                        value: _vm.student_year_filter_selected,
-                        expression: "student_year_filter_selected"
-                      }
-                    ],
-                    staticClass: "form-control",
-                    staticStyle: { width: "120px", display: "inline-block" },
-                    attrs: { id: "student_year_filter" },
-                    on: {
-                      change: function($event) {
-                        var $$selectedVal = Array.prototype.filter
-                          .call($event.target.options, function(o) {
-                            return o.selected
-                          })
-                          .map(function(o) {
-                            var val = "_value" in o ? o._value : o.value
-                            return val
-                          })
-                        _vm.student_year_filter_selected = $event.target
-                          .multiple
-                          ? $$selectedVal
-                          : $$selectedVal[0]
-                      }
-                    }
-                  },
-                  _vm._l(_vm.student_year_filter_options, function(
-                    student_year_filter_option
-                  ) {
-                    return _c(
-                      "option",
-                      { domProps: { value: student_year_filter_option.value } },
-                      [
-                        _vm._v(
-                          "\n    " +
-                            _vm._s(student_year_filter_option.text) +
-                            "\n  "
-                        )
-                      ]
-                    )
-                  })
-                ),
-                _vm._v(" "),
-                _c("label", { attrs: { for: "student_section_filter" } }, [
-                  _vm._v("Section")
-                ]),
-                _vm._v(" "),
-                _c(
-                  "select",
-                  {
-                    directives: [
-                      {
-                        name: "model",
-                        rawName: "v-model",
-                        value: _vm.student_section_filter_selected,
-                        expression: "student_section_filter_selected"
-                      }
-                    ],
-                    staticClass: "form-control",
-                    staticStyle: { width: "120px", display: "inline-block" },
-                    attrs: { id: "student_section_filter" },
-                    on: {
-                      change: function($event) {
-                        var $$selectedVal = Array.prototype.filter
-                          .call($event.target.options, function(o) {
-                            return o.selected
-                          })
-                          .map(function(o) {
-                            var val = "_value" in o ? o._value : o.value
-                            return val
-                          })
-                        _vm.student_section_filter_selected = $event.target
-                          .multiple
-                          ? $$selectedVal
-                          : $$selectedVal[0]
-                      }
-                    }
-                  },
-                  _vm._l(_vm.student_section_filter_options, function(
-                    student_section_filter_option
-                  ) {
-                    return _c(
-                      "option",
-                      {
-                        domProps: { value: student_section_filter_option.value }
-                      },
-                      [
-                        _vm._v(
-                          "\n    " +
-                            _vm._s(student_section_filter_option.text) +
-                            "\n  "
-                        )
-                      ]
-                    )
-                  })
-                )
-              ]),
-              _vm._v(" "),
-              _c("div", { staticClass: "form-group" }, [
-                _c("label", { attrs: { for: "date" } }, [_vm._v("Date")]),
-                _vm._v(" "),
-                _c("input", {
-                  directives: [
-                    {
-                      name: "model",
-                      rawName: "v-model",
-                      value: _vm.makedate,
-                      expression: "makedate"
-                    }
-                  ],
-                  staticClass: "form-control",
-                  staticStyle: { width: "200px" },
-                  attrs: {
-                    type: "date",
-                    id: "date",
-                    name: "date",
-                    max: "3000-12-31",
-                    min: "1000-01-01"
-                  },
-                  domProps: { value: _vm.makedate },
-                  on: {
-                    change: function($event) {
-                      _vm.fetchAttendanceData()
-                    },
-                    input: function($event) {
-                      if ($event.target.composing) {
-                        return
-                      }
-                      _vm.makedate = $event.target.value
-                    }
-                  }
-                })
-              ]),
-              _vm._v(" "),
-              _c("table", { staticClass: "table" }, [
-                _vm._m(1),
-                _vm._v(" "),
-                _c(
-                  "tbody",
-                  _vm._l(_vm.filteredStudents, function(student) {
-                    return _c("tr", { key: student.id }, [
-                      _c("td", [_vm._v(_vm._s(student.register_no))]),
-                      _vm._v(" "),
-                      _c("td", [_vm._v(_vm._s(student.name))]),
-                      _vm._v(" "),
-                      _c("td", [
-                        _c("ul", { staticClass: "hours_list" }, [
-                          _c("li", [
-                            _vm._v(
-                              "\n                                        1 "
-                            ),
-                            _c("br"),
-                            _vm._v(" "),
-                            _vm.getStatusH1(student.id)
-                              ? _c(
-                                  "span",
-                                  { staticStyle: { color: "#89729E" } },
-                                  [_vm._v(_vm._s(_vm.getStatusH1(student.id)))]
-                                )
-                              : _vm._e(),
-                            _vm._v(" "),
-                            _vm.getStatusH1(student.id) == null
-                              ? _c(
-                                  "span",
-                                  { staticStyle: { color: "#F47983" } },
-                                  [_vm._v("Null")]
-                                )
-                              : _vm._e()
-                          ]),
-                          _vm._v(" "),
-                          _c("li", [
-                            _vm._v(
-                              "\n                                        2 "
-                            ),
-                            _c("br"),
-                            _vm._v(" "),
-                            _vm.getStatusH2(student.id)
-                              ? _c(
-                                  "span",
-                                  { staticStyle: { color: "#89729E" } },
-                                  [_vm._v(_vm._s(_vm.getStatusH2(student.id)))]
-                                )
-                              : _vm._e(),
-                            _vm._v(" "),
-                            _vm.getStatusH2(student.id) == null
-                              ? _c(
-                                  "span",
-                                  { staticStyle: { color: "#F47983" } },
-                                  [_vm._v("Null")]
-                                )
-                              : _vm._e()
-                          ]),
-                          _vm._v(" "),
-                          _c("li", [
-                            _vm._v(
-                              "\n                                        3 "
-                            ),
-                            _c("br"),
-                            _vm._v(" "),
-                            _vm.getStatusH3(student.id)
-                              ? _c(
-                                  "span",
-                                  { staticStyle: { color: "#89729E" } },
-                                  [_vm._v(_vm._s(_vm.getStatusH3(student.id)))]
-                                )
-                              : _vm._e(),
-                            _vm._v(" "),
-                            _vm.getStatusH3(student.id) == null
-                              ? _c(
-                                  "span",
-                                  { staticStyle: { color: "#F47983" } },
-                                  [_vm._v("Null")]
-                                )
-                              : _vm._e()
-                          ]),
-                          _vm._v(" "),
-                          _c("li", [
-                            _vm._v(
-                              "\n                                        4 "
-                            ),
-                            _c("br"),
-                            _vm._v(" "),
-                            _vm.getStatusH4(student.id)
-                              ? _c(
-                                  "span",
-                                  { staticStyle: { color: "#89729E" } },
-                                  [_vm._v(_vm._s(_vm.getStatusH4(student.id)))]
-                                )
-                              : _vm._e(),
-                            _vm._v(" "),
-                            _vm.getStatusH4(student.id) == null
-                              ? _c(
-                                  "span",
-                                  { staticStyle: { color: "#F47983" } },
-                                  [_vm._v("Null")]
-                                )
-                              : _vm._e()
-                          ]),
-                          _vm._v(" "),
-                          _c("li", [
-                            _vm._v(
-                              "\n                                        5 "
-                            ),
-                            _c("br"),
-                            _vm._v(" "),
-                            _vm.getStatusH5(student.id)
-                              ? _c(
-                                  "span",
-                                  { staticStyle: { color: "#89729E" } },
-                                  [_vm._v(_vm._s(_vm.getStatusH5(student.id)))]
-                                )
-                              : _vm._e(),
-                            _vm._v(" "),
-                            _vm.getStatusH5(student.id) == null
-                              ? _c(
-                                  "span",
-                                  { staticStyle: { color: "#F47983" } },
-                                  [_vm._v("Null")]
-                                )
-                              : _vm._e()
-                          ]),
-                          _vm._v(" "),
-                          _c("li", [
-                            _vm._v(
-                              "\n                                        6 "
-                            ),
-                            _c("br"),
-                            _vm._v(" "),
-                            _vm.getStatusH6(student.id)
-                              ? _c(
-                                  "span",
-                                  { staticStyle: { color: "#89729E" } },
-                                  [_vm._v(_vm._s(_vm.getStatusH6(student.id)))]
-                                )
-                              : _vm._e(),
-                            _vm._v(" "),
-                            _vm.getStatusH6(student.id) == null
-                              ? _c(
-                                  "span",
-                                  { staticStyle: { color: "#F47983" } },
-                                  [_vm._v("Null")]
-                                )
-                              : _vm._e()
-                          ]),
-                          _vm._v(" "),
-                          _c("li", [
-                            _vm._v(
-                              "\n                                        7 "
-                            ),
-                            _c("br"),
-                            _vm._v(" "),
-                            _vm.getStatusH7(student.id)
-                              ? _c(
-                                  "span",
-                                  { staticStyle: { color: "#89729E" } },
-                                  [_vm._v(_vm._s(_vm.getStatusH7(student.id)))]
-                                )
-                              : _vm._e(),
-                            _vm._v(" "),
-                            _vm.getStatusH7(student.id) == null
-                              ? _c(
-                                  "span",
-                                  { staticStyle: { color: "#F47983" } },
-                                  [_vm._v("Null")]
-                                )
-                              : _vm._e()
-                          ])
-                        ])
-                      ])
-                    ])
-                  })
-                )
-              ])
-            ])
-          ]
-        ),
+    _c("div", { staticClass: "day-view" }, [
+      _c("div", { staticClass: "filter-options col-md-12 m-5" }, [
+        _c("label", { attrs: { for: "student_department_filter" } }, [
+          _vm._v("Department")
+        ]),
         _vm._v(" "),
         _c(
-          "div",
+          "select",
           {
-            staticClass: "tab-pane fade",
-            attrs: {
-              id: "pills-profile",
-              role: "tabpanel",
-              "aria-labelledby": "pills-profile-tab"
+            directives: [
+              {
+                name: "model",
+                rawName: "v-model",
+                value: _vm.student_department_filter_selected,
+                expression: "student_department_filter_selected"
+              }
+            ],
+            staticClass: "form-control",
+            staticStyle: { width: "120px", display: "inline-block" },
+            attrs: { id: "student_department_filter" },
+            on: {
+              change: function($event) {
+                var $$selectedVal = Array.prototype.filter
+                  .call($event.target.options, function(o) {
+                    return o.selected
+                  })
+                  .map(function(o) {
+                    var val = "_value" in o ? o._value : o.value
+                    return val
+                  })
+                _vm.student_department_filter_selected = $event.target.multiple
+                  ? $$selectedVal
+                  : $$selectedVal[0]
+              }
             }
           },
-          [_vm._v("\n    Over all\n  ")]
+          _vm._l(_vm.student_department_filter_options, function(
+            student_department_filter_option
+          ) {
+            return _c(
+              "option",
+              { domProps: { value: student_department_filter_option.value } },
+              [_vm._v(_vm._s(student_department_filter_option.text))]
+            )
+          })
+        ),
+        _vm._v(" "),
+        _c("label", { attrs: { for: "student_year_filter" } }, [
+          _vm._v("Year")
+        ]),
+        _vm._v(" "),
+        _c(
+          "select",
+          {
+            directives: [
+              {
+                name: "model",
+                rawName: "v-model",
+                value: _vm.student_year_filter_selected,
+                expression: "student_year_filter_selected"
+              }
+            ],
+            staticClass: "form-control",
+            staticStyle: { width: "120px", display: "inline-block" },
+            attrs: { id: "student_year_filter" },
+            on: {
+              change: function($event) {
+                var $$selectedVal = Array.prototype.filter
+                  .call($event.target.options, function(o) {
+                    return o.selected
+                  })
+                  .map(function(o) {
+                    var val = "_value" in o ? o._value : o.value
+                    return val
+                  })
+                _vm.student_year_filter_selected = $event.target.multiple
+                  ? $$selectedVal
+                  : $$selectedVal[0]
+              }
+            }
+          },
+          _vm._l(_vm.student_year_filter_options, function(
+            student_year_filter_option
+          ) {
+            return _c(
+              "option",
+              { domProps: { value: student_year_filter_option.value } },
+              [
+                _vm._v(
+                  "\n    " + _vm._s(student_year_filter_option.text) + "\n  "
+                )
+              ]
+            )
+          })
+        ),
+        _vm._v(" "),
+        _c("label", { attrs: { for: "student_section_filter" } }, [
+          _vm._v("Section")
+        ]),
+        _vm._v(" "),
+        _c(
+          "select",
+          {
+            directives: [
+              {
+                name: "model",
+                rawName: "v-model",
+                value: _vm.student_section_filter_selected,
+                expression: "student_section_filter_selected"
+              }
+            ],
+            staticClass: "form-control",
+            staticStyle: { width: "120px", display: "inline-block" },
+            attrs: { id: "student_section_filter" },
+            on: {
+              change: function($event) {
+                var $$selectedVal = Array.prototype.filter
+                  .call($event.target.options, function(o) {
+                    return o.selected
+                  })
+                  .map(function(o) {
+                    var val = "_value" in o ? o._value : o.value
+                    return val
+                  })
+                _vm.student_section_filter_selected = $event.target.multiple
+                  ? $$selectedVal
+                  : $$selectedVal[0]
+              }
+            }
+          },
+          _vm._l(_vm.student_section_filter_options, function(
+            student_section_filter_option
+          ) {
+            return _c(
+              "option",
+              { domProps: { value: student_section_filter_option.value } },
+              [
+                _vm._v(
+                  "\n    " + _vm._s(student_section_filter_option.text) + "\n  "
+                )
+              ]
+            )
+          })
         )
-      ]
-    )
+      ]),
+      _vm._v(" "),
+      _c("div", { staticClass: "form-group" }, [
+        _c("label", { attrs: { for: "date" } }, [_vm._v("Date")]),
+        _vm._v(" "),
+        _c("input", {
+          directives: [
+            {
+              name: "model",
+              rawName: "v-model",
+              value: _vm.makedate,
+              expression: "makedate"
+            }
+          ],
+          staticClass: "form-control",
+          staticStyle: { width: "200px" },
+          attrs: {
+            type: "date",
+            id: "date",
+            name: "date",
+            max: "3000-12-31",
+            min: "1000-01-01"
+          },
+          domProps: { value: _vm.makedate },
+          on: {
+            change: function($event) {
+              _vm.fetchAttendanceData()
+            },
+            input: function($event) {
+              if ($event.target.composing) {
+                return
+              }
+              _vm.makedate = $event.target.value
+            }
+          }
+        })
+      ]),
+      _vm._v(" "),
+      _c("table", { staticClass: "table" }, [
+        _vm._m(0),
+        _vm._v(" "),
+        _c(
+          "tbody",
+          _vm._l(_vm.filteredStudents, function(student) {
+            return _c("tr", { key: student.id }, [
+              _c("td", [_vm._v(_vm._s(student.register_no))]),
+              _vm._v(" "),
+              _c("td", [_vm._v(_vm._s(student.name))]),
+              _vm._v(" "),
+              _c("td", [
+                _c("ul", { staticClass: "hours_list" }, [
+                  _c("li", [
+                    _vm._v("\n                                        1 "),
+                    _c("br"),
+                    _vm._v(" "),
+                    _vm.getStatusH1(student.id)
+                      ? _c("span", { staticStyle: { color: "#89729E" } }, [
+                          _vm._v(_vm._s(_vm.getStatusH1(student.id)))
+                        ])
+                      : _vm._e(),
+                    _vm._v(" "),
+                    _vm.getStatusH1(student.id) == null
+                      ? _c("span", { staticStyle: { color: "#F47983" } }, [
+                          _vm._v("Null")
+                        ])
+                      : _vm._e()
+                  ]),
+                  _vm._v(" "),
+                  _c("li", [
+                    _vm._v("\n                                        2 "),
+                    _c("br"),
+                    _vm._v(" "),
+                    _vm.getStatusH2(student.id)
+                      ? _c("span", { staticStyle: { color: "#89729E" } }, [
+                          _vm._v(_vm._s(_vm.getStatusH2(student.id)))
+                        ])
+                      : _vm._e(),
+                    _vm._v(" "),
+                    _vm.getStatusH2(student.id) == null
+                      ? _c("span", { staticStyle: { color: "#F47983" } }, [
+                          _vm._v("Null")
+                        ])
+                      : _vm._e()
+                  ]),
+                  _vm._v(" "),
+                  _c("li", [
+                    _vm._v("\n                                        3 "),
+                    _c("br"),
+                    _vm._v(" "),
+                    _vm.getStatusH3(student.id)
+                      ? _c("span", { staticStyle: { color: "#89729E" } }, [
+                          _vm._v(_vm._s(_vm.getStatusH3(student.id)))
+                        ])
+                      : _vm._e(),
+                    _vm._v(" "),
+                    _vm.getStatusH3(student.id) == null
+                      ? _c("span", { staticStyle: { color: "#F47983" } }, [
+                          _vm._v("Null")
+                        ])
+                      : _vm._e()
+                  ]),
+                  _vm._v(" "),
+                  _c("li", [
+                    _vm._v("\n                                        4 "),
+                    _c("br"),
+                    _vm._v(" "),
+                    _vm.getStatusH4(student.id)
+                      ? _c("span", { staticStyle: { color: "#89729E" } }, [
+                          _vm._v(_vm._s(_vm.getStatusH4(student.id)))
+                        ])
+                      : _vm._e(),
+                    _vm._v(" "),
+                    _vm.getStatusH4(student.id) == null
+                      ? _c("span", { staticStyle: { color: "#F47983" } }, [
+                          _vm._v("Null")
+                        ])
+                      : _vm._e()
+                  ]),
+                  _vm._v(" "),
+                  _c("li", [
+                    _vm._v("\n                                        5 "),
+                    _c("br"),
+                    _vm._v(" "),
+                    _vm.getStatusH5(student.id)
+                      ? _c("span", { staticStyle: { color: "#89729E" } }, [
+                          _vm._v(_vm._s(_vm.getStatusH5(student.id)))
+                        ])
+                      : _vm._e(),
+                    _vm._v(" "),
+                    _vm.getStatusH5(student.id) == null
+                      ? _c("span", { staticStyle: { color: "#F47983" } }, [
+                          _vm._v("Null")
+                        ])
+                      : _vm._e()
+                  ]),
+                  _vm._v(" "),
+                  _c("li", [
+                    _vm._v("\n                                        6 "),
+                    _c("br"),
+                    _vm._v(" "),
+                    _vm.getStatusH6(student.id)
+                      ? _c("span", { staticStyle: { color: "#89729E" } }, [
+                          _vm._v(_vm._s(_vm.getStatusH6(student.id)))
+                        ])
+                      : _vm._e(),
+                    _vm._v(" "),
+                    _vm.getStatusH6(student.id) == null
+                      ? _c("span", { staticStyle: { color: "#F47983" } }, [
+                          _vm._v("Null")
+                        ])
+                      : _vm._e()
+                  ]),
+                  _vm._v(" "),
+                  _c("li", [
+                    _vm._v("\n                                        7 "),
+                    _c("br"),
+                    _vm._v(" "),
+                    _vm.getStatusH7(student.id)
+                      ? _c("span", { staticStyle: { color: "#89729E" } }, [
+                          _vm._v(_vm._s(_vm.getStatusH7(student.id)))
+                        ])
+                      : _vm._e(),
+                    _vm._v(" "),
+                    _vm.getStatusH7(student.id) == null
+                      ? _c("span", { staticStyle: { color: "#F47983" } }, [
+                          _vm._v("Null")
+                        ])
+                      : _vm._e()
+                  ])
+                ])
+              ])
+            ])
+          })
+        )
+      ])
+    ])
   ])
 }
 var staticRenderFns = [
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c(
-      "ul",
-      {
-        staticClass: "nav nav-pills mb-3",
-        attrs: { id: "pills-tab", role: "tablist" }
-      },
-      [
-        _c("li", { staticClass: "nav-item" }, [
-          _c(
-            "a",
-            {
-              staticClass: "nav-link active",
-              attrs: {
-                id: "pills-home-tab",
-                "data-toggle": "pill",
-                href: "#pills-home",
-                role: "tab",
-                "aria-controls": "pills-home",
-                "aria-selected": "true"
-              }
-            },
-            [_vm._v("Day")]
-          )
-        ]),
-        _vm._v(" "),
-        _c("li", { staticClass: "nav-item" }, [
-          _c(
-            "a",
-            {
-              staticClass: "nav-link",
-              attrs: {
-                id: "pills-profile-tab",
-                "data-toggle": "pill",
-                href: "#pills-profile",
-                role: "tab",
-                "aria-controls": "pills-profile",
-                "aria-selected": "false"
-              }
-            },
-            [_vm._v("overall")]
-          )
-        ])
-      ]
-    )
-  },
   function() {
     var _vm = this
     var _h = _vm.$createElement
@@ -69517,9 +69616,194 @@ if (false) {
 var disposed = false
 var normalizeComponent = __webpack_require__(2)
 /* script */
-var __vue_script__ = __webpack_require__(215)
+var __vue_script__ = __webpack_require__(204)
 /* template */
-var __vue_template__ = __webpack_require__(204)
+var __vue_template__ = __webpack_require__(205)
+/* template functional */
+var __vue_template_functional__ = false
+/* styles */
+var __vue_styles__ = null
+/* scopeId */
+var __vue_scopeId__ = null
+/* moduleIdentifier (server only) */
+var __vue_module_identifier__ = null
+var Component = normalizeComponent(
+  __vue_script__,
+  __vue_template__,
+  __vue_template_functional__,
+  __vue_styles__,
+  __vue_scopeId__,
+  __vue_module_identifier__
+)
+Component.options.__file = "resources/assets/js/components/StudentAttendanceByMonth.vue"
+
+/* hot reload */
+if (false) {(function () {
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), false)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-e2614608", Component.options)
+  } else {
+    hotAPI.reload("data-v-e2614608", Component.options)
+  }
+  module.hot.dispose(function (data) {
+    disposed = true
+  })
+})()}
+
+module.exports = Component.exports
+
+
+/***/ }),
+/* 204 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+    data: function data() {
+        return {
+            fromdate: '2018-06-30',
+            attendanceDatas: []
+        };
+    },
+    created: function created() {
+        this.getAttendanceDatas();
+    },
+
+    methods: {
+        //get all attendnace data from date
+        getAttendanceDatas: function getAttendanceDatas() {
+            var _this = this;
+
+            fetch('/api/studentattendance').then(function (res) {
+                return res.json();
+            }).then(function (res) {
+                _this.attendanceDatas = res.data;
+                console.log(res.data);
+                console.log(_this.getDatafromdate);
+            });
+        }
+    },
+    computed: {}
+
+});
+
+/***/ }),
+/* 205 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c("div", { staticClass: "card" }, [
+    _c("div", { staticClass: "card-header" }),
+    _vm._v(" "),
+    _c("div", { staticClass: "card-body" }, [
+      _vm._v("\n        " + _vm._s(_vm.getStudentAttendanceById(2)) + "\n    ")
+    ])
+  ])
+}
+var staticRenderFns = []
+render._withStripped = true
+module.exports = { render: render, staticRenderFns: staticRenderFns }
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+    require("vue-hot-reload-api")      .rerender("data-v-e2614608", module.exports)
+  }
+}
+
+/***/ }),
+/* 206 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var disposed = false
+var normalizeComponent = __webpack_require__(2)
+/* script */
+var __vue_script__ = __webpack_require__(207)
+/* template */
+var __vue_template__ = __webpack_require__(208)
 /* template functional */
 var __vue_template_functional__ = false
 /* styles */
@@ -69558,7 +69842,241 @@ module.exports = Component.exports
 
 
 /***/ }),
-/* 204 */
+/* 207 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+    data: function data() {
+        return {
+            subjects: {
+                sub1: '',
+                sub2: '',
+                sub3: '',
+                sub4: '',
+                sub5: '',
+                sub6: '',
+                sub7: '',
+                sub8: '',
+                sub9: '',
+                sub10: '',
+                sub11: '',
+                sub12: ''
+            },
+            //Degree
+            degreeSelected: '',
+            degreeOptions: [{ text: 'BE', value: 'be' }, { text: 'ME', value: 'me' }],
+            //create department
+            departmentSelected: '',
+            departmentOptions: [{ text: 'ECE', value: 'ece', degree: 'be' }, { text: 'EEE', value: 'eee', degree: 'be' }, { text: 'MECH', value: 'mech', degree: 'be' }, { text: 'CSE', value: 'cse', degree: 'be' }, { text: 'IT', value: 'it', degree: 'be' }, { text: 'CIVIL', value: 'civil', degree: 'be' }, { text: 'AUTOMOBILE', value: 'automobile', degree: 'be' }, { text: 'ME-CSE', value: 'me-cse', degree: 'me' }, { text: 'ME-CEM', value: 'me-cem', degree: 'me' }, { text: 'ME-EST', value: 'me-est', degree: 'me' }, { text: 'ME-ISE', value: 'me-ise', degree: 'me' }, { text: 'ME-PED', value: 'me-ped', degree: 'me' }, { text: 'ME-SE', value: 'me-se', degree: 'me' }, { text: 'ME-VLSI', value: 'me-vlsi', degree: 'me' }, { text: 'MTECH-IT', value: 'mtech-it', degree: 'me' }, { text: 'MBA', value: 'mba', degree: 'me' }],
+            // Create Year 
+            yearSelected: '',
+            yearOptions: [{ text: '1st Year', value: '1', degree: 'be&me' }, { text: '2nd year', value: '2', degree: 'be&me' }, { text: '3rd year', value: '3', degree: 'be' }, { text: 'Final year', value: '4', degree: 'be' }],
+            // Create Semester 
+            semesterSelected: '',
+            semesterOptions: [{ text: '1', value: '1', degree: 'be&me' }, { text: '2', value: '2', degree: 'be&me' }, { text: '3', value: '3', degree: 'be&me' }, { text: '4', value: '4', degree: 'be&me' }, { text: '5', value: '5', degree: 'be' }, { text: '6', value: '6', degree: 'be' }, { text: '7', value: '7', degree: 'be' }, { text: '8', value: '8', degree: 'be' }],
+            // Create section 
+            sectionSelected: '',
+            sectionOptions: [{ text: 'A', value: 'a' }, { text: 'B', value: 'b' }, { text: 'C', value: 'c' }, { text: 'D', value: 'd' }]
+        };
+    },
+
+    methods: {
+        createSubjects: function createSubjects() {
+            var passData = {
+                degree: this.degreeSelected,
+                year: this.yearSelected,
+                semester: this.semesterSelected,
+                section: this.sectionSelected,
+                department: this.departmentSelected,
+                subjects: this.subjects
+
+            };
+            fetch('/api/createsubjects', {
+                method: "post",
+                body: JSON.stringify(passData),
+                headers: {
+                    "content-type": "application/json"
+                }
+            }).then(function (res) {
+                return res.json();
+            }).then(function (res) {
+                //success
+            });
+        }
+    },
+    computed: {
+        filteredDepartments: function filteredDepartments() {
+            var vm = this;
+            var Degree = void 0;
+            var Departments = void 0;
+            Degree = vm.degreeSelected;
+            Departments = vm.departmentOptions;
+
+            return Departments.filter(function (Department) {
+                return Department.degree === Degree;
+            });
+        },
+        filteredYears: function filteredYears() {
+            var vm = this;
+            var Degree = void 0;
+            var Years = void 0;
+            Degree = vm.degreeSelected;
+            Years = vm.yearOptions;
+            if (Degree === 'be') {
+                return Years;
+            } else if (Degree === 'me') {
+                return Years.filter(function (Year) {
+                    return Year.degree === 'be&me';
+                });
+            } else {
+                return Years;
+            }
+        },
+        filteredSemester: function filteredSemester() {
+            var vm = this;
+            var Degree = void 0;
+            var Semester = void 0;
+            Degree = vm.degreeSelected;
+            Semester = vm.semesterOptions;
+            if (Degree === 'be') {
+                return Semester;
+            } else if (Degree === 'me') {
+                return Semester.filter(function (sem) {
+                    return sem.degree === 'be&me';
+                });
+            } else {
+                return Semester;
+            }
+        }
+    }
+});
+
+/***/ }),
+/* 208 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var render = function() {
@@ -69698,7 +70216,7 @@ var render = function() {
               return _c(
                 "option",
                 { domProps: { value: departmentOption.value } },
-                [_vm._v("\n    " + _vm._s(departmentOption.text) + "\n")]
+                [_vm._v("\n    " + _vm._s(departmentOption.text) + "\n  ")]
               )
             })
           )
@@ -69800,7 +70318,7 @@ var render = function() {
     _vm._v(" "),
     _c("div", { staticClass: "card-body" }, [
       _c("div", { staticClass: "row" }, [
-        _c("div", { staticClass: "col-sm-12" }, [
+        _c("div", { staticClass: "col-md-6 col-sm-12" }, [
           _c(
             "form",
             {
@@ -69814,1982 +70332,392 @@ var render = function() {
             [
               _c("p", { staticClass: "text-info" }, [
                 _vm._v(
-                  "\n        Fill having subjects, Leave other fields blank with Acronyms eg: EM-1 Engineering Mathematics - I \n    "
+                  "\n        Fill having subjects, Leave other fields blank \n    "
                 )
               ]),
               _vm._v(" "),
-              _c("table", { staticClass: "table" }, [
-                _vm._m(0),
+              _c("div", { staticClass: "form-group" }, [
+                _c("label", { attrs: { for: "subject1" } }, [
+                  _vm._v("Subject 1")
+                ]),
                 _vm._v(" "),
-                _c("tbody", [
-                  _c("tr", [
-                    _c("td", [_vm._v("1")]),
-                    _vm._v(" "),
-                    _c("td", [
-                      _c("input", {
-                        directives: [
-                          {
-                            name: "model",
-                            rawName: "v-model",
-                            value: _vm.subjectcodes.sub1code,
-                            expression: "subjectcodes.sub1code"
-                          }
-                        ],
-                        staticClass: "form-control",
-                        attrs: {
-                          type: "text",
-                          id: "subject1",
-                          "aria-describedby": "emailHelp"
-                        },
-                        domProps: { value: _vm.subjectcodes.sub1code },
-                        on: {
-                          input: function($event) {
-                            if ($event.target.composing) {
-                              return
-                            }
-                            _vm.$set(
-                              _vm.subjectcodes,
-                              "sub1code",
-                              $event.target.value
-                            )
-                          }
-                        }
-                      })
-                    ]),
-                    _vm._v(" "),
-                    _c("td", [
-                      _c("input", {
-                        directives: [
-                          {
-                            name: "model",
-                            rawName: "v-model",
-                            value: _vm.subjectacronyms.sub1acronym,
-                            expression: "subjectacronyms.sub1acronym"
-                          }
-                        ],
-                        staticClass: "form-control",
-                        attrs: {
-                          type: "text",
-                          id: "subject1",
-                          "aria-describedby": "emailHelp"
-                        },
-                        domProps: { value: _vm.subjectacronyms.sub1acronym },
-                        on: {
-                          input: function($event) {
-                            if ($event.target.composing) {
-                              return
-                            }
-                            _vm.$set(
-                              _vm.subjectacronyms,
-                              "sub1acronym",
-                              $event.target.value
-                            )
-                          }
-                        }
-                      })
-                    ]),
-                    _vm._v(" "),
-                    _c("td", [
-                      _c("input", {
-                        directives: [
-                          {
-                            name: "model",
-                            rawName: "v-model",
-                            value: _vm.subjecttitles.sub1title,
-                            expression: "subjecttitles.sub1title"
-                          }
-                        ],
-                        staticClass: "form-control",
-                        attrs: {
-                          type: "text",
-                          id: "subject1",
-                          "aria-describedby": "emailHelp"
-                        },
-                        domProps: { value: _vm.subjecttitles.sub1title },
-                        on: {
-                          input: function($event) {
-                            if ($event.target.composing) {
-                              return
-                            }
-                            _vm.$set(
-                              _vm.subjecttitles,
-                              "sub1title",
-                              $event.target.value
-                            )
-                          }
-                        }
-                      })
-                    ]),
-                    _vm._v(" "),
-                    _c("td", [
-                      _c("input", {
-                        directives: [
-                          {
-                            name: "model",
-                            rawName: "v-model",
-                            value: _vm.subjectstaffs.sub1staff,
-                            expression: "subjectstaffs.sub1staff"
-                          }
-                        ],
-                        staticClass: "form-control",
-                        attrs: {
-                          type: "text",
-                          id: "subject1",
-                          "aria-describedby": "emailHelp"
-                        },
-                        domProps: { value: _vm.subjectstaffs.sub1staff },
-                        on: {
-                          input: function($event) {
-                            if ($event.target.composing) {
-                              return
-                            }
-                            _vm.$set(
-                              _vm.subjectstaffs,
-                              "sub1staff",
-                              $event.target.value
-                            )
-                          }
-                        }
-                      })
-                    ]),
-                    _vm._v(" "),
-                    _c("td", [
-                      _c("input", {
-                        directives: [
-                          {
-                            name: "model",
-                            rawName: "v-model",
-                            value: _vm.subjectstaffids.sub1staffid,
-                            expression: "subjectstaffids.sub1staffid"
-                          }
-                        ],
-                        staticClass: "form-control",
-                        attrs: {
-                          type: "text",
-                          id: "subject1",
-                          "aria-describedby": "emailHelp"
-                        },
-                        domProps: { value: _vm.subjectstaffids.sub1staffid },
-                        on: {
-                          input: function($event) {
-                            if ($event.target.composing) {
-                              return
-                            }
-                            _vm.$set(
-                              _vm.subjectstaffids,
-                              "sub1staffid",
-                              $event.target.value
-                            )
-                          }
-                        }
-                      })
-                    ])
-                  ]),
-                  _vm._v(" "),
-                  _c("tr", [
-                    _c("td", [_vm._v("2")]),
-                    _vm._v(" "),
-                    _c("td", [
-                      _c("input", {
-                        directives: [
-                          {
-                            name: "model",
-                            rawName: "v-model",
-                            value: _vm.subjectcodes.sub2code,
-                            expression: "subjectcodes.sub2code"
-                          }
-                        ],
-                        staticClass: "form-control",
-                        attrs: {
-                          type: "text",
-                          id: "subject1",
-                          "aria-describedby": "emailHelp"
-                        },
-                        domProps: { value: _vm.subjectcodes.sub2code },
-                        on: {
-                          input: function($event) {
-                            if ($event.target.composing) {
-                              return
-                            }
-                            _vm.$set(
-                              _vm.subjectcodes,
-                              "sub2code",
-                              $event.target.value
-                            )
-                          }
-                        }
-                      })
-                    ]),
-                    _vm._v(" "),
-                    _c("td", [
-                      _c("input", {
-                        directives: [
-                          {
-                            name: "model",
-                            rawName: "v-model",
-                            value: _vm.subjectacronyms.sub2acronym,
-                            expression: "subjectacronyms.sub2acronym"
-                          }
-                        ],
-                        staticClass: "form-control",
-                        attrs: {
-                          type: "text",
-                          id: "subject1",
-                          "aria-describedby": "emailHelp"
-                        },
-                        domProps: { value: _vm.subjectacronyms.sub2acronym },
-                        on: {
-                          input: function($event) {
-                            if ($event.target.composing) {
-                              return
-                            }
-                            _vm.$set(
-                              _vm.subjectacronyms,
-                              "sub2acronym",
-                              $event.target.value
-                            )
-                          }
-                        }
-                      })
-                    ]),
-                    _vm._v(" "),
-                    _c("td", [
-                      _c("input", {
-                        directives: [
-                          {
-                            name: "model",
-                            rawName: "v-model",
-                            value: _vm.subjecttitles.sub2title,
-                            expression: "subjecttitles.sub2title"
-                          }
-                        ],
-                        staticClass: "form-control",
-                        attrs: {
-                          type: "text",
-                          id: "subject1",
-                          "aria-describedby": "emailHelp"
-                        },
-                        domProps: { value: _vm.subjecttitles.sub2title },
-                        on: {
-                          input: function($event) {
-                            if ($event.target.composing) {
-                              return
-                            }
-                            _vm.$set(
-                              _vm.subjecttitles,
-                              "sub2title",
-                              $event.target.value
-                            )
-                          }
-                        }
-                      })
-                    ]),
-                    _vm._v(" "),
-                    _c("td", [
-                      _c("input", {
-                        directives: [
-                          {
-                            name: "model",
-                            rawName: "v-model",
-                            value: _vm.subjectstaffs.sub2staff,
-                            expression: "subjectstaffs.sub2staff"
-                          }
-                        ],
-                        staticClass: "form-control",
-                        attrs: {
-                          type: "text",
-                          id: "subject1",
-                          "aria-describedby": "emailHelp"
-                        },
-                        domProps: { value: _vm.subjectstaffs.sub2staff },
-                        on: {
-                          input: function($event) {
-                            if ($event.target.composing) {
-                              return
-                            }
-                            _vm.$set(
-                              _vm.subjectstaffs,
-                              "sub2staff",
-                              $event.target.value
-                            )
-                          }
-                        }
-                      })
-                    ]),
-                    _vm._v(" "),
-                    _c("td", [
-                      _c("input", {
-                        directives: [
-                          {
-                            name: "model",
-                            rawName: "v-model",
-                            value: _vm.subjectstaffids.sub2staffid,
-                            expression: "subjectstaffids.sub2staffid"
-                          }
-                        ],
-                        staticClass: "form-control",
-                        attrs: {
-                          type: "text",
-                          id: "subject1",
-                          "aria-describedby": "emailHelp"
-                        },
-                        domProps: { value: _vm.subjectstaffids.sub2staffid },
-                        on: {
-                          input: function($event) {
-                            if ($event.target.composing) {
-                              return
-                            }
-                            _vm.$set(
-                              _vm.subjectstaffids,
-                              "sub2staffid",
-                              $event.target.value
-                            )
-                          }
-                        }
-                      })
-                    ])
-                  ]),
-                  _vm._v(" "),
-                  _c("tr", [
-                    _c("td", [_vm._v("3")]),
-                    _vm._v(" "),
-                    _c("td", [
-                      _c("input", {
-                        directives: [
-                          {
-                            name: "model",
-                            rawName: "v-model",
-                            value: _vm.subjectcodes.sub3code,
-                            expression: "subjectcodes.sub3code"
-                          }
-                        ],
-                        staticClass: "form-control",
-                        attrs: {
-                          type: "text",
-                          id: "subject1",
-                          "aria-describedby": "emailHelp"
-                        },
-                        domProps: { value: _vm.subjectcodes.sub3code },
-                        on: {
-                          input: function($event) {
-                            if ($event.target.composing) {
-                              return
-                            }
-                            _vm.$set(
-                              _vm.subjectcodes,
-                              "sub3code",
-                              $event.target.value
-                            )
-                          }
-                        }
-                      })
-                    ]),
-                    _vm._v(" "),
-                    _c("td", [
-                      _c("input", {
-                        directives: [
-                          {
-                            name: "model",
-                            rawName: "v-model",
-                            value: _vm.subjectacronyms.sub3acronym,
-                            expression: "subjectacronyms.sub3acronym"
-                          }
-                        ],
-                        staticClass: "form-control",
-                        attrs: {
-                          type: "text",
-                          id: "subject1",
-                          "aria-describedby": "emailHelp"
-                        },
-                        domProps: { value: _vm.subjectacronyms.sub3acronym },
-                        on: {
-                          input: function($event) {
-                            if ($event.target.composing) {
-                              return
-                            }
-                            _vm.$set(
-                              _vm.subjectacronyms,
-                              "sub3acronym",
-                              $event.target.value
-                            )
-                          }
-                        }
-                      })
-                    ]),
-                    _vm._v(" "),
-                    _c("td", [
-                      _c("input", {
-                        directives: [
-                          {
-                            name: "model",
-                            rawName: "v-model",
-                            value: _vm.subjecttitles.sub3title,
-                            expression: "subjecttitles.sub3title"
-                          }
-                        ],
-                        staticClass: "form-control",
-                        attrs: {
-                          type: "text",
-                          id: "subject1",
-                          "aria-describedby": "emailHelp"
-                        },
-                        domProps: { value: _vm.subjecttitles.sub3title },
-                        on: {
-                          input: function($event) {
-                            if ($event.target.composing) {
-                              return
-                            }
-                            _vm.$set(
-                              _vm.subjecttitles,
-                              "sub3title",
-                              $event.target.value
-                            )
-                          }
-                        }
-                      })
-                    ]),
-                    _vm._v(" "),
-                    _c("td", [
-                      _c("input", {
-                        directives: [
-                          {
-                            name: "model",
-                            rawName: "v-model",
-                            value: _vm.subjectstaffs.sub3staff,
-                            expression: "subjectstaffs.sub3staff"
-                          }
-                        ],
-                        staticClass: "form-control",
-                        attrs: {
-                          type: "text",
-                          id: "subject1",
-                          "aria-describedby": "emailHelp"
-                        },
-                        domProps: { value: _vm.subjectstaffs.sub3staff },
-                        on: {
-                          input: function($event) {
-                            if ($event.target.composing) {
-                              return
-                            }
-                            _vm.$set(
-                              _vm.subjectstaffs,
-                              "sub3staff",
-                              $event.target.value
-                            )
-                          }
-                        }
-                      })
-                    ]),
-                    _vm._v(" "),
-                    _c("td", [
-                      _c("input", {
-                        directives: [
-                          {
-                            name: "model",
-                            rawName: "v-model",
-                            value: _vm.subjectstaffids.sub3staffid,
-                            expression: "subjectstaffids.sub3staffid"
-                          }
-                        ],
-                        staticClass: "form-control",
-                        attrs: {
-                          type: "text",
-                          id: "subject1",
-                          "aria-describedby": "emailHelp"
-                        },
-                        domProps: { value: _vm.subjectstaffids.sub3staffid },
-                        on: {
-                          input: function($event) {
-                            if ($event.target.composing) {
-                              return
-                            }
-                            _vm.$set(
-                              _vm.subjectstaffids,
-                              "sub3staffid",
-                              $event.target.value
-                            )
-                          }
-                        }
-                      })
-                    ])
-                  ]),
-                  _vm._v(" "),
-                  _c("tr", [
-                    _c("td", [_vm._v("4")]),
-                    _vm._v(" "),
-                    _c("td", [
-                      _c("input", {
-                        directives: [
-                          {
-                            name: "model",
-                            rawName: "v-model",
-                            value: _vm.subjectcodes.sub4code,
-                            expression: "subjectcodes.sub4code"
-                          }
-                        ],
-                        staticClass: "form-control",
-                        attrs: {
-                          type: "text",
-                          id: "subject1",
-                          "aria-describedby": "emailHelp"
-                        },
-                        domProps: { value: _vm.subjectcodes.sub4code },
-                        on: {
-                          input: function($event) {
-                            if ($event.target.composing) {
-                              return
-                            }
-                            _vm.$set(
-                              _vm.subjectcodes,
-                              "sub4code",
-                              $event.target.value
-                            )
-                          }
-                        }
-                      })
-                    ]),
-                    _vm._v(" "),
-                    _c("td", [
-                      _c("input", {
-                        directives: [
-                          {
-                            name: "model",
-                            rawName: "v-model",
-                            value: _vm.subjectacronyms.sub4acronym,
-                            expression: "subjectacronyms.sub4acronym"
-                          }
-                        ],
-                        staticClass: "form-control",
-                        attrs: {
-                          type: "text",
-                          id: "subject1",
-                          "aria-describedby": "emailHelp"
-                        },
-                        domProps: { value: _vm.subjectacronyms.sub4acronym },
-                        on: {
-                          input: function($event) {
-                            if ($event.target.composing) {
-                              return
-                            }
-                            _vm.$set(
-                              _vm.subjectacronyms,
-                              "sub4acronym",
-                              $event.target.value
-                            )
-                          }
-                        }
-                      })
-                    ]),
-                    _vm._v(" "),
-                    _c("td", [
-                      _c("input", {
-                        directives: [
-                          {
-                            name: "model",
-                            rawName: "v-model",
-                            value: _vm.subjecttitles.sub4title,
-                            expression: "subjecttitles.sub4title"
-                          }
-                        ],
-                        staticClass: "form-control",
-                        attrs: {
-                          type: "text",
-                          id: "subject1",
-                          "aria-describedby": "emailHelp"
-                        },
-                        domProps: { value: _vm.subjecttitles.sub4title },
-                        on: {
-                          input: function($event) {
-                            if ($event.target.composing) {
-                              return
-                            }
-                            _vm.$set(
-                              _vm.subjecttitles,
-                              "sub4title",
-                              $event.target.value
-                            )
-                          }
-                        }
-                      })
-                    ]),
-                    _vm._v(" "),
-                    _c("td", [
-                      _c("input", {
-                        directives: [
-                          {
-                            name: "model",
-                            rawName: "v-model",
-                            value: _vm.subjectstaffs.sub4staff,
-                            expression: "subjectstaffs.sub4staff"
-                          }
-                        ],
-                        staticClass: "form-control",
-                        attrs: {
-                          type: "text",
-                          id: "subject1",
-                          "aria-describedby": "emailHelp"
-                        },
-                        domProps: { value: _vm.subjectstaffs.sub4staff },
-                        on: {
-                          input: function($event) {
-                            if ($event.target.composing) {
-                              return
-                            }
-                            _vm.$set(
-                              _vm.subjectstaffs,
-                              "sub4staff",
-                              $event.target.value
-                            )
-                          }
-                        }
-                      })
-                    ]),
-                    _vm._v(" "),
-                    _c("td", [
-                      _c("input", {
-                        directives: [
-                          {
-                            name: "model",
-                            rawName: "v-model",
-                            value: _vm.subjectstaffids.sub4staffid,
-                            expression: "subjectstaffids.sub4staffid"
-                          }
-                        ],
-                        staticClass: "form-control",
-                        attrs: {
-                          type: "text",
-                          id: "subject1",
-                          "aria-describedby": "emailHelp"
-                        },
-                        domProps: { value: _vm.subjectstaffids.sub4staffid },
-                        on: {
-                          input: function($event) {
-                            if ($event.target.composing) {
-                              return
-                            }
-                            _vm.$set(
-                              _vm.subjectstaffids,
-                              "sub4staffid",
-                              $event.target.value
-                            )
-                          }
-                        }
-                      })
-                    ])
-                  ]),
-                  _vm._v(" "),
-                  _c("tr", [
-                    _c("td", [_vm._v("5")]),
-                    _vm._v(" "),
-                    _c("td", [
-                      _c("input", {
-                        directives: [
-                          {
-                            name: "model",
-                            rawName: "v-model",
-                            value: _vm.subjectcodes.sub5code,
-                            expression: "subjectcodes.sub5code"
-                          }
-                        ],
-                        staticClass: "form-control",
-                        attrs: {
-                          type: "text",
-                          id: "subject1",
-                          "aria-describedby": "emailHelp"
-                        },
-                        domProps: { value: _vm.subjectcodes.sub5code },
-                        on: {
-                          input: function($event) {
-                            if ($event.target.composing) {
-                              return
-                            }
-                            _vm.$set(
-                              _vm.subjectcodes,
-                              "sub5code",
-                              $event.target.value
-                            )
-                          }
-                        }
-                      })
-                    ]),
-                    _vm._v(" "),
-                    _c("td", [
-                      _c("input", {
-                        directives: [
-                          {
-                            name: "model",
-                            rawName: "v-model",
-                            value: _vm.subjectacronyms.sub5acronym,
-                            expression: "subjectacronyms.sub5acronym"
-                          }
-                        ],
-                        staticClass: "form-control",
-                        attrs: {
-                          type: "text",
-                          id: "subject1",
-                          "aria-describedby": "emailHelp"
-                        },
-                        domProps: { value: _vm.subjectacronyms.sub5acronym },
-                        on: {
-                          input: function($event) {
-                            if ($event.target.composing) {
-                              return
-                            }
-                            _vm.$set(
-                              _vm.subjectacronyms,
-                              "sub5acronym",
-                              $event.target.value
-                            )
-                          }
-                        }
-                      })
-                    ]),
-                    _vm._v(" "),
-                    _c("td", [
-                      _c("input", {
-                        directives: [
-                          {
-                            name: "model",
-                            rawName: "v-model",
-                            value: _vm.subjecttitles.sub5title,
-                            expression: "subjecttitles.sub5title"
-                          }
-                        ],
-                        staticClass: "form-control",
-                        attrs: {
-                          type: "text",
-                          id: "subject1",
-                          "aria-describedby": "emailHelp"
-                        },
-                        domProps: { value: _vm.subjecttitles.sub5title },
-                        on: {
-                          input: function($event) {
-                            if ($event.target.composing) {
-                              return
-                            }
-                            _vm.$set(
-                              _vm.subjecttitles,
-                              "sub5title",
-                              $event.target.value
-                            )
-                          }
-                        }
-                      })
-                    ]),
-                    _vm._v(" "),
-                    _c("td", [
-                      _c("input", {
-                        directives: [
-                          {
-                            name: "model",
-                            rawName: "v-model",
-                            value: _vm.subjectstaffs.sub5staff,
-                            expression: "subjectstaffs.sub5staff"
-                          }
-                        ],
-                        staticClass: "form-control",
-                        attrs: {
-                          type: "text",
-                          id: "subject1",
-                          "aria-describedby": "emailHelp"
-                        },
-                        domProps: { value: _vm.subjectstaffs.sub5staff },
-                        on: {
-                          input: function($event) {
-                            if ($event.target.composing) {
-                              return
-                            }
-                            _vm.$set(
-                              _vm.subjectstaffs,
-                              "sub5staff",
-                              $event.target.value
-                            )
-                          }
-                        }
-                      })
-                    ]),
-                    _vm._v(" "),
-                    _c("td", [
-                      _c("input", {
-                        directives: [
-                          {
-                            name: "model",
-                            rawName: "v-model",
-                            value: _vm.subjectstaffids.sub5staffid,
-                            expression: "subjectstaffids.sub5staffid"
-                          }
-                        ],
-                        staticClass: "form-control",
-                        attrs: {
-                          type: "text",
-                          id: "subject1",
-                          "aria-describedby": "emailHelp"
-                        },
-                        domProps: { value: _vm.subjectstaffids.sub5staffid },
-                        on: {
-                          input: function($event) {
-                            if ($event.target.composing) {
-                              return
-                            }
-                            _vm.$set(
-                              _vm.subjectstaffids,
-                              "sub5staffid",
-                              $event.target.value
-                            )
-                          }
-                        }
-                      })
-                    ])
-                  ]),
-                  _vm._v(" "),
-                  _c("tr", [
-                    _c("td", [_vm._v("6")]),
-                    _vm._v(" "),
-                    _c("td", [
-                      _c("input", {
-                        directives: [
-                          {
-                            name: "model",
-                            rawName: "v-model",
-                            value: _vm.subjectcodes.sub6code,
-                            expression: "subjectcodes.sub6code"
-                          }
-                        ],
-                        staticClass: "form-control",
-                        attrs: {
-                          type: "text",
-                          id: "subject1",
-                          "aria-describedby": "emailHelp"
-                        },
-                        domProps: { value: _vm.subjectcodes.sub6code },
-                        on: {
-                          input: function($event) {
-                            if ($event.target.composing) {
-                              return
-                            }
-                            _vm.$set(
-                              _vm.subjectcodes,
-                              "sub6code",
-                              $event.target.value
-                            )
-                          }
-                        }
-                      })
-                    ]),
-                    _vm._v(" "),
-                    _c("td", [
-                      _c("input", {
-                        directives: [
-                          {
-                            name: "model",
-                            rawName: "v-model",
-                            value: _vm.subjectacronyms.sub6acronym,
-                            expression: "subjectacronyms.sub6acronym"
-                          }
-                        ],
-                        staticClass: "form-control",
-                        attrs: {
-                          type: "text",
-                          id: "subject1",
-                          "aria-describedby": "emailHelp"
-                        },
-                        domProps: { value: _vm.subjectacronyms.sub6acronym },
-                        on: {
-                          input: function($event) {
-                            if ($event.target.composing) {
-                              return
-                            }
-                            _vm.$set(
-                              _vm.subjectacronyms,
-                              "sub6acronym",
-                              $event.target.value
-                            )
-                          }
-                        }
-                      })
-                    ]),
-                    _vm._v(" "),
-                    _c("td", [
-                      _c("input", {
-                        directives: [
-                          {
-                            name: "model",
-                            rawName: "v-model",
-                            value: _vm.subjecttitles.sub6title,
-                            expression: "subjecttitles.sub6title"
-                          }
-                        ],
-                        staticClass: "form-control",
-                        attrs: {
-                          type: "text",
-                          id: "subject1",
-                          "aria-describedby": "emailHelp"
-                        },
-                        domProps: { value: _vm.subjecttitles.sub6title },
-                        on: {
-                          input: function($event) {
-                            if ($event.target.composing) {
-                              return
-                            }
-                            _vm.$set(
-                              _vm.subjecttitles,
-                              "sub6title",
-                              $event.target.value
-                            )
-                          }
-                        }
-                      })
-                    ]),
-                    _vm._v(" "),
-                    _c("td", [
-                      _c("input", {
-                        directives: [
-                          {
-                            name: "model",
-                            rawName: "v-model",
-                            value: _vm.subjectstaffs.sub6staff,
-                            expression: "subjectstaffs.sub6staff"
-                          }
-                        ],
-                        staticClass: "form-control",
-                        attrs: {
-                          type: "text",
-                          id: "subject1",
-                          "aria-describedby": "emailHelp"
-                        },
-                        domProps: { value: _vm.subjectstaffs.sub6staff },
-                        on: {
-                          input: function($event) {
-                            if ($event.target.composing) {
-                              return
-                            }
-                            _vm.$set(
-                              _vm.subjectstaffs,
-                              "sub6staff",
-                              $event.target.value
-                            )
-                          }
-                        }
-                      })
-                    ]),
-                    _vm._v(" "),
-                    _c("td", [
-                      _c("input", {
-                        directives: [
-                          {
-                            name: "model",
-                            rawName: "v-model",
-                            value: _vm.subjectstaffids.sub6staffid,
-                            expression: "subjectstaffids.sub6staffid"
-                          }
-                        ],
-                        staticClass: "form-control",
-                        attrs: {
-                          type: "text",
-                          id: "subject1",
-                          "aria-describedby": "emailHelp"
-                        },
-                        domProps: { value: _vm.subjectstaffids.sub6staffid },
-                        on: {
-                          input: function($event) {
-                            if ($event.target.composing) {
-                              return
-                            }
-                            _vm.$set(
-                              _vm.subjectstaffids,
-                              "sub6staffid",
-                              $event.target.value
-                            )
-                          }
-                        }
-                      })
-                    ])
-                  ]),
-                  _vm._v(" "),
-                  _c("tr", [
-                    _c("td", [_vm._v("7")]),
-                    _vm._v(" "),
-                    _c("td", [
-                      _c("input", {
-                        directives: [
-                          {
-                            name: "model",
-                            rawName: "v-model",
-                            value: _vm.subjectcodes.sub7code,
-                            expression: "subjectcodes.sub7code"
-                          }
-                        ],
-                        staticClass: "form-control",
-                        attrs: {
-                          type: "text",
-                          id: "subject1",
-                          "aria-describedby": "emailHelp"
-                        },
-                        domProps: { value: _vm.subjectcodes.sub7code },
-                        on: {
-                          input: function($event) {
-                            if ($event.target.composing) {
-                              return
-                            }
-                            _vm.$set(
-                              _vm.subjectcodes,
-                              "sub7code",
-                              $event.target.value
-                            )
-                          }
-                        }
-                      })
-                    ]),
-                    _vm._v(" "),
-                    _c("td", [
-                      _c("input", {
-                        directives: [
-                          {
-                            name: "model",
-                            rawName: "v-model",
-                            value: _vm.subjectacronyms.sub7acronym,
-                            expression: "subjectacronyms.sub7acronym"
-                          }
-                        ],
-                        staticClass: "form-control",
-                        attrs: {
-                          type: "text",
-                          id: "subject1",
-                          "aria-describedby": "emailHelp"
-                        },
-                        domProps: { value: _vm.subjectacronyms.sub7acronym },
-                        on: {
-                          input: function($event) {
-                            if ($event.target.composing) {
-                              return
-                            }
-                            _vm.$set(
-                              _vm.subjectacronyms,
-                              "sub7acronym",
-                              $event.target.value
-                            )
-                          }
-                        }
-                      })
-                    ]),
-                    _vm._v(" "),
-                    _c("td", [
-                      _c("input", {
-                        directives: [
-                          {
-                            name: "model",
-                            rawName: "v-model",
-                            value: _vm.subjecttitles.sub7title,
-                            expression: "subjecttitles.sub7title"
-                          }
-                        ],
-                        staticClass: "form-control",
-                        attrs: {
-                          type: "text",
-                          id: "subject1",
-                          "aria-describedby": "emailHelp"
-                        },
-                        domProps: { value: _vm.subjecttitles.sub7title },
-                        on: {
-                          input: function($event) {
-                            if ($event.target.composing) {
-                              return
-                            }
-                            _vm.$set(
-                              _vm.subjecttitles,
-                              "sub7title",
-                              $event.target.value
-                            )
-                          }
-                        }
-                      })
-                    ]),
-                    _vm._v(" "),
-                    _c("td", [
-                      _c("input", {
-                        directives: [
-                          {
-                            name: "model",
-                            rawName: "v-model",
-                            value: _vm.subjectstaffs.sub7staff,
-                            expression: "subjectstaffs.sub7staff"
-                          }
-                        ],
-                        staticClass: "form-control",
-                        attrs: {
-                          type: "text",
-                          id: "subject1",
-                          "aria-describedby": "emailHelp"
-                        },
-                        domProps: { value: _vm.subjectstaffs.sub7staff },
-                        on: {
-                          input: function($event) {
-                            if ($event.target.composing) {
-                              return
-                            }
-                            _vm.$set(
-                              _vm.subjectstaffs,
-                              "sub7staff",
-                              $event.target.value
-                            )
-                          }
-                        }
-                      })
-                    ]),
-                    _vm._v(" "),
-                    _c("td", [
-                      _c("input", {
-                        directives: [
-                          {
-                            name: "model",
-                            rawName: "v-model",
-                            value: _vm.subjectstaffids.sub7staffid,
-                            expression: "subjectstaffids.sub7staffid"
-                          }
-                        ],
-                        staticClass: "form-control",
-                        attrs: {
-                          type: "text",
-                          id: "subject1",
-                          "aria-describedby": "emailHelp"
-                        },
-                        domProps: { value: _vm.subjectstaffids.sub7staffid },
-                        on: {
-                          input: function($event) {
-                            if ($event.target.composing) {
-                              return
-                            }
-                            _vm.$set(
-                              _vm.subjectstaffids,
-                              "sub7staffid",
-                              $event.target.value
-                            )
-                          }
-                        }
-                      })
-                    ])
-                  ]),
-                  _vm._v(" "),
-                  _c("tr", [
-                    _c("td", [_vm._v("8")]),
-                    _vm._v(" "),
-                    _c("td", [
-                      _c("input", {
-                        directives: [
-                          {
-                            name: "model",
-                            rawName: "v-model",
-                            value: _vm.subjectcodes.sub8code,
-                            expression: "subjectcodes.sub8code"
-                          }
-                        ],
-                        staticClass: "form-control",
-                        attrs: {
-                          type: "text",
-                          id: "subject1",
-                          "aria-describedby": "emailHelp"
-                        },
-                        domProps: { value: _vm.subjectcodes.sub8code },
-                        on: {
-                          input: function($event) {
-                            if ($event.target.composing) {
-                              return
-                            }
-                            _vm.$set(
-                              _vm.subjectcodes,
-                              "sub8code",
-                              $event.target.value
-                            )
-                          }
-                        }
-                      })
-                    ]),
-                    _vm._v(" "),
-                    _c("td", [
-                      _c("input", {
-                        directives: [
-                          {
-                            name: "model",
-                            rawName: "v-model",
-                            value: _vm.subjectacronyms.sub8acronym,
-                            expression: "subjectacronyms.sub8acronym"
-                          }
-                        ],
-                        staticClass: "form-control",
-                        attrs: {
-                          type: "text",
-                          id: "subject1",
-                          "aria-describedby": "emailHelp"
-                        },
-                        domProps: { value: _vm.subjectacronyms.sub8acronym },
-                        on: {
-                          input: function($event) {
-                            if ($event.target.composing) {
-                              return
-                            }
-                            _vm.$set(
-                              _vm.subjectacronyms,
-                              "sub8acronym",
-                              $event.target.value
-                            )
-                          }
-                        }
-                      })
-                    ]),
-                    _vm._v(" "),
-                    _c("td", [
-                      _c("input", {
-                        directives: [
-                          {
-                            name: "model",
-                            rawName: "v-model",
-                            value: _vm.subjecttitles.sub8title,
-                            expression: "subjecttitles.sub8title"
-                          }
-                        ],
-                        staticClass: "form-control",
-                        attrs: {
-                          type: "text",
-                          id: "subject1",
-                          "aria-describedby": "emailHelp"
-                        },
-                        domProps: { value: _vm.subjecttitles.sub8title },
-                        on: {
-                          input: function($event) {
-                            if ($event.target.composing) {
-                              return
-                            }
-                            _vm.$set(
-                              _vm.subjecttitles,
-                              "sub8title",
-                              $event.target.value
-                            )
-                          }
-                        }
-                      })
-                    ]),
-                    _vm._v(" "),
-                    _c("td", [
-                      _c("input", {
-                        directives: [
-                          {
-                            name: "model",
-                            rawName: "v-model",
-                            value: _vm.subjectstaffs.sub8staff,
-                            expression: "subjectstaffs.sub8staff"
-                          }
-                        ],
-                        staticClass: "form-control",
-                        attrs: {
-                          type: "text",
-                          id: "subject1",
-                          "aria-describedby": "emailHelp"
-                        },
-                        domProps: { value: _vm.subjectstaffs.sub8staff },
-                        on: {
-                          input: function($event) {
-                            if ($event.target.composing) {
-                              return
-                            }
-                            _vm.$set(
-                              _vm.subjectstaffs,
-                              "sub8staff",
-                              $event.target.value
-                            )
-                          }
-                        }
-                      })
-                    ]),
-                    _vm._v(" "),
-                    _c("td", [
-                      _c("input", {
-                        directives: [
-                          {
-                            name: "model",
-                            rawName: "v-model",
-                            value: _vm.subjectstaffids.sub8staffid,
-                            expression: "subjectstaffids.sub8staffid"
-                          }
-                        ],
-                        staticClass: "form-control",
-                        attrs: {
-                          type: "text",
-                          id: "subject1",
-                          "aria-describedby": "emailHelp"
-                        },
-                        domProps: { value: _vm.subjectstaffids.sub8staffid },
-                        on: {
-                          input: function($event) {
-                            if ($event.target.composing) {
-                              return
-                            }
-                            _vm.$set(
-                              _vm.subjectstaffids,
-                              "sub8staffid",
-                              $event.target.value
-                            )
-                          }
-                        }
-                      })
-                    ])
-                  ]),
-                  _vm._v(" "),
-                  _c("tr", [
-                    _c("td", [_vm._v("9")]),
-                    _vm._v(" "),
-                    _c("td", [
-                      _c("input", {
-                        directives: [
-                          {
-                            name: "model",
-                            rawName: "v-model",
-                            value: _vm.subjectcodes.sub9code,
-                            expression: "subjectcodes.sub9code"
-                          }
-                        ],
-                        staticClass: "form-control",
-                        attrs: {
-                          type: "text",
-                          id: "subject1",
-                          "aria-describedby": "emailHelp"
-                        },
-                        domProps: { value: _vm.subjectcodes.sub9code },
-                        on: {
-                          input: function($event) {
-                            if ($event.target.composing) {
-                              return
-                            }
-                            _vm.$set(
-                              _vm.subjectcodes,
-                              "sub9code",
-                              $event.target.value
-                            )
-                          }
-                        }
-                      })
-                    ]),
-                    _vm._v(" "),
-                    _c("td", [
-                      _c("input", {
-                        directives: [
-                          {
-                            name: "model",
-                            rawName: "v-model",
-                            value: _vm.subjectacronyms.sub9acronym,
-                            expression: "subjectacronyms.sub9acronym"
-                          }
-                        ],
-                        staticClass: "form-control",
-                        attrs: {
-                          type: "text",
-                          id: "subject1",
-                          "aria-describedby": "emailHelp"
-                        },
-                        domProps: { value: _vm.subjectacronyms.sub9acronym },
-                        on: {
-                          input: function($event) {
-                            if ($event.target.composing) {
-                              return
-                            }
-                            _vm.$set(
-                              _vm.subjectacronyms,
-                              "sub9acronym",
-                              $event.target.value
-                            )
-                          }
-                        }
-                      })
-                    ]),
-                    _vm._v(" "),
-                    _c("td", [
-                      _c("input", {
-                        directives: [
-                          {
-                            name: "model",
-                            rawName: "v-model",
-                            value: _vm.subjecttitles.sub9title,
-                            expression: "subjecttitles.sub9title"
-                          }
-                        ],
-                        staticClass: "form-control",
-                        attrs: {
-                          type: "text",
-                          id: "subject1",
-                          "aria-describedby": "emailHelp"
-                        },
-                        domProps: { value: _vm.subjecttitles.sub9title },
-                        on: {
-                          input: function($event) {
-                            if ($event.target.composing) {
-                              return
-                            }
-                            _vm.$set(
-                              _vm.subjecttitles,
-                              "sub9title",
-                              $event.target.value
-                            )
-                          }
-                        }
-                      })
-                    ]),
-                    _vm._v(" "),
-                    _c("td", [
-                      _c("input", {
-                        directives: [
-                          {
-                            name: "model",
-                            rawName: "v-model",
-                            value: _vm.subjectstaffs.sub9staff,
-                            expression: "subjectstaffs.sub9staff"
-                          }
-                        ],
-                        staticClass: "form-control",
-                        attrs: {
-                          type: "text",
-                          id: "subject1",
-                          "aria-describedby": "emailHelp"
-                        },
-                        domProps: { value: _vm.subjectstaffs.sub9staff },
-                        on: {
-                          input: function($event) {
-                            if ($event.target.composing) {
-                              return
-                            }
-                            _vm.$set(
-                              _vm.subjectstaffs,
-                              "sub9staff",
-                              $event.target.value
-                            )
-                          }
-                        }
-                      })
-                    ]),
-                    _vm._v(" "),
-                    _c("td", [
-                      _c("input", {
-                        directives: [
-                          {
-                            name: "model",
-                            rawName: "v-model",
-                            value: _vm.subjectstaffids.sub9staffid,
-                            expression: "subjectstaffids.sub9staffid"
-                          }
-                        ],
-                        staticClass: "form-control",
-                        attrs: {
-                          type: "text",
-                          id: "subject1",
-                          "aria-describedby": "emailHelp"
-                        },
-                        domProps: { value: _vm.subjectstaffids.sub9staffid },
-                        on: {
-                          input: function($event) {
-                            if ($event.target.composing) {
-                              return
-                            }
-                            _vm.$set(
-                              _vm.subjectstaffids,
-                              "sub9staffid",
-                              $event.target.value
-                            )
-                          }
-                        }
-                      })
-                    ])
-                  ]),
-                  _vm._v(" "),
-                  _c("tr", [
-                    _c("td", [_vm._v("10")]),
-                    _vm._v(" "),
-                    _c("td", [
-                      _c("input", {
-                        directives: [
-                          {
-                            name: "model",
-                            rawName: "v-model",
-                            value: _vm.subjectcodes.sub10code,
-                            expression: "subjectcodes.sub10code"
-                          }
-                        ],
-                        staticClass: "form-control",
-                        attrs: {
-                          type: "text",
-                          id: "subject1",
-                          "aria-describedby": "emailHelp"
-                        },
-                        domProps: { value: _vm.subjectcodes.sub10code },
-                        on: {
-                          input: function($event) {
-                            if ($event.target.composing) {
-                              return
-                            }
-                            _vm.$set(
-                              _vm.subjectcodes,
-                              "sub10code",
-                              $event.target.value
-                            )
-                          }
-                        }
-                      })
-                    ]),
-                    _vm._v(" "),
-                    _c("td", [
-                      _c("input", {
-                        directives: [
-                          {
-                            name: "model",
-                            rawName: "v-model",
-                            value: _vm.subjectacronyms.sub10acronym,
-                            expression: "subjectacronyms.sub10acronym"
-                          }
-                        ],
-                        staticClass: "form-control",
-                        attrs: {
-                          type: "text",
-                          id: "subject1",
-                          "aria-describedby": "emailHelp"
-                        },
-                        domProps: { value: _vm.subjectacronyms.sub10acronym },
-                        on: {
-                          input: function($event) {
-                            if ($event.target.composing) {
-                              return
-                            }
-                            _vm.$set(
-                              _vm.subjectacronyms,
-                              "sub10acronym",
-                              $event.target.value
-                            )
-                          }
-                        }
-                      })
-                    ]),
-                    _vm._v(" "),
-                    _c("td", [
-                      _c("input", {
-                        directives: [
-                          {
-                            name: "model",
-                            rawName: "v-model",
-                            value: _vm.subjecttitles.sub10title,
-                            expression: "subjecttitles.sub10title"
-                          }
-                        ],
-                        staticClass: "form-control",
-                        attrs: {
-                          type: "text",
-                          id: "subject1",
-                          "aria-describedby": "emailHelp"
-                        },
-                        domProps: { value: _vm.subjecttitles.sub10title },
-                        on: {
-                          input: function($event) {
-                            if ($event.target.composing) {
-                              return
-                            }
-                            _vm.$set(
-                              _vm.subjecttitles,
-                              "sub10title",
-                              $event.target.value
-                            )
-                          }
-                        }
-                      })
-                    ]),
-                    _vm._v(" "),
-                    _c("td", [
-                      _c("input", {
-                        directives: [
-                          {
-                            name: "model",
-                            rawName: "v-model",
-                            value: _vm.subjectstaffs.sub10staff,
-                            expression: "subjectstaffs.sub10staff"
-                          }
-                        ],
-                        staticClass: "form-control",
-                        attrs: {
-                          type: "text",
-                          id: "subject1",
-                          "aria-describedby": "emailHelp"
-                        },
-                        domProps: { value: _vm.subjectstaffs.sub10staff },
-                        on: {
-                          input: function($event) {
-                            if ($event.target.composing) {
-                              return
-                            }
-                            _vm.$set(
-                              _vm.subjectstaffs,
-                              "sub10staff",
-                              $event.target.value
-                            )
-                          }
-                        }
-                      })
-                    ]),
-                    _vm._v(" "),
-                    _c("td", [
-                      _c("input", {
-                        directives: [
-                          {
-                            name: "model",
-                            rawName: "v-model",
-                            value: _vm.subjectstaffids.sub10staffid,
-                            expression: "subjectstaffids.sub10staffid"
-                          }
-                        ],
-                        staticClass: "form-control",
-                        attrs: {
-                          type: "text",
-                          id: "subject1",
-                          "aria-describedby": "emailHelp"
-                        },
-                        domProps: { value: _vm.subjectstaffids.sub10staffid },
-                        on: {
-                          input: function($event) {
-                            if ($event.target.composing) {
-                              return
-                            }
-                            _vm.$set(
-                              _vm.subjectstaffids,
-                              "sub10staffid",
-                              $event.target.value
-                            )
-                          }
-                        }
-                      })
-                    ])
-                  ]),
-                  _vm._v(" "),
-                  _c("tr", [
-                    _c("td", [_vm._v("11")]),
-                    _vm._v(" "),
-                    _c("td", [
-                      _c("input", {
-                        directives: [
-                          {
-                            name: "model",
-                            rawName: "v-model",
-                            value: _vm.subjectcodes.sub11code,
-                            expression: "subjectcodes.sub11code"
-                          }
-                        ],
-                        staticClass: "form-control",
-                        attrs: {
-                          type: "text",
-                          id: "subject1",
-                          "aria-describedby": "emailHelp"
-                        },
-                        domProps: { value: _vm.subjectcodes.sub11code },
-                        on: {
-                          input: function($event) {
-                            if ($event.target.composing) {
-                              return
-                            }
-                            _vm.$set(
-                              _vm.subjectcodes,
-                              "sub11code",
-                              $event.target.value
-                            )
-                          }
-                        }
-                      })
-                    ]),
-                    _vm._v(" "),
-                    _c("td", [
-                      _c("input", {
-                        directives: [
-                          {
-                            name: "model",
-                            rawName: "v-model",
-                            value: _vm.subjectacronyms.sub11acronym,
-                            expression: "subjectacronyms.sub11acronym"
-                          }
-                        ],
-                        staticClass: "form-control",
-                        attrs: {
-                          type: "text",
-                          id: "subject1",
-                          "aria-describedby": "emailHelp"
-                        },
-                        domProps: { value: _vm.subjectacronyms.sub11acronym },
-                        on: {
-                          input: function($event) {
-                            if ($event.target.composing) {
-                              return
-                            }
-                            _vm.$set(
-                              _vm.subjectacronyms,
-                              "sub11acronym",
-                              $event.target.value
-                            )
-                          }
-                        }
-                      })
-                    ]),
-                    _vm._v(" "),
-                    _c("td", [
-                      _c("input", {
-                        directives: [
-                          {
-                            name: "model",
-                            rawName: "v-model",
-                            value: _vm.subjecttitles.sub11title,
-                            expression: "subjecttitles.sub11title"
-                          }
-                        ],
-                        staticClass: "form-control",
-                        attrs: {
-                          type: "text",
-                          id: "subject1",
-                          "aria-describedby": "emailHelp"
-                        },
-                        domProps: { value: _vm.subjecttitles.sub11title },
-                        on: {
-                          input: function($event) {
-                            if ($event.target.composing) {
-                              return
-                            }
-                            _vm.$set(
-                              _vm.subjecttitles,
-                              "sub11title",
-                              $event.target.value
-                            )
-                          }
-                        }
-                      })
-                    ]),
-                    _vm._v(" "),
-                    _c("td", [
-                      _c("input", {
-                        directives: [
-                          {
-                            name: "model",
-                            rawName: "v-model",
-                            value: _vm.subjectstaffs.sub11staff,
-                            expression: "subjectstaffs.sub11staff"
-                          }
-                        ],
-                        staticClass: "form-control",
-                        attrs: {
-                          type: "text",
-                          id: "subject1",
-                          "aria-describedby": "emailHelp"
-                        },
-                        domProps: { value: _vm.subjectstaffs.sub11staff },
-                        on: {
-                          input: function($event) {
-                            if ($event.target.composing) {
-                              return
-                            }
-                            _vm.$set(
-                              _vm.subjectstaffs,
-                              "sub11staff",
-                              $event.target.value
-                            )
-                          }
-                        }
-                      })
-                    ]),
-                    _vm._v(" "),
-                    _c("td", [
-                      _c("input", {
-                        directives: [
-                          {
-                            name: "model",
-                            rawName: "v-model",
-                            value: _vm.subjectstaffids.sub11staffid,
-                            expression: "subjectstaffids.sub11staffid"
-                          }
-                        ],
-                        staticClass: "form-control",
-                        attrs: {
-                          type: "text",
-                          id: "subject1",
-                          "aria-describedby": "emailHelp"
-                        },
-                        domProps: { value: _vm.subjectstaffids.sub11staffid },
-                        on: {
-                          input: function($event) {
-                            if ($event.target.composing) {
-                              return
-                            }
-                            _vm.$set(
-                              _vm.subjectstaffids,
-                              "sub11staffid",
-                              $event.target.value
-                            )
-                          }
-                        }
-                      })
-                    ])
-                  ]),
-                  _vm._v(" "),
-                  _c("tr", [
-                    _c("td", [_vm._v("12")]),
-                    _vm._v(" "),
-                    _c("td", [
-                      _c("input", {
-                        directives: [
-                          {
-                            name: "model",
-                            rawName: "v-model",
-                            value: _vm.subjectcodes.sub12code,
-                            expression: "subjectcodes.sub12code"
-                          }
-                        ],
-                        staticClass: "form-control",
-                        attrs: {
-                          type: "text",
-                          id: "subject1",
-                          "aria-describedby": "emailHelp"
-                        },
-                        domProps: { value: _vm.subjectcodes.sub12code },
-                        on: {
-                          input: function($event) {
-                            if ($event.target.composing) {
-                              return
-                            }
-                            _vm.$set(
-                              _vm.subjectcodes,
-                              "sub12code",
-                              $event.target.value
-                            )
-                          }
-                        }
-                      })
-                    ]),
-                    _vm._v(" "),
-                    _c("td", [
-                      _c("input", {
-                        directives: [
-                          {
-                            name: "model",
-                            rawName: "v-model",
-                            value: _vm.subjectacronyms.sub12acronym,
-                            expression: "subjectacronyms.sub12acronym"
-                          }
-                        ],
-                        staticClass: "form-control",
-                        attrs: {
-                          type: "text",
-                          id: "subject1",
-                          "aria-describedby": "emailHelp"
-                        },
-                        domProps: { value: _vm.subjectacronyms.sub12acronym },
-                        on: {
-                          input: function($event) {
-                            if ($event.target.composing) {
-                              return
-                            }
-                            _vm.$set(
-                              _vm.subjectacronyms,
-                              "sub12acronym",
-                              $event.target.value
-                            )
-                          }
-                        }
-                      })
-                    ]),
-                    _vm._v(" "),
-                    _c("td", [
-                      _c("input", {
-                        directives: [
-                          {
-                            name: "model",
-                            rawName: "v-model",
-                            value: _vm.subjecttitles.sub12title,
-                            expression: "subjecttitles.sub12title"
-                          }
-                        ],
-                        staticClass: "form-control",
-                        attrs: {
-                          type: "text",
-                          id: "subject1",
-                          "aria-describedby": "emailHelp"
-                        },
-                        domProps: { value: _vm.subjecttitles.sub12title },
-                        on: {
-                          input: function($event) {
-                            if ($event.target.composing) {
-                              return
-                            }
-                            _vm.$set(
-                              _vm.subjecttitles,
-                              "sub12title",
-                              $event.target.value
-                            )
-                          }
-                        }
-                      })
-                    ]),
-                    _vm._v(" "),
-                    _c("td", [
-                      _c("input", {
-                        directives: [
-                          {
-                            name: "model",
-                            rawName: "v-model",
-                            value: _vm.subjectstaffs.sub12staff,
-                            expression: "subjectstaffs.sub12staff"
-                          }
-                        ],
-                        staticClass: "form-control",
-                        attrs: {
-                          type: "text",
-                          id: "subject1",
-                          "aria-describedby": "emailHelp"
-                        },
-                        domProps: { value: _vm.subjectstaffs.sub12staff },
-                        on: {
-                          input: function($event) {
-                            if ($event.target.composing) {
-                              return
-                            }
-                            _vm.$set(
-                              _vm.subjectstaffs,
-                              "sub12staff",
-                              $event.target.value
-                            )
-                          }
-                        }
-                      })
-                    ]),
-                    _vm._v(" "),
-                    _c("td", [
-                      _c("input", {
-                        directives: [
-                          {
-                            name: "model",
-                            rawName: "v-model",
-                            value: _vm.subjectstaffids.sub12staffid,
-                            expression: "subjectstaffids.sub12staffid"
-                          }
-                        ],
-                        staticClass: "form-control",
-                        attrs: {
-                          type: "text",
-                          id: "subject1",
-                          "aria-describedby": "emailHelp"
-                        },
-                        domProps: { value: _vm.subjectstaffids.sub12staffid },
-                        on: {
-                          input: function($event) {
-                            if ($event.target.composing) {
-                              return
-                            }
-                            _vm.$set(
-                              _vm.subjectstaffids,
-                              "sub12staffid",
-                              $event.target.value
-                            )
-                          }
-                        }
-                      })
-                    ])
-                  ])
-                ])
+                _c("input", {
+                  directives: [
+                    {
+                      name: "model",
+                      rawName: "v-model",
+                      value: _vm.subjects.sub1,
+                      expression: "subjects.sub1"
+                    }
+                  ],
+                  staticClass: "form-control",
+                  attrs: {
+                    type: "text",
+                    id: "subject1",
+                    "aria-describedby": "emailHelp"
+                  },
+                  domProps: { value: _vm.subjects.sub1 },
+                  on: {
+                    input: function($event) {
+                      if ($event.target.composing) {
+                        return
+                      }
+                      _vm.$set(_vm.subjects, "sub1", $event.target.value)
+                    }
+                  }
+                })
+              ]),
+              _vm._v(" "),
+              _c("div", { staticClass: "form-group" }, [
+                _c("label", { attrs: { for: "subject2" } }, [
+                  _vm._v("Subject 2")
+                ]),
+                _vm._v(" "),
+                _c("input", {
+                  directives: [
+                    {
+                      name: "model",
+                      rawName: "v-model",
+                      value: _vm.subjects.sub2,
+                      expression: "subjects.sub2"
+                    }
+                  ],
+                  staticClass: "form-control",
+                  attrs: {
+                    type: "text",
+                    id: "subject2",
+                    "aria-describedby": "emailHelp"
+                  },
+                  domProps: { value: _vm.subjects.sub2 },
+                  on: {
+                    input: function($event) {
+                      if ($event.target.composing) {
+                        return
+                      }
+                      _vm.$set(_vm.subjects, "sub2", $event.target.value)
+                    }
+                  }
+                })
+              ]),
+              _vm._v(" "),
+              _c("div", { staticClass: "form-group" }, [
+                _c("label", { attrs: { for: "subject3" } }, [
+                  _vm._v("Subject 3")
+                ]),
+                _vm._v(" "),
+                _c("input", {
+                  directives: [
+                    {
+                      name: "model",
+                      rawName: "v-model",
+                      value: _vm.subjects.sub3,
+                      expression: "subjects.sub3"
+                    }
+                  ],
+                  staticClass: "form-control",
+                  attrs: {
+                    type: "text",
+                    id: "subject3",
+                    "aria-describedby": "emailHelp"
+                  },
+                  domProps: { value: _vm.subjects.sub3 },
+                  on: {
+                    input: function($event) {
+                      if ($event.target.composing) {
+                        return
+                      }
+                      _vm.$set(_vm.subjects, "sub3", $event.target.value)
+                    }
+                  }
+                })
+              ]),
+              _vm._v(" "),
+              _c("div", { staticClass: "form-group" }, [
+                _c("label", { attrs: { for: "subject4" } }, [
+                  _vm._v("Subject 4")
+                ]),
+                _vm._v(" "),
+                _c("input", {
+                  directives: [
+                    {
+                      name: "model",
+                      rawName: "v-model",
+                      value: _vm.subjects.sub4,
+                      expression: "subjects.sub4"
+                    }
+                  ],
+                  staticClass: "form-control",
+                  attrs: {
+                    type: "text",
+                    id: "subject4",
+                    "aria-describedby": "emailHelp"
+                  },
+                  domProps: { value: _vm.subjects.sub4 },
+                  on: {
+                    input: function($event) {
+                      if ($event.target.composing) {
+                        return
+                      }
+                      _vm.$set(_vm.subjects, "sub4", $event.target.value)
+                    }
+                  }
+                })
+              ]),
+              _vm._v(" "),
+              _c("div", { staticClass: "form-group" }, [
+                _c("label", { attrs: { for: "subject5" } }, [
+                  _vm._v("Subject 5")
+                ]),
+                _vm._v(" "),
+                _c("input", {
+                  directives: [
+                    {
+                      name: "model",
+                      rawName: "v-model",
+                      value: _vm.subjects.sub5,
+                      expression: "subjects.sub5"
+                    }
+                  ],
+                  staticClass: "form-control",
+                  attrs: {
+                    type: "text",
+                    id: "subject5",
+                    "aria-describedby": "emailHelp"
+                  },
+                  domProps: { value: _vm.subjects.sub5 },
+                  on: {
+                    input: function($event) {
+                      if ($event.target.composing) {
+                        return
+                      }
+                      _vm.$set(_vm.subjects, "sub5", $event.target.value)
+                    }
+                  }
+                })
+              ]),
+              _vm._v(" "),
+              _c("div", { staticClass: "form-group" }, [
+                _c("label", { attrs: { for: "subject6" } }, [
+                  _vm._v("Subject 6")
+                ]),
+                _vm._v(" "),
+                _c("input", {
+                  directives: [
+                    {
+                      name: "model",
+                      rawName: "v-model",
+                      value: _vm.subjects.sub6,
+                      expression: "subjects.sub6"
+                    }
+                  ],
+                  staticClass: "form-control",
+                  attrs: {
+                    type: "text",
+                    id: "subject6",
+                    "aria-describedby": "emailHelp"
+                  },
+                  domProps: { value: _vm.subjects.sub6 },
+                  on: {
+                    input: function($event) {
+                      if ($event.target.composing) {
+                        return
+                      }
+                      _vm.$set(_vm.subjects, "sub6", $event.target.value)
+                    }
+                  }
+                })
+              ]),
+              _vm._v(" "),
+              _c("div", { staticClass: "form-group" }, [
+                _c("label", { attrs: { for: "subject7" } }, [
+                  _vm._v("Subject 7")
+                ]),
+                _vm._v(" "),
+                _c("input", {
+                  directives: [
+                    {
+                      name: "model",
+                      rawName: "v-model",
+                      value: _vm.subjects.sub7,
+                      expression: "subjects.sub7"
+                    }
+                  ],
+                  staticClass: "form-control",
+                  attrs: {
+                    type: "text",
+                    id: "subject7",
+                    "aria-describedby": "emailHelp"
+                  },
+                  domProps: { value: _vm.subjects.sub7 },
+                  on: {
+                    input: function($event) {
+                      if ($event.target.composing) {
+                        return
+                      }
+                      _vm.$set(_vm.subjects, "sub7", $event.target.value)
+                    }
+                  }
+                })
+              ]),
+              _vm._v(" "),
+              _c("div", { staticClass: "form-group" }, [
+                _c("label", { attrs: { for: "subject8" } }, [
+                  _vm._v("Subject 8")
+                ]),
+                _vm._v(" "),
+                _c("input", {
+                  directives: [
+                    {
+                      name: "model",
+                      rawName: "v-model",
+                      value: _vm.subjects.sub8,
+                      expression: "subjects.sub8"
+                    }
+                  ],
+                  staticClass: "form-control",
+                  attrs: {
+                    type: "text",
+                    id: "subject8",
+                    "aria-describedby": "emailHelp"
+                  },
+                  domProps: { value: _vm.subjects.sub8 },
+                  on: {
+                    input: function($event) {
+                      if ($event.target.composing) {
+                        return
+                      }
+                      _vm.$set(_vm.subjects, "sub8", $event.target.value)
+                    }
+                  }
+                })
+              ]),
+              _vm._v(" "),
+              _c("div", { staticClass: "form-group" }, [
+                _c("label", { attrs: { for: "subject9" } }, [
+                  _vm._v("Subject 9")
+                ]),
+                _vm._v(" "),
+                _c("input", {
+                  directives: [
+                    {
+                      name: "model",
+                      rawName: "v-model",
+                      value: _vm.subjects.sub9,
+                      expression: "subjects.sub9"
+                    }
+                  ],
+                  staticClass: "form-control",
+                  attrs: {
+                    type: "text",
+                    id: "subject9",
+                    "aria-describedby": "emailHelp"
+                  },
+                  domProps: { value: _vm.subjects.sub9 },
+                  on: {
+                    input: function($event) {
+                      if ($event.target.composing) {
+                        return
+                      }
+                      _vm.$set(_vm.subjects, "sub9", $event.target.value)
+                    }
+                  }
+                })
+              ]),
+              _vm._v(" "),
+              _c("div", { staticClass: "form-group" }, [
+                _c("label", { attrs: { for: "subject10" } }, [
+                  _vm._v("Subject 10")
+                ]),
+                _vm._v(" "),
+                _c("input", {
+                  directives: [
+                    {
+                      name: "model",
+                      rawName: "v-model",
+                      value: _vm.subjects.sub10,
+                      expression: "subjects.sub10"
+                    }
+                  ],
+                  staticClass: "form-control",
+                  attrs: {
+                    type: "text",
+                    id: "subject10",
+                    "aria-describedby": "emailHelp"
+                  },
+                  domProps: { value: _vm.subjects.sub10 },
+                  on: {
+                    input: function($event) {
+                      if ($event.target.composing) {
+                        return
+                      }
+                      _vm.$set(_vm.subjects, "sub10", $event.target.value)
+                    }
+                  }
+                })
+              ]),
+              _vm._v(" "),
+              _c("div", { staticClass: "form-group" }, [
+                _c("label", { attrs: { for: "subject11" } }, [
+                  _vm._v("Subject 11")
+                ]),
+                _vm._v(" "),
+                _c("input", {
+                  directives: [
+                    {
+                      name: "model",
+                      rawName: "v-model",
+                      value: _vm.subjects.sub11,
+                      expression: "subjects.sub11"
+                    }
+                  ],
+                  staticClass: "form-control",
+                  attrs: {
+                    type: "text",
+                    id: "subject11",
+                    "aria-describedby": "emailHelp"
+                  },
+                  domProps: { value: _vm.subjects.sub11 },
+                  on: {
+                    input: function($event) {
+                      if ($event.target.composing) {
+                        return
+                      }
+                      _vm.$set(_vm.subjects, "sub11", $event.target.value)
+                    }
+                  }
+                })
+              ]),
+              _vm._v(" "),
+              _c("div", { staticClass: "form-group" }, [
+                _c("label", { attrs: { for: "subject12" } }, [
+                  _vm._v("Subject 12")
+                ]),
+                _vm._v(" "),
+                _c("input", {
+                  directives: [
+                    {
+                      name: "model",
+                      rawName: "v-model",
+                      value: _vm.subjects.sub12,
+                      expression: "subjects.sub12"
+                    }
+                  ],
+                  staticClass: "form-control",
+                  attrs: {
+                    type: "text",
+                    id: "subject12",
+                    "aria-describedby": "emailHelp"
+                  },
+                  domProps: { value: _vm.subjects.sub12 },
+                  on: {
+                    input: function($event) {
+                      if ($event.target.composing) {
+                        return
+                      }
+                      _vm.$set(_vm.subjects, "sub12", $event.target.value)
+                    }
+                  }
+                })
               ]),
               _vm._v(" "),
               _c(
@@ -71804,26 +70732,7 @@ var render = function() {
     ])
   ])
 }
-var staticRenderFns = [
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("thead", [
-      _c("th", [_vm._v("SL NO")]),
-      _vm._v(" "),
-      _c("th", [_vm._v("subject code")]),
-      _vm._v(" "),
-      _c("th", [_vm._v("subject acronym")]),
-      _vm._v(" "),
-      _c("th", [_vm._v("subject title")]),
-      _vm._v(" "),
-      _c("th", [_vm._v("staff name")]),
-      _vm._v(" "),
-      _c("th", [_vm._v("staff Id")])
-    ])
-  }
-]
+var staticRenderFns = []
 render._withStripped = true
 module.exports = { render: render, staticRenderFns: staticRenderFns }
 if (false) {
@@ -71834,495 +70743,10 @@ if (false) {
 }
 
 /***/ }),
-/* 205 */
+/* 209 */
 /***/ (function(module, exports) {
 
 // removed by extract-text-webpack-plugin
-
-/***/ }),
-/* 206 */,
-/* 207 */,
-/* 208 */,
-/* 209 */,
-/* 210 */,
-/* 211 */,
-/* 212 */,
-/* 213 */,
-/* 214 */,
-/* 215 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-
-/* harmony default export */ __webpack_exports__["default"] = ({
-    data: function data() {
-        return {
-            subjectcodes: {
-                sub1code: '',
-                sub2code: '',
-                sub3code: '',
-                sub4code: '',
-                sub5code: '',
-                sub6code: '',
-                sub7code: '',
-                sub8code: '',
-                sub9code: '',
-                sub10code: '',
-                sub11code: '',
-                sub12code: ''
-            },
-            subjectacronyms: {
-                sub1acronym: '',
-                sub2acronym: '',
-                sub3acronym: '',
-                sub41acronym: '',
-                sub5acronym: '',
-                sub6acronym: '',
-                sub7acronym: '',
-                sub8acronym: '',
-                sub9acronym: '',
-                sub10acronym: '',
-                sub11acronym: '',
-                sub12acronym: ''
-            },
-            subjecttitles: {
-                sub1title: '',
-                sub2title: '',
-                sub3title: '',
-                sub4title: '',
-                sub5title: '',
-                sub6title: '',
-                sub7title: '',
-                sub8title: '',
-                sub9title: '',
-                sub10title: '',
-                sub11title: '',
-                sub12title: ''
-            },
-            subjectstaffs: {
-                sub1staff: '',
-                sub2staff: '',
-                sub3staff: '',
-                sub4staff: '',
-                sub5staff: '',
-                sub6staff: '',
-                sub7staff: '',
-                sub8staff: '',
-                sub9staff: '',
-                sub10staff: '',
-                sub11staff: '',
-                sub12staff: ''
-            },
-            subjectstaffids: {
-                sub1staffid: '',
-                sub2staffid: '',
-                sub3staffid: '',
-                sub4staffid: '',
-                sub5staffid: '',
-                sub6staffid: '',
-                sub7staffid: '',
-                sub8staffid: '',
-                sub9staffid: '',
-                sub10staffid: '',
-                sub12staffid: ''
-            },
-            //Degree
-            degreeSelected: '',
-            degreeOptions: [{ text: 'BE', value: 'be' }, { text: 'ME', value: 'me' }],
-            //create department
-            departmentSelected: '',
-            departmentOptions: [{ text: 'ECE', value: 'ece', degree: 'be' }, { text: 'EEE', value: 'eee', degree: 'be' }, { text: 'MECH', value: 'mech', degree: 'be' }, { text: 'CSE', value: 'cse', degree: 'be' }, { text: 'IT', value: 'it', degree: 'be' }, { text: 'CIVIL', value: 'civil', degree: 'be' }, { text: 'AUTOMOBILE', value: 'automobile', degree: 'be' }, { text: 'ME-CSE', value: 'me-cse', degree: 'me' }, { text: 'ME-CEM', value: 'me-cem', degree: 'me' }, { text: 'ME-EST', value: 'me-est', degree: 'me' }, { text: 'ME-ISE', value: 'me-ise', degree: 'me' }, { text: 'ME-PED', value: 'me-ped', degree: 'me' }, { text: 'ME-SE', value: 'me-se', degree: 'me' }, { text: 'ME-VLSI', value: 'me-vlsi', degree: 'me' }, { text: 'MTECH-IT', value: 'mtech-it', degree: 'me' }, { text: 'MBA', value: 'mba', degree: 'me' }],
-            // Create Year 
-            yearSelected: '',
-            yearOptions: [{ text: '1st Year', value: '1', degree: 'be&me' }, { text: '2nd year', value: '2', degree: 'be&me' }, { text: '3rd year', value: '3', degree: 'be' }, { text: 'Final year', value: '4', degree: 'be' }],
-            // Create Semester 
-            semesterSelected: '',
-            semesterOptions: [{ text: '1', value: '1', degree: 'be&me' }, { text: '2', value: '2', degree: 'be&me' }, { text: '3', value: '3', degree: 'be&me' }, { text: '4', value: '4', degree: 'be&me' }, { text: '5', value: '5', degree: 'be' }, { text: '6', value: '6', degree: 'be' }, { text: '7', value: '7', degree: 'be' }, { text: '8', value: '8', degree: 'be' }],
-            // Create section 
-            sectionSelected: '',
-            sectionOptions: [{ text: 'A', value: 'a' }, { text: 'B', value: 'b' }, { text: 'C', value: 'c' }, { text: 'D', value: 'd' }]
-        };
-    },
-
-    methods: {
-        createSubjects: function createSubjects() {
-            var passData = {
-                degree: this.degreeSelected,
-                year: this.yearSelected,
-                semester: this.semesterSelected,
-                section: this.sectionSelected,
-                department: this.departmentSelected,
-                subjectcodes: this.subjectcodes,
-                subjectacronyms: this.subjectacronyms,
-                subjecttitles: this.subjecttitles,
-                subjectstaffs: this.subjectstaffs,
-                subjectstaffids: this.subjectstaffids
-
-            };
-            fetch('/api/createsubjects', {
-                method: "post",
-                body: JSON.stringify(passData),
-                headers: {
-                    "content-type": "application/json"
-                }
-            }).then(function (res) {
-                return res.json();
-            }).then(function (res) {
-                //success
-                console.log(res.data);
-            });
-        }
-    },
-    computed: {
-        filteredDepartments: function filteredDepartments() {
-            var vm = this;
-            var Degree = void 0;
-            var Departments = void 0;
-            Degree = vm.degreeSelected;
-            Departments = vm.departmentOptions;
-
-            return Departments.filter(function (Department) {
-                return Department.degree === Degree;
-            });
-        },
-        filteredYears: function filteredYears() {
-            var vm = this;
-            var Degree = void 0;
-            var Years = void 0;
-            Degree = vm.degreeSelected;
-            Years = vm.yearOptions;
-            if (Degree === 'be') {
-                return Years;
-            } else if (Degree === 'me') {
-                return Years.filter(function (Year) {
-                    return Year.degree === 'be&me';
-                });
-            } else {
-                return Years;
-            }
-        },
-        filteredSemester: function filteredSemester() {
-            var vm = this;
-            var Degree = void 0;
-            var Semester = void 0;
-            Degree = vm.degreeSelected;
-            Semester = vm.semesterOptions;
-            if (Degree === 'be') {
-                return Semester;
-            } else if (Degree === 'me') {
-                return Semester.filter(function (sem) {
-                    return sem.degree === 'be&me';
-                });
-            } else {
-                return Semester;
-            }
-        }
-    }
-});
 
 /***/ })
 /******/ ]);
