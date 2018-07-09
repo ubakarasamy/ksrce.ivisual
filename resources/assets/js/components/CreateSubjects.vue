@@ -3,7 +3,16 @@
         <div class="card-header">
              <h1>Create Subjects</h1>   
              <div class="row">
-<div class="form-group col-md-2">
+
+</div>
+        </div>
+        <div class="card-body">
+
+<div class="row">
+<div class="col-sm-12">
+<form @submit.prevent="createSubjects">
+
+    <div class="form-group col-md-2">
 <!-- Degree -->
  <label for="student_degree_filter">Degree</label><br>
 <select class="form-control" id="student_degree_filter" style="width:120px;display:inline-block;" v-model="degreeSelected">
@@ -51,13 +60,9 @@
   </option>
 </select>  
 </div>
-</div>
-        </div>
-        <div class="card-body">
+<div class="form-gtp col-md-6">
 
-<div class="row">
-<div class="col-md-6 col-sm-12">
-<form @submit.prevent="createSubjects">
+
     <p class="text-info">
         Fill having subjects, Leave other fields blank 
     </p>
@@ -112,6 +117,7 @@
 <button type="submit" class="btn btn-primary">
     submit
 </button>
+</div>
 </form>
 </div>
 </div>            

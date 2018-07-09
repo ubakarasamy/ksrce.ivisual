@@ -20,6 +20,16 @@
                                             <input type="text" id="eid" v-model="createAttendance.staff_eid" name="eid" class="form-control">
                                             <p class="text-muted">Enter Your Employee Id</p>
                                        </div>
+                                       <div class="form-group col-md-4">
+                                            <label for="eid">Day</label>
+                                            <select name="day" id="day" v-model="createAttendance.day">
+                                              <option value="mon">Monday</option>
+                                              <option value="tue">Tuesday</option>
+                                              <option value="wed">Wednesday</option>
+                                              <option value="thu">Thusday</option>
+                                              <option value="fri">Friday</option>
+                                            </select>
+                                       </div>
                                </div>
                                <button type="submit" class="btn btn-primary">Submit</button>
                             </form>
@@ -32,7 +42,7 @@
             <div class="card-header">
                 <p class="card-title">Make Attendance </p>
                 <div class="filter-options col-md-12">
-   <label for="student_department_filter">Department</label>
+<label for="student_department_filter">Department</label>
 <select class="form-control" id="student_department_filter" style="width:120px;display:inline-block;" v-model="student_department_filter_selected">
   <option v-for="student_department_filter_option in student_department_filter_options" v-bind:value="student_department_filter_option.value">{{ student_department_filter_option.text }}</option>
 </select>
@@ -142,10 +152,24 @@
 export default {
   data() {
     return {
+      gotData:[],
+      semester:'',
+      hours:{
+        h1:'',
+        h2:'',
+        h3:'',
+        h4:'',
+        h5:'',
+        h6:'',
+        h7:''
+      },
+      times:[],
+      selectedDay:'',
       students: [],
       createAttendance: {
         makedate: "",
-        staff_eid: ""
+        staff_eid: "",
+        day:""
       },
       attendanceDatas: [],
       createForm: true,
@@ -198,7 +222,11 @@ export default {
       }
     };
   },
+  created(){
+    this.fetchTimes();
+  },
   methods: {
+  
     makeDate() {
       fetch("/api/studentattendance", {
         method: "post",
@@ -383,7 +411,26 @@ export default {
        this.setStatusSelected = 'default';
        this.getAllStudents();
       //console.log(JSON.stringify(PassData));
-    }
+    },
+  //get all Timetables
+  fetchTimes(){
+    fetch("/api/alltimetables")
+    .then(res => res.json())
+    .then(res => {
+      this.times = res.data;
+      console.log(res.data);
+    })
+    .catch(err => console.log(err));
+  },
+  //Fetch sem
+        fetchSem(){
+            fetch('/api/fetchsemester')
+            .then(res => res.json())
+            .then(res => {
+                this.gotData = res.data;
+            })
+            .catch(err => console.log(err));
+        },
   },
   computed: {
     filteredStudents() {

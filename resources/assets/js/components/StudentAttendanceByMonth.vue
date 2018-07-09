@@ -4,7 +4,33 @@
 
     </div>
     <div class="card-body">
-        <!-- <table class="table">
+       
+<table class="table">
+    <thead>
+        <th>REG NO</th>
+        <th>Name</th>
+        <th>Department</th>
+        <th>View Overall Attendance</th>
+    </thead>
+    <tbody>
+        <tr v-for="stud in Students" v-bind:key="stud.id">
+            <td>{{stud.register_no}}</td>
+            <td>{{stud.name}}</td>
+            <td>{{stud.department}}</td>
+            <td><button type="button" class="btn btn-outline-primary" data-toggle="modal" data-target=".bd-example-modal-lg">View</button></td>
+        </tr>
+    </tbody>
+</table>
+
+
+
+<!-- Large modal -->
+>
+
+<div class="modal fade bd-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">gfbgfb
+      <!-- <table class="table">
             <thead>
                 <th>Day / Hours</th>
                 <th>1</th>
@@ -68,7 +94,16 @@
                     </tr>
             </tbody>
         </table> -->
-        {{getStudentAttendanceById(2)}}
+    </div>
+  </div>
+</div>
+
+
+
+
+
+ 
+
     </div>
 </div>
     
@@ -78,25 +113,26 @@
 export default {
     data(){
         return{
-            fromdate: '2018-06-30',
-            attendanceDatas:[]
+            Students:[],
+
         }
     },
     created(){
-        this.getAttendanceDatas();
-        
+        this.fetchStudents();
     },
     methods:{
-        //get all attendnace data from date
-        getAttendanceDatas(){
-            fetch('/api/studentattendance')
-            .then(res => res.json())
-            .then(res => {
-                this.attendanceDatas = res.data;
-                console.log(res.data);
-                console.log(this.getDatafromdate);
-            })
+        //fetch all students
+        fetchStudents(){
+            fetch('/api/studentProfile')
+                .then(res => res.json())
+                .then(res => {
+                    this.Students = res.data;
+                })
+                .catch(err => console.log(err));
         }
+       //fetch all over all table
+
+       //match
 
 
     },

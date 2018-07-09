@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Timetables;
 use App\Http\Resources\TimetablesResource;
+use App\ClassSubjects;
+use App\Http\Resources\ClassSubjectsResource;
 
 class TimeTablesController extends Controller
 {
@@ -76,7 +78,43 @@ class TimeTablesController extends Controller
 
 
     public function subjects(Request $request){
+
         $data = $request->json()->all();
-        return $data;
+        $subjects = $data['subjects'];
+        $degree = $data['degree'];
+        $year = $data['year'];
+        $semester = $data['semester'];
+        $department = $data['department'];
+        $section = $data['section'];
+
+        $subs = new ClassSubjects;
+        $subs->degree = $degree;
+        $subs->year = $year;
+        $subs->semester = $semester;
+        $subs->department = $department;
+        $subs->section = $section;
+        if($subjects['sub1']){ $subs->sub1 = $subjects['sub1']; }else{ $subs->sub1 = 'null'; }
+        if($subjects['sub2']){ $subs->sub2 = $subjects['sub2']; }else{ $subs->sub2 = 'null'; }
+        if($subjects['sub3']){ $subs->sub3 = $subjects['sub3']; }else{ $subs->sub3 = 'null'; }
+        if($subjects['sub4']){ $subs->sub4 = $subjects['sub4']; }else{ $subs->sub4 = 'null'; }
+        if($subjects['sub5']){ $subs->sub5 = $subjects['sub5']; }else{ $subs->sub5 = 'null'; }
+        if($subjects['sub6']){ $subs->sub6 = $subjects['sub6']; }else{ $subs->sub6 = 'null'; }
+        if($subjects['sub7']){ $subs->sub7 = $subjects['sub7']; }else{ $subs->sub7 = 'null'; }
+        if($subjects['sub8']){ $subs->sub8 = $subjects['sub8']; }else{ $subs->sub8 = 'null'; }
+        if($subjects['sub9']){ $subs->sub9 = $subjects['sub9']; }else{ $subs->sub9 = 'null'; }
+        if($subjects['sub10']){ $subs->sub10 = $subjects['sub10']; }else{ $subs->sub10 = 'null'; }
+        if($subjects['sub11']){ $subs->sub11 = $subjects['sub11']; }else{ $subs->sub11 = 'null'; }
+        if($subjects['sub12']){ $subs->sub12 = $subjects['sub12']; }else{ $subs->sub12 = 'null'; }
+
+        $subs->last_modified = 'null';
+        $subs->save();
+        return 'created';
+       
+        
+    }
+
+    public function GetSubs(){
+        $table = Timetables::all();
+        return TimetablesResource::collection($table);
     }
 }

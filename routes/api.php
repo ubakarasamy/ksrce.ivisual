@@ -79,5 +79,7 @@ Route::get('academic/timetable', 'TimeTablesController@showAllTable');
 
 Route::post('createsubjects', 'TimeTablesController@subjects');
 
-
 Route::get('staffoverall', 'StaffAttendanceController@StaffOverAll');
+
+//get all timetables
+Route::get('alltimetables', 'TimeTablesController@GetSubs');
