@@ -2,14 +2,15 @@
     <div class="container">
             <div class="card">
                 <div class="card-header">
-                    <h4 class="float-left">Staff Profiles</h4>
-                    <button type="button" class="btn btn-primary float-right" data-toggle="modal" data-target="#createStaff">
+                    <h1 class="card-title">Staff Profiles</h1>
+                    <button type="button" class="btn btn-primary float-right create-staff-btn" data-toggle="modal" data-target="#createStaff">
   Create New Staff
 </button>
 <br>
 <br>
-<label for="staff_filter_department">Department</label>
+
 <div class="filter-options">
+  <label for="staff_filter_department">Department</label>
 <select class="form-control" v-model="selected" style="width:120px;display:inline-block;">
   <option v-for="option in options" v-bind:value="option.value">
     {{ option.text }}
@@ -284,6 +285,9 @@ errors:[],
        edit: false
         };
     },
+    props:{
+      userRole: Number,
+    },
     //This function runs while loading the page
     created(){
         this.fetchUsers();
@@ -418,3 +422,9 @@ errors:[],
 </script>
 
 
+<style scoped>
+.create-staff-btn
+{
+  margin-top: -40px;
+}
+</style>

@@ -83,3 +83,6 @@ Route::get('staffoverall', 'StaffAttendanceController@StaffOverAll');
 
 //get all timetables
 Route::get('alltimetables', 'TimeTablesController@GetSubs');
+
+//get all overall student
+Route::get('student/overall', 'StudentAttendanceController@StudOverall');

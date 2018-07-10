@@ -3,7 +3,7 @@
 @section('content')
 
             <div class="dashboard" style="margin:30px;">
-                    <staff-profile></staff-profile>
+                    <staff-profile :user-role={{ Auth::user()->GetRole() }}></staff-profile>
                 </div>
             </div>
 

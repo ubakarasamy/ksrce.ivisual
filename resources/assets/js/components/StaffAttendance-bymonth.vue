@@ -1,6 +1,5 @@
 <template>
 <div class="staff-atbymonth">
-{{staffAttendance.length}}
     <table class="table">
         <thead>
             <th>Staff EID</th>

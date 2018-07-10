@@ -9,9 +9,9 @@
                     <div class="card" style="width: 18rem; margin:10px;">
                         <!-- Over All -->
   <div class="card-body">
-    <h5 class="card-title">Over all Attendance</h5>
+    <h5 class="card-title">CL</h5>
     <h6 class="card-subtitle mb-2 text-muted">This year</h6>
-    <h1><span class="text-primary">10</span> / 20</h1>
+    <h1><span class="text-primary"></span>2 / {{gotData.staff_cl}}</h1>
   </div>
 </div>
                 </div>
@@ -29,9 +29,9 @@
                     <div class="card" style="width: 18rem; margin:10px;">
                         <!-- Over All -->
   <div class="card-body">
-    <h5 class="card-title">CL</h5>
+    <h5 class="card-title">OD</h5>
     <h6 class="card-subtitle mb-2 text-muted">This year</h6>
-    <h1><span class="text-primary">10</span> / 20</h1>
+    <h1><span class="text-primary">10</span> / 10</h1>
   </div>
 </div>
                 </div>
@@ -39,9 +39,9 @@
                     <div class="card" style="width: 18rem; margin:10px;">
                         <!-- Over All -->
   <div class="card-body">
-    <h5 class="card-title">OD</h5>
+    <h5 class="card-title">SOD</h5>
     <h6 class="card-subtitle mb-2 text-muted">This year</h6>
-    <h1><span class="text-primary">10</span> / 20</h1>
+    <h1><span class="text-primary">10</span> / 10</h1>
   </div>
 </div>
                 </div>
@@ -111,16 +111,27 @@ export default {
                 {text:'CPL',value:'cpl'},
                 {text:'CL',value:'cl'},
                 {text:'OD',value:'od'}
-            ]
+            ],
+            gotData:[]
         }
     },
     created(){
         this.fetchApprovals();
+        this.fetchSem();
     },
     props: {
             userId: Number ,
     },
     methods:{
+        //Fetch sem
+        fetchSem(){
+            fetch('/api/fetchsemester')
+            .then(res => res.json())
+            .then(res => {
+                this.gotData = res.data;
+            })
+            .catch(err => console.log(err));
+        },
         fetchApprovals(){
             fetch("/api/staffapprovals/"+this.userId+"")
         .then(res => res.json())

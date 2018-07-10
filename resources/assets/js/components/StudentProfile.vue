@@ -3,7 +3,7 @@
             <div class="card">
                 <div class="card-header">
                     <h4 class="float-left card-title">Student Profiles</h4>
-                    <button type="button" class="btn btn-primary float-right" data-toggle="modal" data-target="#createStudent">
+                    <button type="button" :disabled="userRole != 1 | userRole != 1 " class="btn btn-primary float-right" data-toggle="modal" data-target="#createStudent">
   Create New Student
 </button>
 <br>
@@ -27,7 +27,7 @@
   </option>
 </select>
 
-    <label for="student_section_filter">Section</label>
+<label for="student_section_filter">Section</label>
 <select class="form-control" id="student_section_filter" v-model="student_section_filter_selected" style="width:120px;display:inline-block;"> 
   <option  v-for="student_section_filter_option in student_section_filter_options" v-bind:value="student_section_filter_option.value">
     {{ student_section_filter_option.text }}
@@ -183,7 +183,7 @@
       <td>{{ student.email }}</td>
       <td>{{ student.department }}</td>
       <td>{{ student.year }} / {{ student.section }}</td>
-       <td><button type="button" class="btn btn-outline-primary btn-sm" data-toggle="modal" @click="editStudent(student)" data-target="#createStudent">
+       <td><button type="button" :disabled="userRole != 1 | userRole != 1 " class="btn btn-outline-primary btn-sm" data-toggle="modal" @click="editStudent(student)" data-target="#createStudent">
         
   Edit
 </button></td>
@@ -313,6 +313,9 @@ student_section_create_options: [
         ],
 
     }
+    },
+    props:{
+      userRole: Number,
     },
     created(){
         this.fetchStudents();

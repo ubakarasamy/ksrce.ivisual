@@ -28,11 +28,16 @@ class User extends Authenticatable
     ];
 
 //Role Relation
-    public function roles()
+public function roles()
 {
   return $this->belongsToMany(Role::class);
 }
 
+
+public function GetRole()
+{
+  return $this->roles()->first()->id; //return auth user role name
+}
 
 /**
 
@@ -68,7 +73,7 @@ public function hasAnyRole($roles)
 
 {
 
-  return null !== $this->roles()->whereIn(‘name’, $roles)->first();
+  return null !== $this->roles()->whereIn('name', $roles)->first();
 
 }
 
@@ -84,7 +89,7 @@ public function hasRole($role)
 
 {
 
-  return null !== $this->roles()->where(‘name’, $role)->first();
+  return null !== $this->roles()->where('name', $role)->first();
 
 }
 

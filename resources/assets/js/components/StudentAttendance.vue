@@ -3,7 +3,7 @@
     <div class="createAttendance-form" v-if="createForm === true">
     <div class="card">
         <div class="card-header">
-
+          <h1>Make Attendance for {{createAttendance.makedate}}</h1>
         </div>
         <div class="card-body">
             
@@ -22,7 +22,7 @@
                                        </div>
                                        <div class="form-group col-md-4">
                                             <label for="eid">Day</label>
-                                            <select name="day" id="day" v-model="createAttendance.day">
+                                            <select class="form-control" style="width:100px;" name="day" id="day" v-model="createAttendance.day">
                                               <option value="mon">Monday</option>
                                               <option value="tue">Tuesday</option>
                                               <option value="wed">Wednesday</option>
@@ -40,7 +40,7 @@
 <div class="attendance-table" v-if="createForm === false">
         <div class="card">
             <div class="card-header">
-                <p class="card-title">Make Attendance </p>
+                <h1 class="card-title">Make Attendance for {{createAttendance.makedate}}</h1>
                 <div class="filter-options col-md-12">
 <label for="student_department_filter">Department</label>
 <select class="form-control" id="student_department_filter" style="width:120px;display:inline-block;" v-model="student_department_filter_selected">
@@ -72,6 +72,7 @@
 </div>
 
 </div>
+<a role="button" class="btn btn-primary float-right" href="">Back</a>
             </div>
             <div class="card-body">
                 <table class="table">

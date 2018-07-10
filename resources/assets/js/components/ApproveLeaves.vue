@@ -44,7 +44,7 @@ export default {
             
             Staffs:[],
             StaffApprovals:[],
-            selectedDepartment:'',
+            selectedDepartment:'all',
             //staff department
              departmentOptions: [
       { text: 'all', value: 'all' },
@@ -203,8 +203,14 @@ export default {
     computed:{
         filterapprovals(){
         //filter with department
+        var dprtmnt = this.selectedDepartment;
          return this.StaffApprovals.filter(function(StaffApproval){
-             return (StaffApproval.attempt != 1);
+             if(dprtmnt === 'all'){
+                 return (StaffApproval.attempt != 1);
+             }else{
+                 return (StaffApproval.attempt != 1) && (StaffApproval.department === dprtmnt);
+             }
+             
          });
         }
     }

@@ -36,18 +36,21 @@
         <div class="sidebar-brand">
             <p><img src="{{ asset('img/ksrceLogo.png') }}" height="60px" class="p-1">Smart System</p>    
         </div>
+        
         <ul class="list-unstyled">
             {{-- Profiles --}}
             <li class=" @if($route = Route::current()->getName() == 'home') <?php echo "active"?> @endif"><a href="{{route('home')}}"><i class="fas fa-home"></i>Home</a></li>
+            @if(Auth::user()->GetRole() == 1 || Auth::user()->GetRole() == 2)
             <li class=" @if($route = Route::current()->getName() == 'staffprofile-home') <?php echo "active" ?> @endif"><a href="{{route('staffprofile-home')}}"><i class="fas fa-user"></i> Staff Profile</a></li>
+            <li class=" @if($route = Route::current()->getName() == 'staffattendance-create' || $route = Route::current()->getName() == 'staff-attendance-bymonth') <?php echo "subactive" ?> @endif"><a href="#at_staff" data-toggle="collapse" aria-expanded="true"><i class="fas fa-graduation-cap"></i> Staff Attendance</a>
+                <ul id="at_staff" class="list-unstyled collapse" style="">
+                    <li class=" @if($route = Route::current()->getName() == 'staffattendance-create') <?php echo "active" ?> @endif"><a href="{{route('staffattendance-create')}}"><i class="fas fa-graduation-cap"></i>Attendace Make</a></li>
+                    <li class=" @if($route = Route::current()->getName() == 'staff-attendance-bymonth') <?php echo "active" ?> @endif"><a href="{{route('staff-attendance-bymonth')}}"><i class="fas fa-graduation-cap"></i>Attendace View</a></li>
+                </ul>
+            </li>
+            @endif
             <li class=" @if($route = Route::current()->getName() == 'studentprofile-home') <?php echo "active" ?> @endif"><a href="{{route('studentprofile-home')}}"><i class="fas fa-graduation-cap"></i> Student Profile</a></li>
             {{-- Attendances --}}
-            <li class=" @if($route = Route::current()->getName() == 'staffattendance-create' || $route = Route::current()->getName() == 'staff-attendance-bymonth') <?php echo "subactive" ?> @endif"><a href="#at_staff" data-toggle="collapse" aria-expanded="true"><i class="fas fa-graduation-cap"></i> Staff Attendance</a>
-            <ul id="at_staff" class="list-unstyled collapse" style="">
-                <li class=" @if($route = Route::current()->getName() == 'staffattendance-create') <?php echo "active" ?> @endif"><a href="{{route('staffattendance-create')}}"><i class="fas fa-graduation-cap"></i>Attendace Make</a></li>
-                <li class=" @if($route = Route::current()->getName() == 'staff-attendance-bymonth') <?php echo "active" ?> @endif"><a href="{{route('staff-attendance-bymonth')}}"><i class="fas fa-graduation-cap"></i>Attendace View</a></li>
-            </ul>
-            </li>
         <li>
             <a href="#at_student" data-toggle="collapse" aria-expanded="true"><i class="fas fa-graduation-cap"></i>Student Attendace</a>
             <ul id="at_student" class="list-unstyled collapse" style="">
@@ -56,10 +59,11 @@
             </ul>
         </li>
             {{-- Semester --}}
+            <li class=" @if($route = Route::current()->getName() == 'time-tables') <?php echo "active" ?> @endif"><a href="{{route('time-tables')}}"><i class="fas fa-graduation-cap"></i>Time Tables</a></li>    
+        @if(Auth::user()->GetRole() == 1 || Auth::user()->GetRole() == 2)    
             <li class=" @if($route = Route::current()->getName() == 'close-semester') <?php echo "active" ?> @endif"><a href="{{route('close-semester')}}"><i class="fas fa-graduation-cap"></i>Year and Semester</a></li>
-            <li class=" @if($route = Route::current()->getName() == 'time-tables') <?php echo "active" ?> @endif"><a href="{{route('time-tables')}}"><i class="fas fa-graduation-cap"></i>Time Tables</a></li>
-            <li class=" @if($route = Route::current()->getName() == 'create-subjects') <?php echo "active" ?> @endif"><a href="{{route('create-subjects')}}"><i class="fas fa-graduation-cap"></i>Create Subjects</a></li>
             <li class=" @if($route = Route::current()->getName() == 'staffapprovals-approve') <?php echo "active" ?> @endif"><a href="{{route('staffapprovals-approve')}}"><i class="fas fa-graduation-cap"></i>Leave Approvals</a></li>
+        @endif
         </ul>
     </div>
 <!--************************* Content start *****************************************-->

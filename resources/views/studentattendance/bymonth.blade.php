@@ -8,6 +8,8 @@
                 <h3>View Attendance</h3>
                 </div>
                 <div class="card-body">
+
+
                         <ul class="nav nav-pills mb-3" id="pills-tab" role="tablist">
                                 <li class="nav-item">
                                   <a class="nav-link active" id="pills-home-tab" data-toggle="pill" href="#pills-home" role="tab" aria-controls="pills-home" aria-selected="true">Day</a>
@@ -25,9 +27,19 @@
 </div>
 
 <div class="tab-pane fade" id="pills-profile" role="tabpanel" aria-labelledby="pills-profile-tab">
+  
 <stud-attendance-view-bymonth></stud-attendance-view-bymonth>
+
 </div>
 </div>
+
+
+
+
+
+
+
+
 </div>
 </div>
 </div>

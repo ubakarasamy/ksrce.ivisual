@@ -5,8 +5,8 @@
         </div>
         <div class="card-body">
 
-<h3>All Time Tables</h3>
-<ul class="list-group">
+<h3 class="mb-2">All Time Tables</h3>
+<ul class="list-group view-table-list">
     <li class="list-group-item" v-for="allTimetable in allTimetables" v-bind:key="allTimetable.id">{{allTimetable.degree}} {{allTimetable.department}} {{allTimetable.year}}year {{allTimetable.semester}}Sem {{allTimetable.section}}
 <!-- Button trigger modal -->
 <button type="button" class="btn btn-outline-primary" data-toggle="modal" @click="viewTable(allTimetable)" data-target="#exampleModalCenter">
@@ -26,7 +26,7 @@
         </button>
       </div>
       <div class="modal-body">
-        <table class="table">
+        <table class="table view-table">
             <thead>
                 <th>Day / Hours</th>
                 <th>1</th>
@@ -98,7 +98,7 @@
 </div>
 
 
-
+<div class="creat-times mt-4">
 <h3>Create or Edit Time Table</h3>
 <div class="row">
 <div class="form-group col-md-2">
@@ -150,6 +150,7 @@
 </select>  
 </div>
 </div>
+ </div>
 
 <p class="text-info">Based on this time table Semester subjectwise time table is calculated. <br> So please double check before you submit</p>
 <form @submit.prevent="createTimeTable()">
@@ -405,5 +406,13 @@ fri1:'',fri2:'',fri3:'',fri4:'',fri5:'',fri6:'',fri7:''
     {   
         text-transform: uppercase;
         width: 100%;
+    }
+    .view-table td
+    {
+        text-transform: uppercase;
+    }
+    .view-table-list li
+    {
+        text-transform: uppercase;
     }
 </style>
