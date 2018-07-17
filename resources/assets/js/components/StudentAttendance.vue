@@ -41,27 +41,58 @@
         <div class="card">
             <div class="card-header">
                 <h1 class="card-title">Make Attendance for {{createAttendance.makedate}}</h1>
-                <div class="filter-options col-md-12">
-<label for="student_department_filter">Department</label>
-<select class="form-control" id="student_department_filter" style="width:120px;display:inline-block;" v-model="student_department_filter_selected">
-  <option v-for="student_department_filter_option in student_department_filter_options" v-bind:value="student_department_filter_option.value">{{ student_department_filter_option.text }}</option>
+                <a role="button" class="btn btn-primary float-right" href="">Back</a>
+<div class="form-group col-md-2">
+<!-- Degree -->
+ <label for="student_degree_filter">Degree</label><br>
+<select class="form-control" id="student_degree_filter" style="width:120px;display:inline-block;" v-model="degreeSelected">
+  <option v-for="degreeOption in degreeOptions" v-bind:value="degreeOption.value">{{ degreeOption.text }}</option>
 </select>
+</div>
 
- <label for="student_year_filter">Year</label>
-<select class="form-control" id="student_year_filter" v-model="student_year_filter_selected" style="width:120px;display:inline-block;">
-  <option v-for="student_year_filter_option in student_year_filter_options" v-bind:value="student_year_filter_option.value">
-    {{ student_year_filter_option.text }}
+<div class="form-group col-md-2">
+    <!-- Year -->
+ <label for="student_year_filter">Year</label><br>
+<select class="form-control" id="student_year_filter" v-model="yearSelected" style="width:120px;display:inline-block;">
+  <option v-for="yearOption in filteredYears" v-bind:value="yearOption.value">
+    {{ yearOption.text }}
   </option>
 </select>
+</div>
 
-    <label for="student_section_filter">Section</label>
-<select class="form-control" id="student_section_filter" v-model="student_section_filter_selected" style="width:120px;display:inline-block;"> 
-  <option  v-for="student_section_filter_option in student_section_filter_options" v-bind:value="student_section_filter_option.value">
-    {{ student_section_filter_option.text }}
+<div class="form-group col-md-2">
+    <!-- Deaprtment -->
+ <label for="student_filter_department">Department</label><br>
+<select class="form-control" id="student_filter_department" v-model="departmentSelected" style="width:120px;">
+  <option v-for="departmentOption in filteredDepartments" v-bind:value="departmentOption.value">
+    {{ departmentOption.text }}
   </option>
 </select>
+</div>
 
-<div class="select-hours" style="display-inline">
+<div class="form-group col-md-2">
+    <!-- Semester -->
+<label for="student_filter_semester">Semester</label><br>
+<select class="form-control" v-model="semesterSelected" id="student_filter_section" style="width:120px;"> 
+  <option v-for="semesterOption in filteredSemester" v-bind:value="semesterOption.value">
+    {{semesterOption.text}}
+  </option>
+  </select>
+</div>
+
+
+<div class="form-group col-md-2">
+  <!-- Section -->
+<label for="student_filter_section">Section</label><br>
+<select class="form-control" v-model="sectionSelected" id="student_filter_section" style="width:120px;"> 
+  <option v-for="sectionOption in sectionOptions" v-bind:value="sectionOption.value">
+    {{sectionOption.text}}
+  </option>
+</select>  
+</div>
+</div>
+
+<div class="select-hours ml-5 mt-2" style="display-inline">
     <div class="form-group"><label for="h1">H1</label>&nbsp&nbsp<input type="checkbox" name="h1" id="h1" v-model="selectedH.h1"></div>
     <div class="form-group"><label for="h2">H2</label>&nbsp&nbsp<input type="checkbox" name="h2" id="h2" v-model="selectedH.h2"></div>
     <div class="form-group"><label for="h3">H3</label>&nbsp&nbsp<input type="checkbox" name="h3" id="h3" v-model="selectedH.h3"></div>
@@ -71,8 +102,8 @@
     <div class="form-group"><label for="h7">H7</label>&nbsp&nbsp<input type="checkbox" name="h7" id="h7" v-model="selectedH.h7"></div>    
 </div>
 
-</div>
-<a role="button" class="btn btn-primary float-right" href="">Back</a>
+
+
             </div>
             <div class="card-body">
                 <table class="table">
@@ -175,35 +206,60 @@ export default {
       attendanceDatas: [],
       createForm: true,
       //student filter datas start
-      //department filter
-      student_department_filter_selected: "all",
-      student_department_filter_options: [
-        { text: "all", value: "all" },
-        { text: "ECE", value: "ece" },
-        { text: "EEE", value: "eee" },
-        { text: "MECH", value: "mech" },
-        { text: "CSE", value: "cse" },
-        { text: "IT", value: "it" },
-        { text: "CIVIL", value: "civil" }
-      ],
-      //Year filter
-      student_year_filter_selected: "all",
-      student_year_filter_options: [
-        { text: "all", value: "all" },
-        { text: "1st Year", value: "1" },
-        { text: "2nd year", value: "2" },
-        { text: "3rd year", value: "3" },
-        { text: "Final year", value: "4" }
-      ],
-      //section filter
-      student_section_filter_selected: "all",
-      student_section_filter_options: [
-        { text: "all", value: "all" },
-        { text: "A", value: "a" },
-        { text: "B", value: "b" },
-        { text: "C", value: "c" },
-        { text: "D", value: "d" }
-      ],
+     //Degree
+degreeSelected:'',
+degreeOptions:[
+          { text:'BE', value: 'be'},
+          { text:'ME', value: 'me'}
+        ],
+//create department
+departmentSelected: '',
+departmentOptions: [
+      { text: 'ECE', value: 'ece', degree: 'be' },
+        { text: 'EEE', value: 'eee', degree: 'be'  },
+        { text: 'MECH', value: 'mech', degree: 'be'  },
+        { text: 'CSE', value: 'cse', degree: 'be'  },
+        { text: 'IT', value: 'it', degree: 'be'  },
+        { text: 'CIVIL', value: 'civil', degree: 'be'  },
+        { text: 'AUTOMOBILE', value: 'automobile', degree: 'be'  },
+        { text: 'ME-CSE', value: 'me-cse', degree: 'me'  },
+        { text: 'ME-CEM', value: 'me-cem', degree: 'me'  },
+        { text: 'ME-EST', value: 'me-est', degree: 'me'  },
+        { text: 'ME-ISE', value: 'me-ise', degree: 'me'  },
+        { text: 'ME-PED', value: 'me-ped', degree: 'me'  },
+        { text: 'ME-SE', value: 'me-se', degree: 'me'  },
+        { text: 'ME-VLSI', value: 'me-vlsi', degree: 'me'  },
+        { text: 'MTECH-IT', value: 'mtech-it', degree: 'me'  },
+        { text: 'MBA', value: 'mba', degree: 'me'  }
+],
+// Create Year 
+yearSelected: '',
+yearOptions: [
+      { text: '1st Year', value: '1', degree: 'be&me'   },
+      { text: '2nd year', value: '2', degree: 'be&me'   },
+      { text: '3rd year', value: '3', degree: 'be'   },
+      { text: 'Final year', value: '4', degree: 'be'   }
+],
+// Create Semester 
+semesterSelected:'',
+semesterOptions:[
+            { text:'1', value: '1', degree: 'be&me'  },
+            { text:'2', value: '2', degree: 'be&me'  },
+            { text:'3', value: '3', degree: 'be&me'  },
+            { text:'4', value: '4', degree: 'be&me'  },
+            { text:'5', value: '5', degree: 'be'  },
+            { text:'6', value: '6', degree: 'be'  },
+            { text:'7', value: '7', degree: 'be'  },
+            { text:'8', value: '8', degree: 'be'  }
+        ],
+// Create section 
+sectionSelected: '',
+sectionOptions: [
+      { text: 'A', value: 'a' },
+      { text: 'B', value: 'b' },
+      { text: 'C', value: 'c' },
+      { text: 'D', value: 'd' }
+],
       //student filter datas end
       setStatusSelected: 'default',
       setStatuses:[
@@ -238,7 +294,7 @@ export default {
       })
         .then(res => res.json())
         .then(res => {
-          console.log(res.data);
+          //console.log(res.data);
         });
       this.createForm = false;
       alert("success");
@@ -419,7 +475,7 @@ export default {
     .then(res => res.json())
     .then(res => {
       this.times = res.data;
-      console.log(res.data);
+      //console.log(res.data);
     })
     .catch(err => console.log(err));
   },
@@ -436,9 +492,9 @@ export default {
   computed: {
     filteredStudents() {
       let vm = this;
-      let filterDepartment = vm.student_department_filter_selected;
-      let filterYear = vm.student_year_filter_selected;
-      let filterSection = vm.student_section_filter_selected;
+      let filterDepartment = vm.departmentSelected;
+      let filterYear = vm.yearSelected;
+      let filterSection = vm.sectionSelected;
 
       if (
         filterDepartment === "all" &&
@@ -456,7 +512,52 @@ export default {
           );
         });
       }
-    }
+    },
+    filteredDepartments(){
+        let vm =this;
+        let Degree;
+        let Departments;
+        Degree = vm.degreeSelected;
+        Departments = vm.departmentOptions;
+        
+        return Departments.filter(function(Department){
+          return (Department.degree === Degree);
+        });
+        
+      },
+        filteredYears(){
+         let vm =this;
+        let Degree;
+        let Years;
+        Degree = vm.degreeSelected;
+        Years = vm.yearOptions;
+        if(Degree === 'be'){
+          return Years;
+        }else if(Degree === 'me'){
+        return Years.filter(function(Year){
+          return (Year.degree === 'be&me');
+        });
+      }else{
+          return Years;
+      }
+      },
+      filteredSemester(){
+         let vm =this;
+        let Degree;
+        let Semester;
+        Degree = vm.degreeSelected;
+        Semester = vm.semesterOptions;
+        if(Degree === 'be'){
+          return Semester;
+        }else if(Degree === 'me'){
+        return Semester.filter(function(sem){
+          return (sem.degree === 'be&me');
+        });
+      }else{
+          return Semester;
+      }
+      }
+      
   }
 };
 </script>

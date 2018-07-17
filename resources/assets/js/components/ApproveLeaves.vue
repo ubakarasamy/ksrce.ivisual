@@ -32,6 +32,7 @@
             </tr>
         </tbody>
     </table>
+    <h3 class="text-center text-muted" v-if="filterapprovals <= 0">No Approvals Found</h3>
     </div>
 </div>
 </div>

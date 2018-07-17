@@ -6,7 +6,7 @@
         <div class="card-body">
 
 <h3 class="mb-2">All Time Tables</h3>
-<ul class="list-group view-table-list">
+<ul class="list-group view-table-list mt-3">
     <li class="list-group-item" v-for="allTimetable in allTimetables" v-bind:key="allTimetable.id">{{allTimetable.degree}} {{allTimetable.department}} {{allTimetable.year}}year {{allTimetable.semester}}Sem {{allTimetable.section}}
 <!-- Button trigger modal -->
 <button type="button" class="btn btn-outline-primary" data-toggle="modal" @click="viewTable(allTimetable)" data-target="#exampleModalCenter">
@@ -152,7 +152,7 @@
 </div>
  </div>
 
-<p class="text-info">Based on this time table Semester subjectwise time table is calculated. <br> So please double check before you submit</p>
+<p class="text-info">Based on this time table Semester Overall Attendance is calculated. <br> So please double check before you submit</p>
 <form @submit.prevent="createTimeTable()">
             <table class="table table-responsive input-table" style="text-transform:uppercase;">
                 <thead>

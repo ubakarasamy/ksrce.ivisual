@@ -63,6 +63,12 @@
                     </select>
                 </div>
                 <div class="form-group">
+                    <label>Alternative staff</label>
+                    <span v-if="Alternative">{{Alternative}}</span>
+                    <span v-if="Alternative === null">Not Selected</span>
+                    <button >Select</button>
+                </div>
+                <div class="form-group">
                     <textarea name="description" class="form-control" style="width:300px;" v-model="sendData.forDescription" id="description" rows="3" cols="40" placeholder="Description"></textarea>
                 </div>
                 <button type="submit" class="btn btn-primary">submit</button>
@@ -101,6 +107,7 @@
 export default {
     data(){
         return{
+            Alternative:'',
             StaffApprovals:[],
             sendData:{
                 approvalFor:'',
@@ -123,6 +130,9 @@ export default {
             userId: Number ,
     },
     methods:{
+        SelectAlternative(){
+            
+        },
         //Fetch sem
         fetchSem(){
             fetch('/api/fetchsemester')

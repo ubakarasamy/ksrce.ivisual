@@ -84,9 +84,11 @@ $date1 = $request->input('makedate');
     public function SetStaffData(Request $request){
         $aca = Academics::findOrFail(1);
         $start = $aca->academic_year;
+
         $id = $request->input('staff_id');
         $status = $request->input('staff_status');
         $date = $request->input('date');
+
         $staff = User::where('id', $id)->first();
         $staff_eid = $staff->eid;
         $ifExists = StaffAttendanceRecord::where([['staff_id', '=', $id], ['attendanceDate', '=', $date]])->first();
@@ -161,11 +163,12 @@ $date1 = $request->input('makedate');
 
         return 'data Edited';
         }else{
-            $dateStatus = StaffAttendance::where('attendanceDate', $request->input('date'))->first();
-            if($dateStatus->dateStatus == 0){
-                $dateStatus->dateStatus = 1;
-            $dateStatus->save();
-            }
+            //need to make a update
+            // $dateStatus = StaffAttendance::where('attendanceDate', $request->input('date'))->first();
+            // if($dateStatus->dateStatus == 0){
+            //     $dateStatus->dateStatus = 1;
+            // $dateStatus->save();
+            // }
             //create
         $record = new StaffAttendanceRecord;
         $record->attendanceDate = $date;

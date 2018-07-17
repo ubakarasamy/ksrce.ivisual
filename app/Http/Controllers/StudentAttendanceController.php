@@ -11,6 +11,7 @@ use App\StudentOver;
 use App\Academics;
 use App\Http\Resources\StudentOverResource;
 use App\Http\Resources\StudentAtRecordResource;
+use App\Http\Resources\StudentAtResource;
 
 class StudentAttendanceController extends Controller
 {
@@ -482,14 +483,18 @@ $record->sem_start = $acc->academic_semester_start;
     }
 }
 
-
-
-    //get attendance by month
+    //get attendance by Day
+    public function attendanceByDay(){
+        return view('studentattendance.byday');
+    }
+    //get attendance by Day
     public function attendanceByMonth(){
         return view('studentattendance.bymonth');
     }
-        
-
+    //get attendance by Day
+    public function attendanceByOverall(){
+        return view('studentattendance.byoverall');
+    }
     public function getAllStudentAttendance(){
         $datas = StudentAtRecord::all();
         return StudentAtRecordResource::collection($datas);
@@ -498,6 +503,18 @@ $record->sem_start = $acc->academic_semester_start;
         $ovrall = StudentOver::all();
         return StudentOverResource::collection($ovrall);
     } 
+    public function consolidatedMonth(Request $request){
+        $fromDate = $request->input('fromDate');
+        $toDate = $request->input('toDate');
+        $datas = StudentAtRecord::where([['attendancedate', '>=', $fromDate], ['attendancedate', '<=', $toDate]])->get();
+        return StudentAtRecordResource::collection($datas);  
+    }
+    public function allDatesConsolidated(Request $request){
+        $fromDate = $request->input('fromDate');
+        $toDate = $request->input('toDate');
+        $datas = StudentAt::where([['attendancedate', '>=', $fromDate], ['attendancedate', '<=', $toDate]])->get();
+        return StudentAtResource::collection($datas);  
+    }
 
 }
 

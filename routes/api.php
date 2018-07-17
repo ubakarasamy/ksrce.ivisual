@@ -61,11 +61,9 @@ Route::get('studentattendance/{makedate}', 'StudentAttendanceController@getStude
 
 Route::post('studentattendance/setstatus', 'StudentAttendanceController@SetStudentData');
 
-
 Route::post('staffapprovals/create', 'StaffApprovalController@createApproval');
 
 Route::put('staffapprovals/create', 'StaffApprovalController@createApproval');
-
 
 Route::get('staffapprovals/{id}', 'StaffApprovalController@getStatus');
 
@@ -86,3 +84,9 @@ Route::get('alltimetables', 'TimeTablesController@GetSubs');
 
 //get all overall student
 Route::get('student/overall', 'StudentAttendanceController@StudOverall');
+
+//get attendance by month
+Route::post('student/at/month', 'StudentAttendanceController@consolidatedMonth');
+
+//get attendance dates
+Route::post('student/at/dates', 'StudentAttendanceController@allDatesConsolidated');

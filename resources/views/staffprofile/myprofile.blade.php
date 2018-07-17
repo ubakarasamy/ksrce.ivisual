@@ -10,16 +10,20 @@
 @endsection
 
 @section('content')
-            <div class="dashboard" style="margin:30px;">
-                 <div class="card">
+            <div class="dashboard">
+                 <div class="card col-md-6">
                      <div class="card-header">
                         <h1>My Profile</h1>
                      </div>
                      <div class="card-body">
-                        <ul>
-                            <li>{{ $user->name }}</li>
-                            <li>{{ $user->role }}</li>
-                        </ul>
+                     <img src="{{asset('img/profile_default_pic.png')}}" alt="staff image" class="mx-auto d-block" style="width: 135px;border-radius: 7%;margin: 10px;">
+                        <table class="table" style="text-transform:uppercase;">
+                          <tr><td>Name:</td><td>{{$user->name}}</td></tr>
+                          <tr><td>Department:</td><td>{{$user->department}}</td></tr>
+                          <tr><td>Designation:</td><td>{{$user->occupation}}</td></tr>
+                          <tr><td>Employee ID:</td><td>{{$user->eid}}</td></tr>
+                          <tr><td>Joined On:</td><td>{{$user->mojoined}}</td></tr>
+                        </table>
                         <button class="btn btn-primary" id="change_password">Change Password</button>
                     
                         <div class="change-passwordform" id="passwordform">
@@ -28,8 +32,6 @@
                                     <button type="submit" class="btn btn-primary ml-4">Save</button>
                                 </form>
                         </div>
-                    
-                    
                     </div>
                  </div>
             </div>

@@ -31,7 +31,7 @@
 
                            <div class="showNew" v-if="showCreateAttendance === false">
 
-                                <input type="text" class="form-control col-md-4" style="text-transform:uppercase;margin-botom:20px;" placeholder="Search with Employee Id" v-model="search">
+                                <input type="text" class="form-control col-md-4 mb-3" style="text-transform:uppercase;margin-botom:20px;" placeholder="Search with Employee Id" v-model="search">
                                 <table class="table">
                                    <thead>
                                        <th>#EID</th>

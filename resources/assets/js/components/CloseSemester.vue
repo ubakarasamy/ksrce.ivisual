@@ -9,8 +9,10 @@
                    <h3>For Staffs Academic Year</h3>
         <p class="text-info">Note: based on this the year attendance will be calculated.</p>
 <form @submit.prevent="submitAcademic">
-<p>Academic Year Start</p>
+<h4 class="text-dark">Academic Year Start</h4> 
 <input type="date" v-model="academic.academicYear" id="date" name="date" class="form-control" style="width:200px;">
+<em><strong>Current Year Started</strong> {{gotData.academic_year}}</em>
+
 <br><br>
 <p>Enter Defaults <span class="text-info">This Can't Be Modifiable Till the current academic year Ends</span></p>
 <div class="form-group" style="width:300px;">
@@ -40,11 +42,11 @@
             <div class="form-group" style="width:300px;">
     <br>
     <h3>Semester: <strong>{{gotData.academic_semester}}</strong></h3>
-
+<h4 class="text-dark">Academic Semester Start</h4> 
     <input type="date" v-model="academicStudent.semStart" id="datesem" name="datesem" class="form-control" style="width:200px;">
-
+<em><strong>Current Semester Started</strong> {{gotData.academic_year}}</em>
     <br>
-    <button class="btn btn-primary" v-on:click="updateSem">Update Semester</button>
+    <button class="btn btn-primary mt-3" v-on:click="updateSem">Update Semester</button>
     
 </div>
 </div>
