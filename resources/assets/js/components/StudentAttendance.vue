@@ -102,7 +102,9 @@
     <div class="form-group"><label for="h7">H7</label>&nbsp&nbsp<input type="checkbox" name="h7" id="h7" v-model="selectedH.h7"></div>    
 </div>
 
-
+<div class="search-input">
+  <input type="text" v-model="searchStud" class="form-control ml-4 mb-2" placeholder="Search Name" style="width:200px;">
+</div>
 
             </div>
             <div class="card-body">
@@ -172,18 +174,13 @@
 </div>
 
 
-</div>
-
-
-
-
-
 </template>
 
 <script>
 export default {
   data() {
     return {
+      searchStud:'',
       gotData:[],
       semester:'',
       hours:{
@@ -495,11 +492,11 @@ sectionOptions: [
       let filterDepartment = vm.departmentSelected;
       let filterYear = vm.yearSelected;
       let filterSection = vm.sectionSelected;
-
+      let search = this.searchStud;
       if (
         filterDepartment === "all" &&
         filterYear === "all" &&
-        filterSection === "all"
+        filterSection === "all" && search === ""
       ) {
         return vm.students;
       } else {
@@ -508,7 +505,8 @@ sectionOptions: [
             (filterDepartment === "all" ||
               student.department === filterDepartment) &&
             (filterYear === "all" || student.year === filterYear) &&
-            (filterSection === "all" || student.section === filterSection)
+            (filterSection === "all" || student.section === filterSection) &&
+            (student.name.toLowerCase().includes(search.toLowerCase()))
           );
         });
       }

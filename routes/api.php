@@ -90,3 +90,5 @@ Route::post('student/at/month', 'StudentAttendanceController@consolidatedMonth')
 
 //get attendance dates
 Route::post('student/at/dates', 'StudentAttendanceController@allDatesConsolidated');
+
+Route::get('mystafflimits/{userid}', 'StaffApprovalController@getMyLimits');

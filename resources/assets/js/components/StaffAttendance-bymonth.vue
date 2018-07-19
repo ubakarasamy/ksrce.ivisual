@@ -1,6 +1,22 @@
 <template>
 <div class="staff-atbymonth">
 
+<div class="department-filter">
+  <div class="col-md-3">
+  <label for="staff_filter_department">Department</label>
+<select class="form-control" v-model="StaffDepartmentSelected" style="width:120px;">
+  <option v-for="StaffDepartment in StaffDepartments" v-bind:value="StaffDepartment.value">
+    {{ StaffDepartment.text }}
+  </option>
+</select>
+  </div>
+<div class="col-md-4">
+  <label for="name">Name</label>
+  <input type="text" class="form-control" name="name" id="name" v-model="StaffNameSearch" >
+</div>
+
+
+</div>
 
     <table class="table">
         <thead>
@@ -11,7 +27,7 @@ View
             </th>
         </thead>
         <tbody>
-            <tr v-for="staff in staffs" v-bind:key="staff.id">
+            <tr v-for="staff in filteredStaffs" v-bind:key="staff.id">
                 <td>{{staff.eid}}</td>
                 <td>{{staff.name}}</td>
                 <td>
@@ -71,8 +87,38 @@ View
 export default {
     data(){
         return {
+          StaffNameSearch:'',
             staffs:[],
-            staffAttendance:[]
+            staffAttendance:[],
+                    StaffDepartmentSelected: 'all',
+    StaffDepartments: [
+      { text: 'all', value: 'all' },
+      { text: 'ECE', value: 'ece' },
+        { text: 'EEE', value: 'eee' },
+        { text: 'MECH', value: 'mech' },
+        { text: 'CSE', value: 'cse' },
+        { text: 'IT', value: 'it' },
+        { text: 'CIVIL', value: 'civil' },
+        { text: 'AUTOMOBILE', value: 'automobile' },
+        { text: 'ENGLISH', value: 'english' },
+        { text: 'PHYSICS', value: 'physics' },
+        { text: 'CHEMISTRY', value: 'chemistry' },
+        { text: 'MATHEMATICS', value: 'mathematics' },
+        { text: 'ME-SE', value: 'me-se' },
+        { text: 'ME-CE&M', value: 'me-ce&m' },
+        { text: 'ME-CSE', value: 'me-cse' },
+        { text: 'ME-MMT', value: 'me-mmt' },
+        { text: 'ME-AE', value: 'me-ae' },
+        { text: 'ME-COM-SYS', value: 'me-com-sys' },
+        { text: 'ME-VLSI', value: 'me-vlsi' },
+        { text: 'ME-EST', value: 'me-est' },
+        { text: 'ME-PE&D', value: 'me-pe&d' },
+        { text: 'ME-ISE', value: 'me-ise' },
+        { text: 'MTECH-IT', value: 'mtech-it' },
+        { text: 'MBA', value: 'mba' },
+        { text: 'MCA', value: 'mca' }
+        
+    ]
         }
     },
     created(){
@@ -235,10 +281,30 @@ export default {
 
     },
     computed:{
-       
+        filteredStaffs: function() {
+			let vm = this;
+			let department = vm.StaffDepartmentSelected;
+      let search = vm.StaffNameSearch;
+			if(department === "all" && search === "") {
+				//save performance, juste return the default array:
+				return vm.staffs;
+			} else {
+				return vm.staffs.filter(function(staff) {
+					//return the array after passimng it through the filter function:
+					return  (department === 'all' || staff.department === department) && staff.name.toLowerCase().includes(search.toLowerCase());	 
+
+				});
+			}
+		}
     }
 
 }
 </script>
 
+<style scoped>
+.department-filter input
+{
+  margin-bottom: 20px;
+}
+</style>
 

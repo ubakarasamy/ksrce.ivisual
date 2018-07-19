@@ -78,7 +78,7 @@
             <td>{{stud.register_no}}</td>
             <td>{{stud.name}}</td>
             <td v-for="AtDate in AtDates" v-bind:key="AtDate.id">
-              {{ getAtDataByStud(AtDate, stud) }}
+              {{ getAtDataByStud(AtDate.attendancedate, stud.id) }}
              <!-- <span v-if="AtRecords.find(x => (x.attendancedate === AtDate.attendancedate && x.student_id === stud.id)) === null">Null</span>
               <span v-if="AtRecords.find(x => (x.attendancedate === AtDate.attendancedate && x.student_id === stud.id)) !== null"> 
                 {{AtRecords.find(x => (x.attendancedate === AtDate.attendancedate && x.student_id === stud.id))}}
@@ -220,9 +220,9 @@ sectionOptions: [
 getAtDataByStud(AtDate, stud){
   let test;
 
-  test = this.AtRecords.find(x => (x.attendancedate === AtDate.attendancedate && x.student_id === stud.id));
+  test = this.AtRecords.find(x => x.attendancedate === AtDate && x.student_id === stud).h1;
 
-return test.h1;
+return test;
 
 }
 

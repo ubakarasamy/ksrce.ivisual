@@ -83,7 +83,7 @@ class StudentAttendanceController extends Controller
         if($ifExists !== null){
 
          $dd = StudentAt::where('attendancedate', '=', $date)->first();
-         $incc = StudentOver::where('student_id', '=', $id)->first();
+         //$incc = StudentOver::where('student_id', '=', $id)->first();
             //edit attendance
         $record = StudentAtRecord::where([['student_id', '=', $id], ['attendancedate', '=', $date]])->first();
 
@@ -91,280 +91,77 @@ class StudentAttendanceController extends Controller
         $record->student_id = $id;
         $record->regno = $student_regno;
 
-        //h1
-        if($h1){ $record->h1 = $h1; if($h1 === 'absent' || $h1 === 'leave'){
-            switch ($dd->day){
-                case 'mon':
-                if($record->h1 !== 'absent' || $record->h1 !== 'leave'){
-                    $incc->mon1 = $incc->mon1-1;
-                }
-                break;
-                case 'tue':
-                if($record->h1 !== 'absent' || $record->h1 !== 'leave'){
-                    $incc->tue1 = $incc->tue1-1;
-                }
-                break;
-                case 'wed':
-                if($record->h1 !== 'absent' || $record->h1 !== 'leave'){
-                    $incc->wed1 = $incc->wed1-1;
-                }
-                break;
-                case 'thu':
-                if($record->h1 !== 'absent' || $record->h1 !== 'leave'){
-                    $incc->thu1 = $incc->thu1-1;
-                }
-                break;
-                case 'fri':
-                if($record->h1 !== 'absent' || $record->h1 !== 'leave'){
-                    $incc->fri1 = $incc->fri1-1;
-                }
-                break; 
-            }
-        }else{
-            switch ($dd->day){
-                case 'mon':$incc->mon1 = $incc->mon1+1;
-                break;
-                case 'tue':$incc->tue1 = $incc->tue1+1;break;
-                case 'wed':$incc->wed1 = $incc->wed1+1;break;
-                case 'thu':$incc->thu1 = $incc->thu1+1;break;
-                case 'fri':$incc->fri1 = $incc->fri1+1;break; }
-            }
+//removed here 
+if($h1){ 
+    if ($record->h1 === 'absent' || $record->h1 === 'leave' || $record->h1 === NULL && $h1 === 'present' || $h1 === 'od') {
+        $in = false;
+    }else{
+        $in = true;
+    }
+      $this->incrementHourOnEdit($h1,'h1',$dd->day,$id,$in);
+        $record->h1 = $h1;
 }
-//h2
-if($h2){ $record->h2 = $h2; if($h2 === 'absent' || $h2 === 'leave'){
-    switch ($dd->day){
-        case 'mon':
-        if($record->h2 !== 'absent' || $record->h2 !== 'leave'){
-            $incc->mon2 = $incc->mon2-1;
-        }
-        break;
-        case 'tue':
-        if($record->h2 !== 'absent' || $record->h2 !== 'leave'){
-            $incc->tue2 = $incc->tue2-1;
-        }
-        break;
-        case 'wed':
-        if($record->h2 !== 'absent' || $record->h2 !== 'leave'){
-            $incc->wed2 = $incc->wed2-1;
-        }
-        break;
-        case 'thu':
-        if($record->h2 !== 'absent' || $record->h2 !== 'leave'){
-            $incc->thu2 = $incc->thu2-1;
-        }
-        break;
-        case 'fri':
-        if($record->h2 !== 'absent' || $record->h2 !== 'leave'){
-            $incc->fri2 = $incc->fri2-1;
-        }
-        break; 
+if($h2){ 
+    if ($record->h2 === 'absent' || $record->h2 === 'leave' || $record->h2 === NULL && $h2 === 'present' || $h2 === 'od') {
+        $in = false;
+    }else{
+        $in = true;
     }
-}else{
-    switch ($dd->day){
-        case 'mon':$incc->mon2 = $incc->mon2+1;
-        break;
-        case 'tue':$incc->tue2 = $incc->tue2+1;break;
-        case 'wed':$incc->wed2 = $incc->wed2+1;break;
-        case 'thu':$incc->thu2 = $incc->thu2+1;break;
-        case 'fri':$incc->fri2 = $incc->fri2+1;break; }
-    }
+      $this->incrementHourOnEdit($h2,'h2',$dd->day,$id,$in);
+        $record->h2 = $h2;
 }
-//h3
-if($h3){ $record->h3 = $h3; if($h3 === 'absent' || $h3 === 'leave'){
-    switch ($dd->day){
-        case 'mon':
-        if($record->h3 !== 'absent' || $record->h3 !== 'leave'){
-            $incc->mon3 = $incc->mon3-1;
-        }
-        break;
-        case 'tue':
-        if($record->h3 !== 'absent' || $record->h3 !== 'leave'){
-            $incc->tue3 = $incc->tue3-1;
-        }
-        break;
-        case 'wed':
-        if($record->h3 !== 'absent' || $record->h3 !== 'leave'){
-            $incc->wed3 = $incc->wed3-1;
-        }
-        break;
-        case 'thu':
-        if($record->h3 !== 'absent' || $record->h3 !== 'leave'){
-            $incc->thu3 = $incc->thu3-1;
-        }
-        break;
-        case 'fri':
-        if($record->h3 !== 'absent' || $record->h3 !== 'leave'){
-            $incc->fri3 = $incc->fri3-1;
-        }
-        break; 
+if($h3){ 
+    if ($record->h3 === 'absent' || $record->h3 === 'leave' || $record->h3 === NULL && $h3 === 'present' || $h3 === 'od') {
+        $in = false;
+    }else{
+        $in = true;
     }
-}else{
-    switch ($dd->day){
-        case 'mon':$incc->mon3 = $incc->mon3+1;
-        break;
-        case 'tue':$incc->tue3 = $incc->tue3+1;break;
-        case 'wed':$incc->wed3 = $incc->wed3+1;break;
-        case 'thu':$incc->thu3 = $incc->thu3+1;break;
-        case 'fri':$incc->fri3 = $incc->fri3+1;break; }
-    }
+      $this->incrementHourOnEdit($h3,'h3',$dd->day,$id,$in);
+        $record->h3 = $h3;
 }
-//h4
-if($h4){ $record->h4 = $h4; if($h4 === 'absent' || $h4 === 'leave'){
-    switch ($dd->day){
-        case 'mon':
-        if($record->h4 !== 'absent' || $record->h4 !== 'leave'){
-            $incc->mon4 = $incc->mon4-1;
-        }
-        break;
-        case 'tue':
-        if($record->h4 !== 'absent' || $record->h4 !== 'leave'){
-            $incc->tue4 = $incc->tue4-1;
-        }
-        break;
-        case 'wed':
-        if($record->h4 !== 'absent' || $record->h4 !== 'leave'){
-            $incc->wed4 = $incc->wed4-1;
-        }
-        break;
-        case 'thu':
-        if($record->h4 !== 'absent' || $record->h4 !== 'leave'){
-            $incc->thu4 = $incc->thu4-1;
-        }
-        break;
-        case 'fri':
-        if($record->h4 !== 'absent' || $record->h4 !== 'leave'){
-            $incc->fri4 = $incc->fri4-1;
-        }
-        break; 
+if($h4){ 
+    if ($record->h4 === 'absent' || $record->h4 === 'leave' || $record->h4 === NULL && $h4 === 'present' || $h4 === 'od') {
+        $in = false;
+    }else{
+        $in = true;
     }
-}else{
-    switch ($dd->day){
-        case 'mon':$incc->mon4 = $incc->mon4+1;
-        break;
-        case 'tue':$incc->tue4 = $incc->tue4+1;break;
-        case 'wed':$incc->wed4 = $incc->wed4+1;break;
-        case 'thu':$incc->thu4 = $incc->thu4+1;break;
-        case 'fri':$incc->fri4 = $incc->fri4+1;break; }
-    }
+      $this->incrementHourOnEdit($h4,'h4',$dd->day,$id,$in);
+        $record->h4 = $h4;
 }
-//h5
-if($h5){ $record->h5 = $h5; if($h5 === 'absent' || $h5 === 'leave'){
-    switch ($dd->day){
-        case 'mon':
-        if($record->h5 !== 'absent' || $record->h5 !== 'leave'){
-            $incc->mon5 = $incc->mon5-1;
-        }
-        break;
-        case 'tue':
-        if($record->h5 !== 'absent' || $record->h5 !== 'leave'){
-            $incc->tue5 = $incc->tue5-1;
-        }
-        break;
-        case 'wed':
-        if($record->h5 !== 'absent' || $record->h5 !== 'leave'){
-            $incc->wed5 = $incc->wed5-1;
-        }
-        break;
-        case 'thu':
-        if($record->h5 !== 'absent' || $record->h5 !== 'leave'){
-            $incc->thu5 = $incc->thu5-1;
-        }
-        break;
-        case 'fri':
-        if($record->h5 !== 'absent' || $record->h5 !== 'leave'){
-            $incc->fri5 = $incc->fri5-1;
-        }
-        break; 
+if($h5){ 
+    if ($record->h5 === 'absent' || $record->h5 === 'leave' || $record->h5 === NULL && $h5 === 'present' || $h5 === 'od') {
+        $in = false;
+    }else{
+        $in = true;
     }
-}else{
-    switch ($dd->day){
-        case 'mon':$incc->mon5 = $incc->mon5+1;
-        break;
-        case 'tue':$incc->tue5 = $incc->tue5+1;break;
-        case 'wed':$incc->wed5 = $incc->wed5+1;break;
-        case 'thu':$incc->thu5 = $incc->thu5+1;break;
-        case 'fri':$incc->fri5 = $incc->fri5+1;break; }
-    }
+      $this->incrementHourOnEdit($h5,'h5',$dd->day,$id,$in);
+        $record->h5 = $h5;
 }
-//h6
-if($h6){ $record->h6 = $h6; if($h6 === 'absent' || $h6 === 'leave'){
-    switch ($dd->day){
-        case 'mon':
-        if($record->h6 !== 'absent' || $record->h6 !== 'leave'){
-            $incc->mon6 = $incc->mon6-1;
-        }
-        break;
-        case 'tue':
-        if($record->h6 !== 'absent' || $record->h6 !== 'leave'){
-            $incc->tue6 = $incc->tue6-1;
-        }
-        break;
-        case 'wed':
-        if($record->h6 !== 'absent' || $record->h6 !== 'leave'){
-            $incc->wed6 = $incc->wed6-1;
-        }
-        break;
-        case 'thu':
-        if($record->h6 !== 'absent' || $record->h6 !== 'leave'){
-            $incc->thu6 = $incc->thu6-1;
-        }
-        break;
-        case 'fri':
-        if($record->h6 !== 'absent' || $record->h6 !== 'leave'){
-            $incc->fri6 = $incc->fri6-1;
-        }
-        break; 
+if($h6){ 
+    if ($record->h6 === 'absent' || $record->h6 === 'leave' || $record->h6 === NULL && $h6 === 'present' || $h6 === 'od') {
+        $in = false;
+    }else{
+        $in = true;
     }
-}else{
-    switch ($dd->day){
-        case 'mon':$incc->mon6 = $incc->mon6+1;
-        break;
-        case 'tue':$incc->tue6 = $incc->tue6+1;break;
-        case 'wed':$incc->wed6 = $incc->wed6+1;break;
-        case 'thu':$incc->thu6 = $incc->thu6+1;break;
-        case 'fri':$incc->fri6 = $incc->fri6+1;break; }
-    }
+      $this->incrementHourOnEdit($h6,'h6',$dd->day,$id,$in);
+        $record->h6 = $h6;
 }
-//h7
-if($h7){ $record->h7 = $h7; if($h7 === 'absent' || $h7 === 'leave'){
-    switch ($dd->day){
-        case 'mon':
-        if($record->h7 !== 'absent' || $record->h7 !== 'leave'){
-            $incc->mon7 = $incc->mon7-1;
-        }
-        break;
-        case 'tue':
-        if($record->h7 !== 'absent' || $record->h7 !== 'leave'){
-            $incc->tue7 = $incc->tue7-1;
-        }
-        break;
-        case 'wed':
-        if($record->h7 !== 'absent' || $record->h7 !== 'leave'){
-            $incc->wed7 = $incc->wed7-1;
-        }
-        break;
-        case 'thu':
-        if($record->h7 !== 'absent' || $record->h7 !== 'leave'){
-            $incc->thu7 = $incc->thu7-1;
-        }
-        break;
-        case 'fri':
-        if($record->h7 !== 'absent' || $record->h7 !== 'leave'){
-            $incc->fri7 = $incc->fri7-1;
-        }
-        break; 
+if($h7){ 
+    if ($record->h7 === 'absent' || $record->h7 === 'leave' || $record->h7 === NULL && $h7 === 'present' || $h7 === 'od') {
+        $in = false;
+    }else{
+        $in = true;
     }
-}else{
-    switch ($dd->day){
-        case 'mon':$incc->mon7 = $incc->mon7+1;
-        break;
-        case 'tue':$incc->tue7 = $incc->tue7+1;break;
-        case 'wed':$incc->wed7 = $incc->wed7+1;break;
-        case 'thu':$incc->thu7 = $incc->thu7+1;break;
-        case 'fri':$incc->fri7 = $incc->fri7+1;break; }
-    }
+      $this->incrementHourOnEdit($h7,'h7',$dd->day,$id,$in);
+        $record->h7 = $h7;
 }
 
+// if($h2){ $record->h2 = $h2;}
+// if($h3){ $record->h3 = $h3;}
+// if($h4){ $record->h4 = $h4;}
+// if($h5){ $record->h5 = $h5;}
+// if($h6){ $record->h6 = $h6;}
+// if($h7){ $record->h7 = $h7;}
 
         $record->hrspresent = null;
         $record->degree = $student->degree;
@@ -373,7 +170,7 @@ if($h7){ $record->h7 = $h7; if($h7 === 'absent' || $h7 === 'leave'){
         $record->section = $student->section;
         $record->semester = $student->semester;
         $record->save();
-        $incc->save();
+       // $incc->save();
         return 'data Edited';
         }else{
             //create attendance
@@ -394,81 +191,49 @@ $incc->save();
 }
 
         $record = new StudentAtRecord;
-$incc = StudentOver::where('student_id', '=', $id)->first();
+//$incc = StudentOver::where('student_id', '=', $id)->first();
 $dd = StudentAt::where('attendancedate', '=', $date)->first();
 $acc = Academics::findOrFail(1);
 $record->sem_start = $acc->academic_semester_start;
         $record->attendancedate = $date;
         $record->student_id = $id;
         $record->regno = $student_regno;
-        if($h1){ $record->h1 = $h1; if($h1 != 'absent'){ if($h1 != 'leave'){
-            switch ($dd->day){
-                case 'mon':$incc->mon1 = $incc->mon1+1;
-                break;
-                case 'tue':$incc->tue1 = $incc->tue1+1;break;
-                case 'wed':$incc->wed1 = $incc->wed1+1;break;
-                case 'thu':$incc->thu1 = $incc->thu1+1;break;
-                case 'fri':$incc->fri1 = $incc->fri1+1;break; }}}
-        if($h2){ $record->h2 = $h2; if($h2 != 'absent'){ if($h2 != 'leave'){
 
-            switch ($dd->day){
-                case 'mon':$incc->mon2 = $incc->mon2+1;
-                break;
-                case 'tue':$incc->tue2 = $incc->tue2+1;break;
-                case 'wed':$incc->wed2 = $incc->wed2+1;break;
-                case 'thu':$incc->thu2 = $incc->thu2+1;break;
-                case 'fri':$incc->fri2 = $incc->fri2+1;break; }
-        }}}
-        if($h3){ $record->h3 = $h3; if($h3 != 'absent'){ if($h3 != 'leave'){
-
-            switch ($dd->day){
-                case 'mon':$incc->mon3 = $incc->mon3+1;
-                break;
-                case 'tue':$incc->tue3 = $incc->tue3+1;break;
-                case 'wed':$incc->wed3 = $incc->wed3+1;break;
-                case 'thu':$incc->thu3 = $incc->thu3+1;break;
-                case 'fri':$incc->fri3 = $incc->fri3+1;break; }
-        }}}
-        if($h4){ $record->h4 = $h4; if($h4 != 'absent'){ if($h4 != 'leave'){
-
-            switch ($dd->day){
-                case 'mon':$incc->mon4 = $incc->mon4+1;
-                break;
-                case 'tue':$incc->tue4 = $incc->tue4+1;break;
-                case 'wed':$incc->wed4 = $incc->wed4+1;break;
-                case 'thu':$incc->thu4 = $incc->thu4+1;break;
-                case 'fri':$incc->fri4 = $incc->fri4+1;break; }
-        }}}
-        if($h5){ $record->h5 = $h5; if($h5 != 'absent'){ if($h5 != 'leave'){
-
-            switch ($dd->day){
-                case 'mon':$incc->mon5 = $incc->mon5+1;
-                break;
-                case 'tue':$incc->tue5 = $incc->tue5+1;break;
-                case 'wed':$incc->wed5 = $incc->wed5+1;break;
-                case 'thu':$incc->thu5 = $incc->thu5+1;break;
-                case 'fri':$incc->fri5 = $incc->fri5+1;break; }
-        }}}
-        if($h6){ $record->h6 = $h6; if($h6 != 'absent'){ if($h6 != 'leave'){
-
-            switch ($dd->day){
-                case 'mon':$incc->mon6 = $incc->mon6+1;
-                break;
-                case 'tue':$incc->tue6 = $incc->tue6+1;break;
-                case 'wed':$incc->wed6 = $incc->wed6+1;break;
-                case 'thu':$incc->thu6 = $incc->thu6+1;break;
-                case 'fri':$incc->fri6 = $incc->fri6+1;break; }
-        }}}
-        if($h7){ $record->h7 = $h7; if($h7 != 'absent'){ if($h7 != 'leave'){
-
-            switch ($dd->day){
-                case 'mon':$incc->mon7 = $incc->mon7+1;
-                break;
-                case 'tue':$incc->tue7 = $incc->tue7+1;break;
-                case 'wed':$incc->wed7 = $incc->wed7+1;break;
-                case 'thu':$incc->thu7 = $incc->thu7+1;break;
-                case 'fri':$incc->fri7 = $incc->fri7+1;break; }
-        }}}
+        if($h1){ 
+                $in = false;
+              $this->incrementHourOnEdit($h1,'h1',$dd->day,$id,$in);
+                $record->h1 = $h1;
+        }
+        if($h2){ 
+            $in = false;
+              $this->incrementHourOnEdit($h2,'h2',$dd->day,$id,$in);
+                $record->h2 = $h2;
+        }
+        if($h3){ 
+            $in = false;
+              $this->incrementHourOnEdit($h3,'h3',$dd->day,$id,$in);
+                $record->h3 = $h3;
+        }
+        if($h4){ 
+            $in = false;
+              $this->incrementHourOnEdit($h4,'h4',$dd->day,$id,$in);
+                $record->h4 = $h4;
+        }
+        if($h5){ 
+            $in = false;
+              $this->incrementHourOnEdit($h5,'h5',$dd->day,$id,$in);
+                $record->h5 = $h5;
+        }
+        if($h6){ 
+            $in = false;
+              $this->incrementHourOnEdit($h6,'h6',$dd->day,$id,$in);
+                $record->h6 = $h6;
+        }
+        if($h7){ 
+            $in = false;
+              $this->incrementHourOnEdit($h7,'h7',$dd->day,$id,$in);
+                $record->h7 = $h7;
+        }
         
         $record->hrspresent = null;
         $record->degree = $student->degree;
@@ -477,11 +242,12 @@ $record->sem_start = $acc->academic_semester_start;
         $record->section = $student->section;
         $record->semester = $student->semester;
         $record->save();
-        $incc->save();
+        //$incc->save();
         return 'data Entered';
         }
     }
-}
+
+
 
     //get attendance by Day
     public function attendanceByDay(){
@@ -516,6 +282,289 @@ $record->sem_start = $acc->academic_semester_start;
         return StudentAtResource::collection($datas);  
     }
 
-}
+    public function incrementHourOnEdit($hour,$h,$day,$studId,$inc){
+        $incc = StudentOver::where('student_id', '=', $studId)->first();
+
+        switch ($day){
+            //monday
+            case 'mon':
+                    switch ($h) {
+                        case 'h1':
+                        if($inc === true){
+                            $incc->mon1 = $incc->mon1-1;
+                        }else{
+                            $incc->mon1 = $incc->mon1+1;
+                        }
+                            break;
+                        
+                        case 'h2':
+                        if($inc === true){
+                            $incc->mon2 = $incc->mon2-1;
+                        }else{
+                            $incc->mon2 = $incc->mon2+1;
+                        }
+                            break;
+                            case 'h3':
+                            if($inc === true){
+                                $incc->mon3 = $incc->mon3-1;
+                            }else{
+                                $incc->mon3 = $incc->mon3+1;
+                            }
+                            break;
+                            case 'h4':
+                            if($inc === true){
+                                $incc->mon4 = $incc->mon4-1;
+                            }else{
+                                $incc->mon4 = $incc->mon4+1;
+                            }
+                            break;
+                            case 'h5':
+                            if($inc === true){
+                                $incc->mon5 = $incc->mon5-1;
+                            }else{
+                                $incc->mon5 = $incc->mon5+1;
+                            }
+                            break;
+                            case 'h6':
+                            if($inc === true){
+                                $incc->mon6 = $incc->mon6-1;
+                            }else{
+                                $incc->mon6 = $incc->mon6+1;
+                            }
+                            break;
+                            case 'h7':
+                            if($inc === true){
+                                $incc->mon7 = $incc->mon7-1;
+                            }else{
+                                $incc->mon7 = $incc->mon7+1;
+                            }
+                            break;
+                    }
+            break;
+             //tuesday
+             case 'tue':
+                    switch ($h) {
+                        case 'h1':
+                        if($inc === true){
+                            $incc->tue1 = $incc->tue1-1;
+                        }else{
+                            $incc->tue1 = $incc->tue1+1;
+                        }
+                            break;
+                        
+                        case 'h2':
+                        if($inc === true){
+                            $incc->tue2 = $incc->tue2-1;
+                        }else{
+                            $incc->tue2 = $incc->tue2+1;
+                        }
+                            break;
+                            case 'h3':
+                            if($inc === true){
+                                $incc->tue3 = $incc->tue3-1;
+                            }else{
+                                $incc->tue3 = $incc->tue3+1;
+                            }
+                            break;
+                            case 'h4':
+                            if($inc === true){
+                                $incc->tue4 = $incc->tue4-1;
+                            }else{
+                                $incc->tue4 = $incc->tue4+1;
+                            }
+                            break;
+                            case 'h5':
+                            if($inc === true){
+                                $incc->tue5 = $incc->tue5-1;
+                            }else{
+                                $incc->tue5 = $incc->tue5+1;
+                            }
+                            break;
+                            case 'h6':
+                            if($inc === true){
+                                $incc->tue6 = $incc->tue6-1;
+                            }else{
+                                $incc->tue6 = $incc->tue6+1;
+                            }
+                            break;
+                            case 'h7':
+                            if($inc === true){
+                                $incc->tue7 = $incc->tue7-1;
+                            }else{
+                                $incc->tue7 = $incc->tue7+1;
+                            }
+                            break;
+                    }
+            break;
+            //wednesday
+            case 'wed':
+                    switch ($h) {
+                        case 'h1':
+                        if($inc === true){
+                            $incc->wed1 = $incc->wed1-1;
+                        }else{
+                            $incc->wed1 = $incc->wed1+1;
+                        }
+                            break;
+                        
+                        case 'h2':
+                        if($inc === true){
+                            $incc->wed2 = $incc->wed2-1;
+                        }else{
+                            $incc->wed2 = $incc->wed2+1;
+                        }
+                            break;
+                            case 'h3':
+                            if($inc === true){
+                                $incc->wed3 = $incc->wed3-1;
+                            }else{
+                                $incc->wed3 = $incc->wed3+1;
+                            }
+                            break;
+                            case 'h4':
+                            if($inc === true){
+                                $incc->wed4 = $incc->wed4-1;
+                            }else{
+                                $incc->wed4 = $incc->wed4+1;
+                            }
+                            break;
+                            case 'h5':
+                            if($inc === true){
+                                $incc->wed5 = $incc->wed5-1;
+                            }else{
+                                $incc->wed5 = $incc->wed5+1;
+                            }
+                            break;
+                            case 'h6':
+                            if($inc === true){
+                                $incc->wed6 = $incc->wed6-1;
+                            }else{
+                                $incc->wed6 = $incc->wed6+1;
+                            }
+                            break;
+                            case 'h7':
+                            if($inc === true){
+                                $incc->wed7 = $incc->wed7-1;
+                            }else{
+                                $incc->wed7 = $incc->wed7+1;
+                            }
+                            break;
+                    }
+            break;
+            //thusday
+            case 'thu':
+                    switch ($h) {
+                        case 'h1':
+                        if($inc === true){
+                            $incc->thu1 = $incc->thu1-1;
+                        }else{
+                            $incc->thu1 = $incc->thu1+1;
+                        }
+                            break;
+                        
+                        case 'h2':
+                        if($inc === true){
+                            $incc->thu2 = $incc->thu2-1;
+                        }else{
+                            $incc->thu2 = $incc->thu2+1;
+                        }
+                            break;
+                            case 'h3':
+                            if($inc === true){
+                                $incc->thu3 = $incc->thu3-1;
+                            }else{
+                                $incc->thu3 = $incc->thu3+1;
+                            }
+                            break;
+                            case 'h4':
+                            if($inc === true){
+                                $incc->thu4 = $incc->thu4-1;
+                            }else{
+                                $incc->thu4 = $incc->thu4+1;
+                            }
+                            break;
+                            case 'h5':
+                            if($inc === true){
+                                $incc->thu5 = $incc->thu5-1;
+                            }else{
+                                $incc->thu5 = $incc->thu5+1;
+                            }
+                            break;
+                            case 'h6':
+                            if($inc === true){
+                                $incc->thu6 = $incc->thu6-1;
+                            }else{
+                                $incc->thu6 = $incc->thu6+1;
+                            }
+                            break;
+                            case 'h7':
+                            if($inc === true){
+                                $incc->thu7 = $incc->thu7-1;
+                            }else{
+                                $incc->thu7 = $incc->thu7+1;
+                            }
+                            break;
+                    }
+            break;
+            //friday
+            case 'fri':
+                    switch ($h) {
+                        case 'h1':
+                        if($inc === true){
+                            $incc->fri1 = $incc->fri1-1;
+                        }else{
+                            $incc->fri1 = $incc->fri1+1;
+                        }
+                            break;
+                        
+                        case 'h2':
+                        if($inc === true){
+                            $incc->fri2 = $incc->fri2-1;
+                        }else{
+                            $incc->fri2 = $incc->fri2+1;
+                        }
+                            break;
+                            case 'h3':
+                            if($inc === true){
+                                $incc->fri3 = $incc->fri3-1;
+                            }else{
+                                $incc->fri3 = $incc->fri3+1;
+                            }
+                            break;
+                            case 'h4':
+                            if($inc === true){
+                                $incc->fri4 = $incc->fri4-1;
+                            }else{
+                                $incc->fri4 = $incc->fri4+1;
+                            }
+                            break;
+                            case 'h5':
+                            if($inc === true){
+                                $incc->fri5 = $incc->fri5-1;
+                            }else{
+                                $incc->fri5 = $incc->fri5+1;
+                            }
+                            break;
+                            case 'h6':
+                            if($inc === true){
+                                $incc->fri6 = $incc->fri6-1;
+                            }else{
+                                $incc->fri6 = $incc->fri6+1;
+                            }
+                            break;
+                            case 'h7':
+                            if($inc === true){
+                                $incc->fri7 = $incc->fri7-1;
+                            }else{
+                                $incc->fri7 = $incc->fri7+1;
+                            }
+                            break;
+                    }
+            break;
+        }
+        $incc->save();
+    }
+    }
+
 
 

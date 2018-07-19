@@ -5,8 +5,11 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\StaffApproval;
 use App\Http\Resources\StaffApprovalResource;
+use App\Http\Resources\StaffAtOverallResource;
 use Auth;
 use App\User;
+use App\Academics;
+use App\StaffAtOverall;
 
 class StaffApprovalController extends Controller
 {
@@ -21,7 +24,6 @@ class StaffApprovalController extends Controller
     if($request->isMethod('put')){
         $Aid = $request->input('Aid');
         $status = $request->input('status');
-        
         $A = StaffApproval::findOrFail($Aid);
         $A->status = $status;
         $A->attempt = 1;
@@ -32,6 +34,8 @@ class StaffApprovalController extends Controller
 
         $staffId = $request->input('userId'); //staff id
         $date = $request->input('date');
+        $Astaffid = $request->input('AlternativeStaffId');
+        $Astaffname = $request->input('AlternativeStaffName');
         $staff = User::findOrFail($staffId);
         $department = $staff->department;
         $approvalFor = $request->input('approvalFor'); //approval for
@@ -50,6 +54,8 @@ class StaffApprovalController extends Controller
         $create->department = $department;
         $create->date = $date;
         $create->attempt = 0;
+        $create->alteration_staff_id = $Astaffid;
+        $create->alteration_staff_name = $Astaffname;
         $create->save();
         return 'created approval';
     }
@@ -65,6 +71,16 @@ class StaffApprovalController extends Controller
     public function getAllApprovals(){
         $staffApprovals = StaffApproval::all();
         return StaffApprovalResource::collection($staffApprovals);
+    }
+
+    public function getMyLimits(Request $request, $userid){
+        $uId = $userid;
+        $aca = Academics::findOrFail(1);
+        $start = $aca->academic_year;
+
+        $dd = StaffAtOverall::where([['staff_id', '=', $uId],['academic_year', '=', $start]])->get();
+
+        return StaffAtOverallResource::collection($dd);
     }
 
 }

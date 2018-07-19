@@ -19,6 +19,7 @@ class StaffApprovalResource extends Resource
             'staff_id' => $this->staff_id,
             'date' => $this->date,
             'approvalfor' => $this->approvalfor,
+            'alterStaff' => $this->alteration_staff_name,
             'description' => $this->description,
             'department' => $this->department,
             'attempt' => $this->attempt,
