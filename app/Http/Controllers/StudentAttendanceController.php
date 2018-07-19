@@ -95,8 +95,11 @@ class StudentAttendanceController extends Controller
 if($h1){ 
     if ($record->h1 === 'absent' || $record->h1 === 'leave' || $record->h1 === NULL && $h1 === 'present' || $h1 === 'od') {
         $in = false;
+        //if increment
+        $Tplus1 = 1; 
     }else{
         $in = true;
+        $Tminus1 = 1; 
     }
       $this->incrementHourOnEdit($h1,'h1',$dd->day,$id,$in);
         $record->h1 = $h1;
@@ -104,8 +107,10 @@ if($h1){
 if($h2){ 
     if ($record->h2 === 'absent' || $record->h2 === 'leave' || $record->h2 === NULL && $h2 === 'present' || $h2 === 'od') {
         $in = false;
+        $Tplus2 = 1; 
     }else{
         $in = true;
+        $Tminus2 = 1; 
     }
       $this->incrementHourOnEdit($h2,'h2',$dd->day,$id,$in);
         $record->h2 = $h2;
@@ -113,8 +118,10 @@ if($h2){
 if($h3){ 
     if ($record->h3 === 'absent' || $record->h3 === 'leave' || $record->h3 === NULL && $h3 === 'present' || $h3 === 'od') {
         $in = false;
+        $Tplus3 = 1; 
     }else{
         $in = true;
+        $Tminus3 = 1; 
     }
       $this->incrementHourOnEdit($h3,'h3',$dd->day,$id,$in);
         $record->h3 = $h3;
@@ -122,8 +129,10 @@ if($h3){
 if($h4){ 
     if ($record->h4 === 'absent' || $record->h4 === 'leave' || $record->h4 === NULL && $h4 === 'present' || $h4 === 'od') {
         $in = false;
+        $Tplus4 = 1; 
     }else{
         $in = true;
+        $Tminus4 = 1; 
     }
       $this->incrementHourOnEdit($h4,'h4',$dd->day,$id,$in);
         $record->h4 = $h4;
@@ -131,8 +140,10 @@ if($h4){
 if($h5){ 
     if ($record->h5 === 'absent' || $record->h5 === 'leave' || $record->h5 === NULL && $h5 === 'present' || $h5 === 'od') {
         $in = false;
+        $Tplus5 = 1; 
     }else{
         $in = true;
+        $Tminus5 = 1; 
     }
       $this->incrementHourOnEdit($h5,'h5',$dd->day,$id,$in);
         $record->h5 = $h5;
@@ -140,8 +151,10 @@ if($h5){
 if($h6){ 
     if ($record->h6 === 'absent' || $record->h6 === 'leave' || $record->h6 === NULL && $h6 === 'present' || $h6 === 'od') {
         $in = false;
+        $Tplus6 = 1; 
     }else{
         $in = true;
+        $Tminus6 = 1; 
     }
       $this->incrementHourOnEdit($h6,'h6',$dd->day,$id,$in);
         $record->h6 = $h6;
@@ -149,21 +162,24 @@ if($h6){
 if($h7){ 
     if ($record->h7 === 'absent' || $record->h7 === 'leave' || $record->h7 === NULL && $h7 === 'present' || $h7 === 'od') {
         $in = false;
+        $Tplus7 = 1; 
     }else{
         $in = true;
+        $Tminus7 = 1; 
     }
       $this->incrementHourOnEdit($h7,'h7',$dd->day,$id,$in);
         $record->h7 = $h7;
 }
 
-// if($h2){ $record->h2 = $h2;}
-// if($h3){ $record->h3 = $h3;}
-// if($h4){ $record->h4 = $h4;}
-// if($h5){ $record->h5 = $h5;}
-// if($h6){ $record->h6 = $h6;}
-// if($h7){ $record->h7 = $h7;}
+//add and sub total hrs
+if(empty($Tplus1)){ $Tplus1 =0; }if(empty($Tplus2)){ $Tplus2 =0; }if(empty($Tplus3)){ $Tplus3 =0; }if(empty($Tplus4)){ $Tplus4 =0; }if(empty($Tplus5)){ $Tplus5 =0; }if(empty($Tplus6)){ $Tplus6 =0; }if(empty($Tplus7)){ $Tplus7 =0; }
+if(empty($Tminus1)){ $Tminus1 =0; }if(empty($Tminus2)){ $Tminus2 =0; }if(empty($Tminus3)){ $Tminus3 =0; }if(empty($Tminus4)){ $Tminus4 =0; }if(empty($Tminus5)){ $Tminus5 =0; }if(empty($Tminus6)){ $Tminus6 =0; }if(empty($Tminus7)){ $Tminus7 =0; }
+$addNu = $Tplus1+$Tplus2+$Tplus3+$Tplus4+$Tplus5+$Tplus6+$Tplus7;
+$subNu = $Tminus1+$Tminus2+$Tminus3+$Tminus4+$Tminus5+$Tminus5+$Tminus7;
 
-        $record->hrspresent = null;
+$totalhrs = $record->hrspresent + $addNu;
+
+$record->hrspresent = $totalhrs - $subNu;
         $record->degree = $student->degree;
         $record->department = $student->department;
         $record->year = $student->year;
@@ -235,7 +251,7 @@ $record->sem_start = $acc->academic_semester_start;
                 $record->h7 = $h7;
         }
         
-        $record->hrspresent = null;
+        $record->hrspresent = $this->addHours($h1,$h2,$h3,$h4,$h5,$h6,$h7);
         $record->degree = $student->degree;
         $record->department = $student->department;
         $record->year = $student->year;
@@ -247,7 +263,17 @@ $record->sem_start = $acc->academic_semester_start;
         }
     }
 
+    public function addHours($h1,$h2,$h3,$h4,$h5,$h6,$h7){
+        if($h1 === 'present' || $h1 === 'od'){ $h1 =1; }
+        if($h2 === 'present' || $h2 === 'od'){ $h2 =1; }
+        if($h3 === 'present' || $h3 === 'od'){ $h3 =1; }
+        if($h4 === 'present' || $h4 === 'od'){ $h4 =1; }
+        if($h5 === 'present' || $h5 === 'od'){ $h5 =1; }
+        if($h6 === 'present' || $h6 === 'od'){ $h6 =1; }
+        if($h7 === 'present' || $h7 === 'od'){ $h7 =1; }
 
+        return $h1+$h2+$h3+$h4+$h5+$h6+$h7;
+    }
 
     //get attendance by Day
     public function attendanceByDay(){
