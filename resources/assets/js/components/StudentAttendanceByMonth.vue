@@ -2,22 +2,8 @@
 <div class="card">
     
     <div class="card-body">
-
-<div class="from-to">
-  <!-- from date -->
-<div class="form-group">
-<label for="fromDate">From Date</label>
-<input type="date" id="fromDate" v-model="fromDate" name="fromDate" max="3000-12-31" min="1000-01-01" class="form-control" style="width:200px;">
-</div>
-  <!-- to date -->
-<div class="form-group">
-<label for="toDate">From Date</label>
-<input type="date" id="toDate" v-model="toDate" name="toDate" max="3000-12-31" min="1000-01-01" class="form-control" style="width:200px;">
-</div>
-<button type="submit" class="btn btn-primary" @click="getAllAtDatas()">Submit</button>
-</div>
-<div class="showstudd" v-if="showStudd === true">
-<div class="filter-options">
+      <div class="input-options" v-if="showStudd === false">
+<div class="filter-options row">
   <div class="form-group col-md-2">
 <!-- Degree -->
  <label for="student_degree_filter">Degree</label><br>
@@ -66,18 +52,35 @@
   </option>
 </select>  
 </div>
+
 </div>
-<table class="table">
+
+<div class="from-to">
+  <!-- from date -->
+<div class="form-group">
+<label for="fromDate">From Date</label>
+<input type="date" id="fromDate" v-model="fromDate" name="fromDate" max="3000-12-31" min="1000-01-01" class="form-control" style="width:200px;">
+</div>
+  <!-- to date -->
+<div class="form-group">
+<label for="toDate">From Date</label>
+<input type="date" id="toDate" v-model="toDate" name="toDate" max="3000-12-31" min="1000-01-01" class="form-control" style="width:200px;">
+</div>
+<button type="submit" class="btn btn-primary" @click="getAllAtDatas()">Submit</button>
+</div>
+     </div>
+<div class="showstudd" v-if="showStudd === true">
+<table class="table table-responsive">
     <thead>
         <th>REG NO</th>
         <th>Name</th>
-        <th>Department</th>
+        <th v-for="AtDate in AtDates" v-bind:key="AtDate.id">{{ moment(AtDate.attendancedate).format('Do-MM') }}</th>
     </thead>
     <tbody>
         <tr v-for="stud in filteredStudents" v-bind:key="stud.id">
             <td>{{stud.register_no}}</td>
             <td>{{stud.name}}</td>
-            <td v-for="AtDate in AtDates" v-bind:key="AtDate.id">
+            <td v-for="AtDate in AtDates" v-bind:key="AtDate.id" style="transform: rotate(-90deg):">
               {{ getAtDataByStud(AtDate.attendancedate, stud.id) }}
              <!-- <span v-if="AtRecords.find(x => (x.attendancedate === AtDate.attendancedate && x.student_id === stud.id)) === null">Null</span>
               <span v-if="AtRecords.find(x => (x.attendancedate === AtDate.attendancedate && x.student_id === stud.id)) !== null"> 
@@ -217,15 +220,30 @@ sectionOptions: [
             console.log(this.AtDates);
           }).catch(err => console.log(err));
         },
-getAtDataByStud(AtDate, stud){
-  let test;
+// getAtDataByStud(AtDate, stud){
+//   let test;
 
-  test = this.AtRecords.find(x => x.attendancedate === AtDate && x.student_id === stud).h1;
+//   test = this.AtRecords.find(x => x.attendancedate === AtDate && x.student_id === stud);
 
-return test;
+// return test;
 
-}
-
+// }
+ getAtDataByStud(AtDate, stud) {
+      var status;
+      var aData;
+      var child;
+      aData = this.AtRecords;
+      for (var child in aData) {
+        if (aData[child].student_id === stud && aData[child].attendancedate === AtDate) {
+          status = aData[child].hrspresent;
+        }
+      }
+      if (status) {
+        return status;
+      } else {
+        return 'absent';
+      }
+    },
 
     },
     computed:{

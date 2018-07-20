@@ -64419,6 +64419,12 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
@@ -64480,6 +64486,47 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
   },
 
   methods: {
+    makeallPresent: function makeallPresent() {
+      var PassData = {};
+      PassData.students = this.filteredStudents;
+      PassData.date = this.createAttendance.makedate;
+
+      if (this.selectedH.h1) {
+        PassData.h1 = 'present';
+      }
+      if (this.selectedH.h2) {
+        PassData.h2 = 'present';
+      }
+      if (this.selectedH.h3) {
+        PassData.h3 = 'present';
+      }
+      if (this.selectedH.h4) {
+        PassData.h4 = 'present';
+      }
+      if (this.selectedH.h5) {
+        PassData.h5 = 'present';
+      }
+      if (this.selectedH.h6) {
+        PassData.h6 = 'present';
+      }
+      if (this.selectedH.h7) {
+        PassData.h7 = 'present';
+      }
+
+      fetch("/api/studentattendance/setallstatus", {
+        method: "post",
+        body: JSON.stringify(PassData),
+        headers: {
+          "content-type": "application/json"
+        }
+      }).then(function (res) {
+        return res.json();
+      }).then(function (data) {}).catch(function (err) {
+        return console.log(err);
+      });
+      this.fetchAttendanceData(this.createAttendance.makedate);
+      this.getAllStudents();
+    },
     makeDate: function makeDate() {
       fetch("/api/studentattendance", {
         method: "post",
@@ -64808,6 +64855,246 @@ var render = function() {
             ]),
             _vm._v(" "),
             _c("div", { staticClass: "card-body" }, [
+              _c("div", { staticClass: "row" }, [
+                _c("div", { staticClass: "form-group col-md-2" }, [
+                  _c("label", { attrs: { for: "student_degree_filter" } }, [
+                    _vm._v("Degree")
+                  ]),
+                  _c("br"),
+                  _vm._v(" "),
+                  _c(
+                    "select",
+                    {
+                      directives: [
+                        {
+                          name: "model",
+                          rawName: "v-model",
+                          value: _vm.degreeSelected,
+                          expression: "degreeSelected"
+                        }
+                      ],
+                      staticClass: "form-control",
+                      staticStyle: { width: "120px", display: "inline-block" },
+                      attrs: { id: "student_degree_filter" },
+                      on: {
+                        change: function($event) {
+                          var $$selectedVal = Array.prototype.filter
+                            .call($event.target.options, function(o) {
+                              return o.selected
+                            })
+                            .map(function(o) {
+                              var val = "_value" in o ? o._value : o.value
+                              return val
+                            })
+                          _vm.degreeSelected = $event.target.multiple
+                            ? $$selectedVal
+                            : $$selectedVal[0]
+                        }
+                      }
+                    },
+                    _vm._l(_vm.degreeOptions, function(degreeOption) {
+                      return _c(
+                        "option",
+                        { domProps: { value: degreeOption.value } },
+                        [_vm._v(_vm._s(degreeOption.text))]
+                      )
+                    })
+                  )
+                ]),
+                _vm._v(" "),
+                _c("div", { staticClass: "form-group col-md-2" }, [
+                  _c("label", { attrs: { for: "student_year_filter" } }, [
+                    _vm._v("Year")
+                  ]),
+                  _c("br"),
+                  _vm._v(" "),
+                  _c(
+                    "select",
+                    {
+                      directives: [
+                        {
+                          name: "model",
+                          rawName: "v-model",
+                          value: _vm.yearSelected,
+                          expression: "yearSelected"
+                        }
+                      ],
+                      staticClass: "form-control",
+                      staticStyle: { width: "120px", display: "inline-block" },
+                      attrs: { id: "student_year_filter" },
+                      on: {
+                        change: function($event) {
+                          var $$selectedVal = Array.prototype.filter
+                            .call($event.target.options, function(o) {
+                              return o.selected
+                            })
+                            .map(function(o) {
+                              var val = "_value" in o ? o._value : o.value
+                              return val
+                            })
+                          _vm.yearSelected = $event.target.multiple
+                            ? $$selectedVal
+                            : $$selectedVal[0]
+                        }
+                      }
+                    },
+                    _vm._l(_vm.filteredYears, function(yearOption) {
+                      return _c(
+                        "option",
+                        { domProps: { value: yearOption.value } },
+                        [_vm._v("\n    " + _vm._s(yearOption.text) + "\n  ")]
+                      )
+                    })
+                  )
+                ]),
+                _vm._v(" "),
+                _c("div", { staticClass: "form-group col-md-2" }, [
+                  _c("label", { attrs: { for: "student_filter_department" } }, [
+                    _vm._v("Department")
+                  ]),
+                  _c("br"),
+                  _vm._v(" "),
+                  _c(
+                    "select",
+                    {
+                      directives: [
+                        {
+                          name: "model",
+                          rawName: "v-model",
+                          value: _vm.departmentSelected,
+                          expression: "departmentSelected"
+                        }
+                      ],
+                      staticClass: "form-control",
+                      staticStyle: { width: "120px" },
+                      attrs: { id: "student_filter_department" },
+                      on: {
+                        change: function($event) {
+                          var $$selectedVal = Array.prototype.filter
+                            .call($event.target.options, function(o) {
+                              return o.selected
+                            })
+                            .map(function(o) {
+                              var val = "_value" in o ? o._value : o.value
+                              return val
+                            })
+                          _vm.departmentSelected = $event.target.multiple
+                            ? $$selectedVal
+                            : $$selectedVal[0]
+                        }
+                      }
+                    },
+                    _vm._l(_vm.filteredDepartments, function(departmentOption) {
+                      return _c(
+                        "option",
+                        { domProps: { value: departmentOption.value } },
+                        [
+                          _vm._v(
+                            "\n    " + _vm._s(departmentOption.text) + "\n  "
+                          )
+                        ]
+                      )
+                    })
+                  )
+                ]),
+                _vm._v(" "),
+                _c("div", { staticClass: "form-group col-md-2" }, [
+                  _c("label", { attrs: { for: "student_filter_semester" } }, [
+                    _vm._v("Semester")
+                  ]),
+                  _c("br"),
+                  _vm._v(" "),
+                  _c(
+                    "select",
+                    {
+                      directives: [
+                        {
+                          name: "model",
+                          rawName: "v-model",
+                          value: _vm.semesterSelected,
+                          expression: "semesterSelected"
+                        }
+                      ],
+                      staticClass: "form-control",
+                      staticStyle: { width: "120px" },
+                      attrs: { id: "student_filter_section" },
+                      on: {
+                        change: function($event) {
+                          var $$selectedVal = Array.prototype.filter
+                            .call($event.target.options, function(o) {
+                              return o.selected
+                            })
+                            .map(function(o) {
+                              var val = "_value" in o ? o._value : o.value
+                              return val
+                            })
+                          _vm.semesterSelected = $event.target.multiple
+                            ? $$selectedVal
+                            : $$selectedVal[0]
+                        }
+                      }
+                    },
+                    _vm._l(_vm.filteredSemester, function(semesterOption) {
+                      return _c(
+                        "option",
+                        { domProps: { value: semesterOption.value } },
+                        [
+                          _vm._v(
+                            "\n    " + _vm._s(semesterOption.text) + "\n  "
+                          )
+                        ]
+                      )
+                    })
+                  )
+                ]),
+                _vm._v(" "),
+                _c("div", { staticClass: "form-group col-md-2" }, [
+                  _c("label", { attrs: { for: "student_filter_section" } }, [
+                    _vm._v("Section")
+                  ]),
+                  _c("br"),
+                  _vm._v(" "),
+                  _c(
+                    "select",
+                    {
+                      directives: [
+                        {
+                          name: "model",
+                          rawName: "v-model",
+                          value: _vm.sectionSelected,
+                          expression: "sectionSelected"
+                        }
+                      ],
+                      staticClass: "form-control",
+                      staticStyle: { width: "120px" },
+                      attrs: { id: "student_filter_section" },
+                      on: {
+                        change: function($event) {
+                          var $$selectedVal = Array.prototype.filter
+                            .call($event.target.options, function(o) {
+                              return o.selected
+                            })
+                            .map(function(o) {
+                              var val = "_value" in o ? o._value : o.value
+                              return val
+                            })
+                          _vm.sectionSelected = $event.target.multiple
+                            ? $$selectedVal
+                            : $$selectedVal[0]
+                        }
+                      }
+                    },
+                    _vm._l(_vm.sectionOptions, function(sectionOption) {
+                      return _c(
+                        "option",
+                        { domProps: { value: sectionOption.value } },
+                        [_vm._v("\n    " + _vm._s(sectionOption.text) + "\n  ")]
+                      )
+                    })
+                  )
+                ])
+              ]),
+              _vm._v(" "),
               _c(
                 "form",
                 {
@@ -64993,241 +65280,7 @@ var render = function() {
                   attrs: { role: "button", href: "" }
                 },
                 [_vm._v("Back")]
-              ),
-              _vm._v(" "),
-              _c("div", { staticClass: "form-group col-md-2" }, [
-                _c("label", { attrs: { for: "student_degree_filter" } }, [
-                  _vm._v("Degree")
-                ]),
-                _c("br"),
-                _vm._v(" "),
-                _c(
-                  "select",
-                  {
-                    directives: [
-                      {
-                        name: "model",
-                        rawName: "v-model",
-                        value: _vm.degreeSelected,
-                        expression: "degreeSelected"
-                      }
-                    ],
-                    staticClass: "form-control",
-                    staticStyle: { width: "120px", display: "inline-block" },
-                    attrs: { id: "student_degree_filter" },
-                    on: {
-                      change: function($event) {
-                        var $$selectedVal = Array.prototype.filter
-                          .call($event.target.options, function(o) {
-                            return o.selected
-                          })
-                          .map(function(o) {
-                            var val = "_value" in o ? o._value : o.value
-                            return val
-                          })
-                        _vm.degreeSelected = $event.target.multiple
-                          ? $$selectedVal
-                          : $$selectedVal[0]
-                      }
-                    }
-                  },
-                  _vm._l(_vm.degreeOptions, function(degreeOption) {
-                    return _c(
-                      "option",
-                      { domProps: { value: degreeOption.value } },
-                      [_vm._v(_vm._s(degreeOption.text))]
-                    )
-                  })
-                )
-              ]),
-              _vm._v(" "),
-              _c("div", { staticClass: "form-group col-md-2" }, [
-                _c("label", { attrs: { for: "student_year_filter" } }, [
-                  _vm._v("Year")
-                ]),
-                _c("br"),
-                _vm._v(" "),
-                _c(
-                  "select",
-                  {
-                    directives: [
-                      {
-                        name: "model",
-                        rawName: "v-model",
-                        value: _vm.yearSelected,
-                        expression: "yearSelected"
-                      }
-                    ],
-                    staticClass: "form-control",
-                    staticStyle: { width: "120px", display: "inline-block" },
-                    attrs: { id: "student_year_filter" },
-                    on: {
-                      change: function($event) {
-                        var $$selectedVal = Array.prototype.filter
-                          .call($event.target.options, function(o) {
-                            return o.selected
-                          })
-                          .map(function(o) {
-                            var val = "_value" in o ? o._value : o.value
-                            return val
-                          })
-                        _vm.yearSelected = $event.target.multiple
-                          ? $$selectedVal
-                          : $$selectedVal[0]
-                      }
-                    }
-                  },
-                  _vm._l(_vm.filteredYears, function(yearOption) {
-                    return _c(
-                      "option",
-                      { domProps: { value: yearOption.value } },
-                      [_vm._v("\n    " + _vm._s(yearOption.text) + "\n  ")]
-                    )
-                  })
-                )
-              ]),
-              _vm._v(" "),
-              _c("div", { staticClass: "form-group col-md-2" }, [
-                _c("label", { attrs: { for: "student_filter_department" } }, [
-                  _vm._v("Department")
-                ]),
-                _c("br"),
-                _vm._v(" "),
-                _c(
-                  "select",
-                  {
-                    directives: [
-                      {
-                        name: "model",
-                        rawName: "v-model",
-                        value: _vm.departmentSelected,
-                        expression: "departmentSelected"
-                      }
-                    ],
-                    staticClass: "form-control",
-                    staticStyle: { width: "120px" },
-                    attrs: { id: "student_filter_department" },
-                    on: {
-                      change: function($event) {
-                        var $$selectedVal = Array.prototype.filter
-                          .call($event.target.options, function(o) {
-                            return o.selected
-                          })
-                          .map(function(o) {
-                            var val = "_value" in o ? o._value : o.value
-                            return val
-                          })
-                        _vm.departmentSelected = $event.target.multiple
-                          ? $$selectedVal
-                          : $$selectedVal[0]
-                      }
-                    }
-                  },
-                  _vm._l(_vm.filteredDepartments, function(departmentOption) {
-                    return _c(
-                      "option",
-                      { domProps: { value: departmentOption.value } },
-                      [
-                        _vm._v(
-                          "\n    " + _vm._s(departmentOption.text) + "\n  "
-                        )
-                      ]
-                    )
-                  })
-                )
-              ]),
-              _vm._v(" "),
-              _c("div", { staticClass: "form-group col-md-2" }, [
-                _c("label", { attrs: { for: "student_filter_semester" } }, [
-                  _vm._v("Semester")
-                ]),
-                _c("br"),
-                _vm._v(" "),
-                _c(
-                  "select",
-                  {
-                    directives: [
-                      {
-                        name: "model",
-                        rawName: "v-model",
-                        value: _vm.semesterSelected,
-                        expression: "semesterSelected"
-                      }
-                    ],
-                    staticClass: "form-control",
-                    staticStyle: { width: "120px" },
-                    attrs: { id: "student_filter_section" },
-                    on: {
-                      change: function($event) {
-                        var $$selectedVal = Array.prototype.filter
-                          .call($event.target.options, function(o) {
-                            return o.selected
-                          })
-                          .map(function(o) {
-                            var val = "_value" in o ? o._value : o.value
-                            return val
-                          })
-                        _vm.semesterSelected = $event.target.multiple
-                          ? $$selectedVal
-                          : $$selectedVal[0]
-                      }
-                    }
-                  },
-                  _vm._l(_vm.filteredSemester, function(semesterOption) {
-                    return _c(
-                      "option",
-                      { domProps: { value: semesterOption.value } },
-                      [_vm._v("\n    " + _vm._s(semesterOption.text) + "\n  ")]
-                    )
-                  })
-                )
-              ]),
-              _vm._v(" "),
-              _c("div", { staticClass: "form-group col-md-2" }, [
-                _c("label", { attrs: { for: "student_filter_section" } }, [
-                  _vm._v("Section")
-                ]),
-                _c("br"),
-                _vm._v(" "),
-                _c(
-                  "select",
-                  {
-                    directives: [
-                      {
-                        name: "model",
-                        rawName: "v-model",
-                        value: _vm.sectionSelected,
-                        expression: "sectionSelected"
-                      }
-                    ],
-                    staticClass: "form-control",
-                    staticStyle: { width: "120px" },
-                    attrs: { id: "student_filter_section" },
-                    on: {
-                      change: function($event) {
-                        var $$selectedVal = Array.prototype.filter
-                          .call($event.target.options, function(o) {
-                            return o.selected
-                          })
-                          .map(function(o) {
-                            var val = "_value" in o ? o._value : o.value
-                            return val
-                          })
-                        _vm.sectionSelected = $event.target.multiple
-                          ? $$selectedVal
-                          : $$selectedVal[0]
-                      }
-                    }
-                  },
-                  _vm._l(_vm.sectionOptions, function(sectionOption) {
-                    return _c(
-                      "option",
-                      { domProps: { value: sectionOption.value } },
-                      [_vm._v("\n    " + _vm._s(sectionOption.text) + "\n  ")]
-                    )
-                  })
-                )
-              ])
+              )
             ]),
             _vm._v(" "),
             _c(
@@ -65547,7 +65600,25 @@ var render = function() {
                       }
                     }
                   })
-                ])
+                ]),
+                _vm._v(" "),
+                _c(
+                  "button",
+                  {
+                    staticClass: "btn btn-primary",
+                    staticStyle: {
+                      width: "160px",
+                      float: "right",
+                      margin: "10px"
+                    },
+                    on: {
+                      click: function($event) {
+                        _vm.makeallPresent()
+                      }
+                    }
+                  },
+                  [_vm._v("Make all present")]
+                )
               ]
             ),
             _vm._v(" "),
@@ -72024,7 +72095,7 @@ exports = module.exports = __webpack_require__(3)(false);
 
 
 // module
-exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
+exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
 
 // exports
 
@@ -72035,6 +72106,9 @@ exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+//
+//
+//
 //
 //
 //
@@ -72226,14 +72300,30 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         return console.log(err);
       });
     },
+
+    // getAtDataByStud(AtDate, stud){
+    //   let test;
+
+    //   test = this.AtRecords.find(x => x.attendancedate === AtDate && x.student_id === stud);
+
+    // return test;
+
+    // }
     getAtDataByStud: function getAtDataByStud(AtDate, stud) {
-      var test = void 0;
-
-      test = this.AtRecords.find(function (x) {
-        return x.attendancedate === AtDate && x.student_id === stud;
-      }).h1;
-
-      return test;
+      var status;
+      var aData;
+      var child;
+      aData = this.AtRecords;
+      for (var child in aData) {
+        if (aData[child].student_id === stud && aData[child].attendancedate === AtDate) {
+          status = aData[child].hrspresent;
+        }
+      }
+      if (status) {
+        return status;
+      } else {
+        return 'absent';
+      }
     }
   },
   computed: {
@@ -72308,91 +72398,9 @@ var render = function() {
   var _c = _vm._self._c || _h
   return _c("div", { staticClass: "card" }, [
     _c("div", { staticClass: "card-body" }, [
-      _c("div", { staticClass: "from-to" }, [
-        _c("div", { staticClass: "form-group" }, [
-          _c("label", { attrs: { for: "fromDate" } }, [_vm._v("From Date")]),
-          _vm._v(" "),
-          _c("input", {
-            directives: [
-              {
-                name: "model",
-                rawName: "v-model",
-                value: _vm.fromDate,
-                expression: "fromDate"
-              }
-            ],
-            staticClass: "form-control",
-            staticStyle: { width: "200px" },
-            attrs: {
-              type: "date",
-              id: "fromDate",
-              name: "fromDate",
-              max: "3000-12-31",
-              min: "1000-01-01"
-            },
-            domProps: { value: _vm.fromDate },
-            on: {
-              input: function($event) {
-                if ($event.target.composing) {
-                  return
-                }
-                _vm.fromDate = $event.target.value
-              }
-            }
-          })
-        ]),
-        _vm._v(" "),
-        _c("div", { staticClass: "form-group" }, [
-          _c("label", { attrs: { for: "toDate" } }, [_vm._v("From Date")]),
-          _vm._v(" "),
-          _c("input", {
-            directives: [
-              {
-                name: "model",
-                rawName: "v-model",
-                value: _vm.toDate,
-                expression: "toDate"
-              }
-            ],
-            staticClass: "form-control",
-            staticStyle: { width: "200px" },
-            attrs: {
-              type: "date",
-              id: "toDate",
-              name: "toDate",
-              max: "3000-12-31",
-              min: "1000-01-01"
-            },
-            domProps: { value: _vm.toDate },
-            on: {
-              input: function($event) {
-                if ($event.target.composing) {
-                  return
-                }
-                _vm.toDate = $event.target.value
-              }
-            }
-          })
-        ]),
-        _vm._v(" "),
-        _c(
-          "button",
-          {
-            staticClass: "btn btn-primary",
-            attrs: { type: "submit" },
-            on: {
-              click: function($event) {
-                _vm.getAllAtDatas()
-              }
-            }
-          },
-          [_vm._v("Submit")]
-        )
-      ]),
-      _vm._v(" "),
-      _vm.showStudd === true
-        ? _c("div", { staticClass: "showstudd" }, [
-            _c("div", { staticClass: "filter-options" }, [
+      _vm.showStudd === false
+        ? _c("div", { staticClass: "input-options" }, [
+            _c("div", { staticClass: "filter-options row" }, [
               _c("div", { staticClass: "form-group col-md-2" }, [
                 _c("label", { attrs: { for: "student_degree_filter" } }, [
                   _vm._v("Degree")
@@ -72628,8 +72636,116 @@ var render = function() {
               ])
             ]),
             _vm._v(" "),
-            _c("table", { staticClass: "table" }, [
-              _vm._m(0),
+            _c("div", { staticClass: "from-to" }, [
+              _c("div", { staticClass: "form-group" }, [
+                _c("label", { attrs: { for: "fromDate" } }, [
+                  _vm._v("From Date")
+                ]),
+                _vm._v(" "),
+                _c("input", {
+                  directives: [
+                    {
+                      name: "model",
+                      rawName: "v-model",
+                      value: _vm.fromDate,
+                      expression: "fromDate"
+                    }
+                  ],
+                  staticClass: "form-control",
+                  staticStyle: { width: "200px" },
+                  attrs: {
+                    type: "date",
+                    id: "fromDate",
+                    name: "fromDate",
+                    max: "3000-12-31",
+                    min: "1000-01-01"
+                  },
+                  domProps: { value: _vm.fromDate },
+                  on: {
+                    input: function($event) {
+                      if ($event.target.composing) {
+                        return
+                      }
+                      _vm.fromDate = $event.target.value
+                    }
+                  }
+                })
+              ]),
+              _vm._v(" "),
+              _c("div", { staticClass: "form-group" }, [
+                _c("label", { attrs: { for: "toDate" } }, [
+                  _vm._v("From Date")
+                ]),
+                _vm._v(" "),
+                _c("input", {
+                  directives: [
+                    {
+                      name: "model",
+                      rawName: "v-model",
+                      value: _vm.toDate,
+                      expression: "toDate"
+                    }
+                  ],
+                  staticClass: "form-control",
+                  staticStyle: { width: "200px" },
+                  attrs: {
+                    type: "date",
+                    id: "toDate",
+                    name: "toDate",
+                    max: "3000-12-31",
+                    min: "1000-01-01"
+                  },
+                  domProps: { value: _vm.toDate },
+                  on: {
+                    input: function($event) {
+                      if ($event.target.composing) {
+                        return
+                      }
+                      _vm.toDate = $event.target.value
+                    }
+                  }
+                })
+              ]),
+              _vm._v(" "),
+              _c(
+                "button",
+                {
+                  staticClass: "btn btn-primary",
+                  attrs: { type: "submit" },
+                  on: {
+                    click: function($event) {
+                      _vm.getAllAtDatas()
+                    }
+                  }
+                },
+                [_vm._v("Submit")]
+              )
+            ])
+          ])
+        : _vm._e(),
+      _vm._v(" "),
+      _vm.showStudd === true
+        ? _c("div", { staticClass: "showstudd" }, [
+            _c("table", { staticClass: "table table-responsive" }, [
+              _c(
+                "thead",
+                [
+                  _c("th", [_vm._v("REG NO")]),
+                  _vm._v(" "),
+                  _c("th", [_vm._v("Name")]),
+                  _vm._v(" "),
+                  _vm._l(_vm.AtDates, function(AtDate) {
+                    return _c("th", { key: AtDate.id }, [
+                      _vm._v(
+                        _vm._s(
+                          _vm.moment(AtDate.attendancedate).format("Do-MM")
+                        )
+                      )
+                    ])
+                  })
+                ],
+                2
+              ),
               _vm._v(" "),
               _c(
                 "tbody",
@@ -72643,18 +72759,25 @@ var render = function() {
                       _c("td", [_vm._v(_vm._s(stud.name))]),
                       _vm._v(" "),
                       _vm._l(_vm.AtDates, function(AtDate) {
-                        return _c("td", { key: AtDate.id }, [
-                          _vm._v(
-                            "\n              " +
-                              _vm._s(
-                                _vm.getAtDataByStud(
-                                  AtDate.attendancedate,
-                                  stud.id
-                                )
-                              ) +
-                              "\n             "
-                          )
-                        ])
+                        return _c(
+                          "td",
+                          {
+                            key: AtDate.id,
+                            staticStyle: { transform: "rotate(-90deg):" }
+                          },
+                          [
+                            _vm._v(
+                              "\n              " +
+                                _vm._s(
+                                  _vm.getAtDataByStud(
+                                    AtDate.attendancedate,
+                                    stud.id
+                                  )
+                                ) +
+                                "\n             "
+                            )
+                          ]
+                        )
                       })
                     ],
                     2
@@ -72667,20 +72790,7 @@ var render = function() {
     ])
   ])
 }
-var staticRenderFns = [
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("thead", [
-      _c("th", [_vm._v("REG NO")]),
-      _vm._v(" "),
-      _c("th", [_vm._v("Name")]),
-      _vm._v(" "),
-      _c("th", [_vm._v("Department")])
-    ])
-  }
-]
+var staticRenderFns = []
 render._withStripped = true
 module.exports = { render: render, staticRenderFns: staticRenderFns }
 if (false) {

@@ -6,43 +6,8 @@
           <h1>Make Attendance for {{createAttendance.makedate}}</h1>
         </div>
         <div class="card-body">
-            
-            <!-- Form  -->
-                            <form @submit.prevent="makeDate">
-                               <div class="row">
-                                    <div class="form-group col-md-4">
-                                            <label for="date">Date </label>
-                                            <input type="date" id="date" v-model="createAttendance.makedate" name="date" max="3000-12-31" min="1000-01-01" class="form-control" style="width:200px;">
-                                            <p class="text-muted">Please double Check the Date</p>
-                                       </div>
-                                       <div class="form-group col-md-4">
-                                            <label for="eid">Employee ID</label>
-                                            <input type="text" id="eid" v-model="createAttendance.staff_eid" name="eid" class="form-control">
-                                            <p class="text-muted">Enter Your Employee Id</p>
-                                       </div>
-                                       <div class="form-group col-md-4">
-                                            <label for="eid">Day</label>
-                                            <select class="form-control" style="width:100px;" name="day" id="day" v-model="createAttendance.day">
-                                              <option value="mon">Monday</option>
-                                              <option value="tue">Tuesday</option>
-                                              <option value="wed">Wednesday</option>
-                                              <option value="thu">Thusday</option>
-                                              <option value="fri">Friday</option>
-                                            </select>
-                                       </div>
-                               </div>
-                               <button type="submit" class="btn btn-primary">Submit</button>
-                            </form>
-            </div>
-        </div>
-    </div>
-
-<div class="attendance-table" v-if="createForm === false">
-        <div class="card">
-            <div class="card-header">
-                <h1 class="card-title">Make Attendance for {{createAttendance.makedate}}</h1>
-                <a role="button" class="btn btn-primary float-right" href="">Back</a>
-<div class="form-group col-md-2">
+            <div class="row">
+              <div class="form-group col-md-2">
 <!-- Degree -->
  <label for="student_degree_filter">Degree</label><br>
 <select class="form-control" id="student_degree_filter" style="width:120px;display:inline-block;" v-model="degreeSelected">
@@ -90,6 +55,44 @@
   </option>
 </select>  
 </div>
+            </div>
+            <!-- Form  -->
+                            <form @submit.prevent="makeDate">
+                               <div class="row">
+                                    <div class="form-group col-md-4">
+                                            <label for="date">Date </label>
+                                            <input type="date" id="date" v-model="createAttendance.makedate" name="date" max="3000-12-31" min="1000-01-01" class="form-control" style="width:200px;">
+                                            <p class="text-muted">Please double Check the Date</p>
+                                       </div>
+                                       <div class="form-group col-md-4">
+                                            <label for="eid">Employee ID</label>
+                                            <input type="text" id="eid" v-model="createAttendance.staff_eid" name="eid" class="form-control">
+                                            <p class="text-muted">Enter Your Employee Id</p>
+                                       </div>
+                                       <div class="form-group col-md-4">
+                                            <label for="eid">Day</label>
+                                            <select class="form-control" style="width:100px;" name="day" id="day" v-model="createAttendance.day">
+                                              <option value="mon">Monday</option>
+                                              <option value="tue">Tuesday</option>
+                                              <option value="wed">Wednesday</option>
+                                              <option value="thu">Thusday</option>
+                                              <option value="fri">Friday</option>
+                                            </select>
+                                       </div>
+                               </div>
+                               <button type="submit" class="btn btn-primary">Submit</button>
+                            </form>
+                            
+            </div>
+        </div>
+    </div>
+
+<div class="attendance-table" v-if="createForm === false">
+        <div class="card">
+            <div class="card-header">
+                <h1 class="card-title">Make Attendance for {{createAttendance.makedate}}</h1>
+                <a role="button" class="btn btn-primary float-right" href="">Back</a>
+
 </div>
 
 <div class="select-hours ml-5 mt-2" style="display-inline">
@@ -100,13 +103,16 @@
     <div class="form-group"><label for="h5">H5</label>&nbsp&nbsp<input type="checkbox" name="h5" id="h5" v-model="selectedH.h5"></div>
     <div class="form-group"><label for="h6">H6</label>&nbsp&nbsp<input type="checkbox" name="h6" id="h6" v-model="selectedH.h6"></div>
     <div class="form-group"><label for="h7">H7</label>&nbsp&nbsp<input type="checkbox" name="h7" id="h7" v-model="selectedH.h7"></div>    
+<button class="btn btn-primary" style="width:160px; float:right;margin:10px;" @click="makeallPresent()">Make all present</button>
+
 </div>
 
 <div class="search-input">
   <input type="text" v-model="searchStud" class="form-control ml-4 mb-2" placeholder="Search Name" style="width:200px;">
+
 </div>
 
-            </div>
+         </div>
             <div class="card-body">
                 <table class="table">
                     <thead>
@@ -280,7 +286,36 @@ sectionOptions: [
     this.fetchTimes();
   },
   methods: {
-  
+
+makeallPresent(){
+  const PassData = {};
+        PassData.students = this.filteredStudents;
+        PassData.date = this.createAttendance.makedate;
+
+        if(this.selectedH.h1){ PassData.h1 = 'present'; }
+        if(this.selectedH.h2){ PassData.h2 = 'present'; }
+        if(this.selectedH.h3){ PassData.h3 = 'present'; }
+        if(this.selectedH.h4){ PassData.h4 = 'present'; }
+        if(this.selectedH.h5){ PassData.h5 = 'present'; }
+        if(this.selectedH.h6){ PassData.h6 = 'present'; }
+        if(this.selectedH.h7){ PassData.h7 = 'present'; }
+
+      fetch("/api/studentattendance/setallstatus", {
+        method: "post",
+        body: JSON.stringify(PassData),
+        headers: {
+          "content-type": "application/json"
+        }
+      })
+        .then(res => res.json())
+        .then(data => {
+          
+        })
+        .catch(err => console.log(err));
+        this.fetchAttendanceData(this.createAttendance.makedate);
+       this.getAllStudents();
+},
+    
     makeDate() {
       fetch("/api/studentattendance", {
         method: "post",

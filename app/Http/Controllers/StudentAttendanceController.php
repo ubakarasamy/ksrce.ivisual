@@ -29,7 +29,6 @@ class StudentAttendanceController extends Controller
             $date1 = $request->input('makedate');
             $students = Student::all();
             $attendanceData = StudentAtRecord::all()->where('attendancedate', $date1);
-            
             return 'date already exists';
         }else{
         //else create
@@ -43,25 +42,23 @@ class StudentAttendanceController extends Controller
         $attendance->save();
         $date1 = $request->input('makedate');
             //if alredy not exists give attendance record table for inserting
-            
             return 'date already exists';
         }
     }
 
-        public function getStudentAttendance(Request $request, $makedate)
+    public function getStudentAttendance(Request $request, $makedate)
     {
     if($request->route('makedate'))
         {
         $attendanceData = StudentAtRecord::all()->where('attendancedate', $makedate);
-
         $staffAttendanceData = StudentAtRecordResource::collection($attendanceData);
-        
         return $staffAttendanceData;
     }else{
             return 'failed';
         }
     }
 
+ 
 
     public function SetStudentData(Request $request){
 
@@ -91,7 +88,6 @@ class StudentAttendanceController extends Controller
         $record->student_id = $id;
         $record->regno = $student_regno;
 
-//removed here 
 if($h1){ 
     if ($record->h1 === 'absent' || $record->h1 === 'leave' || $record->h1 === NULL && $h1 === 'present' || $h1 === 'od') {
         $in = false;
@@ -214,7 +210,6 @@ $record->sem_start = $acc->academic_semester_start;
         $record->attendancedate = $date;
         $record->student_id = $id;
         $record->regno = $student_regno;
-
         if($h1){ 
                 $in = false;
               $this->incrementHourOnEdit($h1,'h1',$dd->day,$id,$in);
@@ -307,6 +302,121 @@ $record->sem_start = $acc->academic_semester_start;
         $datas = StudentAt::where([['attendancedate', '>=', $fromDate], ['attendancedate', '<=', $toDate]])->get();
         return StudentAtResource::collection($datas);  
     }
+
+    public function makAllPresent(Request $request){
+        //students hours date
+        $data = $request->json()->all();
+        $students = $data['students'];
+        $h1 = $request->input('h1');
+        $h2 = $request->input('h2');
+        $h3 = $request->input('h3');
+        $h4 = $request->input('h4');
+        $h5 = $request->input('h5');
+        $h6 = $request->input('h6');
+        $h7 = $request->input('h7');
+        $date = $request->input('date');
+
+
+$dd = StudentAt::where('attendancedate', '=', $date)->first();
+$acc = Academics::findOrFail(1);
+
+        foreach ($students as $stud) {
+
+            $student = Student::where('id', $stud['id'])->first();
+            $student_regno = $student->register_no;
+
+$ifExists = StudentAtRecord::where([['student_id', '=', $stud['id']], ['attendancedate', '=', $date]])->first();
+if($ifExists !== null){
+    
+    $record = StudentAtRecord::where([['student_id', '=', $stud['id']], ['attendancedate', '=', $date]])->first();
+
+}else{
+    $record = new StudentAtRecord;
+    
+}
+$record->sem_start = $acc->academic_semester_start;
+$record->attendancedate = $date;
+$record->student_id = $stud['id'];
+$record->regno = $student_regno;
+$record->degree = $student->degree;
+$record->department = $student->department;
+$record->year = $student->year;
+$record->section = $student->section;
+$record->semester = $student->semester;
+
+if($h1){  
+    if ($record->h1 === 'absent' || $record->h1 === 'leave' || $record->h1 === NULL && $h1 === 'present' || $h1 === 'od') {
+        $in = false;
+        $this->incrementHourOnEdit($h1,'h1',$dd->day,$stud['id'],$in);
+    }
+    $record->h1 = $h1; 
+}
+if($h2){  
+    if ($record->h2 === 'absent' || $record->h2 === 'leave' || $record->h2 === NULL && $h2 === 'present' || $h2 === 'od') {
+        $in = false;
+        $this->incrementHourOnEdit($h2,'h2',$dd->day,$stud['id'],$in);
+    }
+    $record->h2 = $h2; 
+}
+if($h3){  
+    if ($record->h3 === 'absent' || $record->h3 === 'leave' || $record->h3 === NULL && $h3 === 'present' || $h3 === 'od') {
+        $in = false;
+        $this->incrementHourOnEdit($h3,'h3',$dd->day,$stud['id'],$in);
+    }
+    $record->h3 = $h3; 
+}
+if($h4){  
+    if ($record->h4 === 'absent' || $record->h4 === 'leave' || $record->h4 === NULL && $h4 === 'present' || $h4 === 'od') {
+        $in = false;
+        $this->incrementHourOnEdit($h4,'h4',$dd->day,$stud['id'],$in);
+    }
+    $record->h4 = $h4; 
+}
+if($h5){  
+    if ($record->h5 === 'absent' || $record->h5 === 'leave' || $record->h5 === NULL && $h5 === 'present' || $h5 === 'od') {
+        $in = false;
+        $this->incrementHourOnEdit($h5,'h5',$dd->day,$stud['id'],$in);
+    }
+    $record->h5 = $h5; 
+}
+if($h6){  
+    if ($record->h6 === 'absent' || $record->h6 === 'leave' || $record->h6 === NULL && $h6 === 'present' || $h6 === 'od') {
+        $in = false;
+        $this->incrementHourOnEdit($h6,'h6',$dd->day,$stud['id'],$in);
+    }
+    $record->h6 = $h6; 
+}
+if($h7){  
+    if ($record->h7 === 'absent' || $record->h7 === 'leave' || $record->h7 === NULL && $h7 === 'present' || $h7 === 'od') {
+        $in = false;
+        $this->incrementHourOnEdit($h7,'h7',$dd->day,$stud['id'],$in);
+    }
+    $record->h7 = $h7; 
+}
+
+$addPrev = $this->addPreviousdata($record->h1,$record->h2,$record->h3,$record->h4,$record->h5,$record->h6,$record->h7);
+
+    $record->hrspresent = $addPrev;
+
+$record->save(); 
+
+}
+        return 'success';
+    }
+
+    public function addPreviousdata($r1,$r2,$r3,$r4,$r5,$r6,$r7)
+    {
+        if($r1 === 'present' || $r1 === 'od'){ $r1 =1; }else{ $r1 =0; }
+        if($r2 === 'present' || $r2 === 'od'){ $r2 =1; }else{ $r2 =0; }
+        if($r3 === 'present' || $r3 === 'od'){ $r3 =1; }else{ $r3 =0; }
+        if($r4 === 'present' || $r4 === 'od'){ $r4 =1; }else{ $r4 =0; }
+        if($r5 === 'present' || $r5 === 'od'){ $r5 =1; }else{ $r5 =0; }
+        if($r6 === 'present' || $r6 === 'od'){ $r6 =1; }else{ $r6 =0; }
+        if($r7 === 'present' || $r7 === 'od'){ $r7 =1; }else{ $r7 =0; }
+
+        return $r1+$r2+$r3+$r4+$r5+$r6+$r7;
+    }
+
 
     public function incrementHourOnEdit($hour,$h,$day,$studId,$inc){
         $incc = StudentOver::where('student_id', '=', $studId)->first();
