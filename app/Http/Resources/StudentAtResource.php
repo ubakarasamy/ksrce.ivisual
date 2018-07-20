@@ -18,7 +18,13 @@ class StudentAtResource extends Resource
             'id' => $this->id,
             'staff_eid' => $this->staff_eid,
             'attendancedate' => $this->attendancedate,
-            'day' => $this->day
+            'day' => $this->day,
+            'degree' => $this->degree,
+            'semester' => $this->semester,
+            'department' => $this->department,
+            'year' => $this->year,
+            'section' => $this->section
+            
         ];
     }
 }

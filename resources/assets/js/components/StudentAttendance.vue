@@ -4,6 +4,7 @@
     <div class="card">
         <div class="card-header">
           <h1>Make Attendance for {{createAttendance.makedate}}</h1>
+          {{userRole}}
         </div>
         <div class="card-body">
             <div class="row">
@@ -285,6 +286,9 @@ sectionOptions: [
   created(){
     this.fetchTimes();
   },
+  props:{
+    userRole: Number
+  },
   methods: {
 
 makeallPresent(){
@@ -315,11 +319,20 @@ makeallPresent(){
         this.fetchAttendanceData(this.createAttendance.makedate);
        this.getAllStudents();
 },
-    
     makeDate() {
+      let passdata = {
+        makedate: this.createAttendance.makedate,
+        staff_eid: this.createAttendance.staff_eid,
+        day: this.createAttendance.day,
+        degree: this.degreeSelected,
+        department: this.departmentSelected,
+        year: this.yearSelected,
+        semester: this.semesterSelected,
+        section: this.sectionSelected
+      }
       fetch("/api/studentattendance", {
         method: "post",
-        body: JSON.stringify(this.createAttendance),
+        body: JSON.stringify(passdata),
         headers: {
           "content-type": "application/json"
         }

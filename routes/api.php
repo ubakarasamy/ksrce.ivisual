@@ -94,3 +94,7 @@ Route::post('student/at/dates', 'StudentAttendanceController@allDatesConsolidate
 Route::get('mystafflimits/{userid}', 'StaffApprovalController@getMyLimits');
 
 Route::post('studentattendance/setallstatus', 'StudentAttendanceController@makAllPresent');
+
+Route::post('allstaffdates', 'StaffAttendanceController@getAllAtDates');
+
+Route::post('allstaffatdatas', 'StaffAttendanceController@getAllAtDatas');

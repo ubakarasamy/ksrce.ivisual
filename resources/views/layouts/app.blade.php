@@ -45,7 +45,7 @@
             <li class=" @if($route = Route::current()->getName() == 'staffattendance-create' || $route = Route::current()->getName() == 'staff-attendance-bymonth') <?php echo "subactive" ?> @endif"><a href="#at_staff" data-toggle="collapse" aria-expanded="true"><i class="fas fa-graduation-cap"></i> Staff Attendance</a>
                 <ul id="at_staff" class="list-unstyled collapse" style="">
                     <li class=" @if($route = Route::current()->getName() == 'staffattendance-create') <?php echo "active" ?> @endif"><a href="{{route('staffattendance-create')}}"><i class="fas fa-graduation-cap"></i>Attendace Make</a></li>
-                    <li class=" @if($route = Route::current()->getName() == 'staff-attendance-bymonth') <?php echo "active" ?> @endif"><a href="{{route('staff-attendance-bymonth')}}"><i class="fas fa-graduation-cap"></i>Attendace View</a></li>
+                    <li class=" @if($route = Route::current()->getName() == 'staff-attendance-overall') <?php echo "active" ?> @endif"><a href="{{route('staff-attendance-overall')}}"><i class="fas fa-graduation-cap"></i>Attendace View</a></li>
                 </ul>
             </li>
             @endif

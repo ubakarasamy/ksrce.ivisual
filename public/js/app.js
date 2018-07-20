@@ -17768,7 +17768,7 @@ module.exports = Cancel;
 /***/ (function(module, exports, __webpack_require__) {
 
 __webpack_require__(138);
-module.exports = __webpack_require__(222);
+module.exports = __webpack_require__(225);
 
 
 /***/ }),
@@ -17804,14 +17804,15 @@ Vue.component('student-profile', __webpack_require__(172));
 Vue.component('close-semeter', __webpack_require__(175));
 Vue.component('staff-attendance', __webpack_require__(178));
 Vue.component('student-attendance', __webpack_require__(181));
-Vue.component('staffattendance-bymonth', __webpack_require__(186));
-Vue.component('staff-myapprovals', __webpack_require__(191));
-Vue.component('approve-leaves', __webpack_require__(196));
-Vue.component('time-tables', __webpack_require__(199));
-Vue.component('stud-attendance-view', __webpack_require__(204));
-Vue.component('stud-attendance-view-byoverall', __webpack_require__(209));
-Vue.component('stud-attendance-view-bymonth', __webpack_require__(214));
-Vue.component('create-subjects', __webpack_require__(219));
+Vue.component('staffattendance-byoverall', __webpack_require__(186));
+Vue.component('staffattendance-bymonth', __webpack_require__(191));
+Vue.component('staff-myapprovals', __webpack_require__(194));
+Vue.component('approve-leaves', __webpack_require__(199));
+Vue.component('time-tables', __webpack_require__(202));
+Vue.component('stud-attendance-view', __webpack_require__(207));
+Vue.component('stud-attendance-view-byoverall', __webpack_require__(212));
+Vue.component('stud-attendance-view-bymonth', __webpack_require__(217));
+Vue.component('create-subjects', __webpack_require__(222));
 
 var app = new Vue({
   el: '#app'
@@ -63750,6 +63751,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
@@ -63772,6 +63774,9 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     };
   },
 
+  props: {
+    userId: Number
+  },
   methods: {
     makeDate: function makeDate() {
       fetch("/api/staffattendance", {
@@ -63889,7 +63894,9 @@ var render = function() {
         _vm._v(
           "\n                               Make Attendance for " +
             _vm._s(_vm.createAttendance.makedate) +
-            " \n                           "
+            " \n                               " +
+            _vm._s(_vm.userRole) +
+            "\n                           "
         )
       ])
     ]),
@@ -64425,6 +64432,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
@@ -64485,6 +64493,9 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     this.fetchTimes();
   },
 
+  props: {
+    userRole: Number
+  },
   methods: {
     makeallPresent: function makeallPresent() {
       var PassData = {};
@@ -64528,9 +64539,19 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
       this.getAllStudents();
     },
     makeDate: function makeDate() {
+      var passdata = {
+        makedate: this.createAttendance.makedate,
+        staff_eid: this.createAttendance.staff_eid,
+        day: this.createAttendance.day,
+        degree: this.degreeSelected,
+        department: this.departmentSelected,
+        year: this.yearSelected,
+        semester: this.semesterSelected,
+        section: this.sectionSelected
+      };
       fetch("/api/studentattendance", {
         method: "post",
-        body: JSON.stringify(this.createAttendance),
+        body: JSON.stringify(passdata),
         headers: {
           "content-type": "application/json"
         }
@@ -64851,7 +64872,8 @@ var render = function() {
                 _vm._v(
                   "Make Attendance for " + _vm._s(_vm.createAttendance.makedate)
                 )
-              ])
+              ]),
+              _vm._v("\n          " + _vm._s(_vm.userRole) + "\n        ")
             ]),
             _vm._v(" "),
             _c("div", { staticClass: "card-body" }, [
@@ -65945,7 +65967,7 @@ var __vue_template_functional__ = false
 /* styles */
 var __vue_styles__ = injectStyle
 /* scopeId */
-var __vue_scopeId__ = "data-v-b93aaf84"
+var __vue_scopeId__ = "data-v-1dcec20b"
 /* moduleIdentifier (server only) */
 var __vue_module_identifier__ = null
 var Component = normalizeComponent(
@@ -65956,7 +65978,7 @@ var Component = normalizeComponent(
   __vue_scopeId__,
   __vue_module_identifier__
 )
-Component.options.__file = "resources/assets/js/components/StaffAttendance-bymonth.vue"
+Component.options.__file = "resources/assets/js/components/StaffAttendance-byoverall.vue"
 
 /* hot reload */
 if (false) {(function () {
@@ -65965,9 +65987,9 @@ if (false) {(function () {
   if (!hotAPI.compatible) return
   module.hot.accept()
   if (!module.hot.data) {
-    hotAPI.createRecord("data-v-b93aaf84", Component.options)
+    hotAPI.createRecord("data-v-1dcec20b", Component.options)
   } else {
-    hotAPI.reload("data-v-b93aaf84", Component.options)
+    hotAPI.reload("data-v-1dcec20b", Component.options)
   }
   module.hot.dispose(function (data) {
     disposed = true
@@ -65988,13 +66010,13 @@ var content = __webpack_require__(188);
 if(typeof content === 'string') content = [[module.i, content, '']];
 if(content.locals) module.exports = content.locals;
 // add the styles to the DOM
-var update = __webpack_require__(4)("09df3930", content, false, {});
+var update = __webpack_require__(4)("54dd7cc0", content, false, {});
 // Hot Module Replacement
 if(false) {
  // When the styles change, update the <style> tags
  if(!content.locals) {
-   module.hot.accept("!!../../../../node_modules/css-loader/index.js!../../../../node_modules/vue-loader/lib/style-compiler/index.js?{\"vue\":true,\"id\":\"data-v-b93aaf84\",\"scoped\":true,\"hasInlineConfig\":true}!../../../../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./StaffAttendance-bymonth.vue", function() {
-     var newContent = require("!!../../../../node_modules/css-loader/index.js!../../../../node_modules/vue-loader/lib/style-compiler/index.js?{\"vue\":true,\"id\":\"data-v-b93aaf84\",\"scoped\":true,\"hasInlineConfig\":true}!../../../../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./StaffAttendance-bymonth.vue");
+   module.hot.accept("!!../../../../node_modules/css-loader/index.js!../../../../node_modules/vue-loader/lib/style-compiler/index.js?{\"vue\":true,\"id\":\"data-v-1dcec20b\",\"scoped\":true,\"hasInlineConfig\":true}!../../../../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./StaffAttendance-byoverall.vue", function() {
+     var newContent = require("!!../../../../node_modules/css-loader/index.js!../../../../node_modules/vue-loader/lib/style-compiler/index.js?{\"vue\":true,\"id\":\"data-v-1dcec20b\",\"scoped\":true,\"hasInlineConfig\":true}!../../../../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./StaffAttendance-byoverall.vue");
      if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
      update(newContent);
    });
@@ -66012,7 +66034,7 @@ exports = module.exports = __webpack_require__(3)(false);
 
 
 // module
-exports.push([module.i, "\n.department-filter input[data-v-b93aaf84]\n{\n  margin-bottom: 20px;\n}\n", ""]);
+exports.push([module.i, "\n.department-filter input[data-v-1dcec20b]\n{\n  margin-bottom: 20px;\n}\n", ""]);
 
 // exports
 
@@ -66023,10 +66045,6 @@ exports.push([module.i, "\n.department-filter input[data-v-b93aaf84]\n{\n  margi
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-//
-//
-//
-//
 //
 //
 //
@@ -66284,8 +66302,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         return status;
       }
       return 0;
-    },
-    ViewStaffOveralls: function ViewStaffOveralls() {}
+    }
   },
   computed: {
     filteredStaffs: function filteredStaffs() {
@@ -66315,6 +66332,8 @@ var render = function() {
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
   return _c("div", { staticClass: "staff-atbymonth" }, [
+    _c("div", { staticClass: "page-navigation" }),
+    _vm._v(" "),
     _c("div", { staticClass: "department-filter" }, [
       _c("div", { staticClass: "col-md-3" }, [
         _c("label", { attrs: { for: "staff_filter_department" } }, [
@@ -66599,7 +66618,7 @@ module.exports = { render: render, staticRenderFns: staticRenderFns }
 if (false) {
   module.hot.accept()
   if (module.hot.data) {
-    require("vue-hot-reload-api")      .rerender("data-v-b93aaf84", module.exports)
+    require("vue-hot-reload-api")      .rerender("data-v-1dcec20b", module.exports)
   }
 }
 
@@ -66610,13 +66629,196 @@ if (false) {
 var disposed = false
 function injectStyle (ssrContext) {
   if (disposed) return
-  __webpack_require__(192)
+  __webpack_require__(235)
 }
 var normalizeComponent = __webpack_require__(1)
 /* script */
-var __vue_script__ = __webpack_require__(194)
+var __vue_script__ = __webpack_require__(192)
 /* template */
-var __vue_template__ = __webpack_require__(195)
+var __vue_template__ = __webpack_require__(237)
+/* template functional */
+var __vue_template_functional__ = false
+/* styles */
+var __vue_styles__ = injectStyle
+/* scopeId */
+var __vue_scopeId__ = "data-v-b93aaf84"
+/* moduleIdentifier (server only) */
+var __vue_module_identifier__ = null
+var Component = normalizeComponent(
+  __vue_script__,
+  __vue_template__,
+  __vue_template_functional__,
+  __vue_styles__,
+  __vue_scopeId__,
+  __vue_module_identifier__
+)
+Component.options.__file = "resources/assets/js/components/StaffAttendance-bymonth.vue"
+
+/* hot reload */
+if (false) {(function () {
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), false)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-b93aaf84", Component.options)
+  } else {
+    hotAPI.reload("data-v-b93aaf84", Component.options)
+  }
+  module.hot.dispose(function (data) {
+    disposed = true
+  })
+})()}
+
+module.exports = Component.exports
+
+
+/***/ }),
+/* 192 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+    data: function data() {
+        return {
+            Staffs: [],
+            dates: [],
+            atDatas: [],
+            fromDate: '2018-07-1',
+            toDate: '2018-07-31'
+        };
+    },
+    created: function created() {
+        this.fetchUsers();
+        this.getallDates();
+        this.getallAttendance();
+    },
+
+
+    methods: {
+        //get staffs
+        fetchUsers: function fetchUsers() {
+            var _this = this;
+
+            var vm = this;
+            fetch('/api/staffprofile').then(function (res) {
+                return res.json();
+            }).then(function (res) {
+                _this.Staffs = res.data;
+                console.log(res.data);
+            }).catch(function (err) {
+                return console.log(err);
+            });
+        },
+
+        //get all date
+        getallDates: function getallDates() {
+            var _this2 = this;
+
+            var passdata = {
+                fromDate: this.fromDate,
+                toDate: this.toDate
+            };
+            fetch('/api/allstaffdates', {
+                method: "post",
+                body: JSON.stringify(passdata),
+                headers: {
+                    "content-type": "application/json"
+                }
+            }).then(function (res) {
+                return res.json();
+            }).then(function (res) {
+                _this2.dates = res.data;
+                console.log(res.data);
+            }).catch(function (err) {
+                return console.log(err);
+            });
+        },
+
+        //get present data
+        getallAttendance: function getallAttendance() {
+            var _this3 = this;
+
+            var passdata = {
+                fromDate: this.fromDate,
+                toDate: this.toDate
+            };
+            fetch('/api/allstaffatdatas', {
+                method: "post",
+                body: JSON.stringify(passdata),
+                headers: {
+                    "content-type": "application/json"
+                }
+            }).then(function (res) {
+                return res.json();
+            }).then(function (res) {
+                _this3.atDatas = res.data;
+                console.log(res.data);
+            }).catch(function (err) {
+                return console.log(err);
+            });
+        },
+        getAtDataByStaff: function getAtDataByStaff(AtDate, staff) {
+            var status;
+            var aData;
+            var child;
+            aData = this.atDatas;
+            for (var child in aData) {
+                if (aData[child].staff_id === staff && aData[child].attendanceDate === AtDate) {
+                    status = aData[child].status;
+                }
+            }
+            if (status) {
+                return status;
+            } else {
+                return 'absent';
+            }
+        }
+    }
+
+});
+
+/***/ }),
+/* 193 */,
+/* 194 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var disposed = false
+function injectStyle (ssrContext) {
+  if (disposed) return
+  __webpack_require__(195)
+}
+var normalizeComponent = __webpack_require__(1)
+/* script */
+var __vue_script__ = __webpack_require__(197)
+/* template */
+var __vue_template__ = __webpack_require__(198)
 /* template functional */
 var __vue_template_functional__ = false
 /* styles */
@@ -66655,13 +66857,13 @@ module.exports = Component.exports
 
 
 /***/ }),
-/* 192 */
+/* 195 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // style-loader: Adds some css to the DOM by adding a <style> tag
 
 // load the styles
-var content = __webpack_require__(193);
+var content = __webpack_require__(196);
 if(typeof content === 'string') content = [[module.i, content, '']];
 if(content.locals) module.exports = content.locals;
 // add the styles to the DOM
@@ -66681,7 +66883,7 @@ if(false) {
 }
 
 /***/ }),
-/* 193 */
+/* 196 */
 /***/ (function(module, exports, __webpack_require__) {
 
 exports = module.exports = __webpack_require__(3)(false);
@@ -66695,7 +66897,7 @@ exports.push([module.i, "\n.scrollTable[data-v-ff3b0cf2]\n{\n    height: 400px;\
 
 
 /***/ }),
-/* 194 */
+/* 197 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -66990,7 +67192,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 });
 
 /***/ }),
-/* 195 */
+/* 198 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var render = function() {
@@ -67532,15 +67734,15 @@ if (false) {
 }
 
 /***/ }),
-/* 196 */
+/* 199 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var disposed = false
 var normalizeComponent = __webpack_require__(1)
 /* script */
-var __vue_script__ = __webpack_require__(197)
+var __vue_script__ = __webpack_require__(200)
 /* template */
-var __vue_template__ = __webpack_require__(198)
+var __vue_template__ = __webpack_require__(201)
 /* template functional */
 var __vue_template_functional__ = false
 /* styles */
@@ -67579,7 +67781,7 @@ module.exports = Component.exports
 
 
 /***/ }),
-/* 197 */
+/* 200 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -67787,7 +67989,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 });
 
 /***/ }),
-/* 198 */
+/* 201 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var render = function() {
@@ -67946,19 +68148,19 @@ if (false) {
 }
 
 /***/ }),
-/* 199 */
+/* 202 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var disposed = false
 function injectStyle (ssrContext) {
   if (disposed) return
-  __webpack_require__(200)
+  __webpack_require__(203)
 }
 var normalizeComponent = __webpack_require__(1)
 /* script */
-var __vue_script__ = __webpack_require__(202)
+var __vue_script__ = __webpack_require__(205)
 /* template */
-var __vue_template__ = __webpack_require__(203)
+var __vue_template__ = __webpack_require__(206)
 /* template functional */
 var __vue_template_functional__ = false
 /* styles */
@@ -67997,13 +68199,13 @@ module.exports = Component.exports
 
 
 /***/ }),
-/* 200 */
+/* 203 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // style-loader: Adds some css to the DOM by adding a <style> tag
 
 // load the styles
-var content = __webpack_require__(201);
+var content = __webpack_require__(204);
 if(typeof content === 'string') content = [[module.i, content, '']];
 if(content.locals) module.exports = content.locals;
 // add the styles to the DOM
@@ -68023,7 +68225,7 @@ if(false) {
 }
 
 /***/ }),
-/* 201 */
+/* 204 */
 /***/ (function(module, exports, __webpack_require__) {
 
 exports = module.exports = __webpack_require__(3)(false);
@@ -68037,7 +68239,7 @@ exports.push([module.i, "\n.input-table input[data-v-98b0702e]\n{   \n    text-t
 
 
 /***/ }),
-/* 202 */
+/* 205 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -68400,7 +68602,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 });
 
 /***/ }),
-/* 203 */
+/* 206 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var render = function() {
@@ -70019,19 +70221,19 @@ if (false) {
 }
 
 /***/ }),
-/* 204 */
+/* 207 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var disposed = false
 function injectStyle (ssrContext) {
   if (disposed) return
-  __webpack_require__(205)
+  __webpack_require__(208)
 }
 var normalizeComponent = __webpack_require__(1)
 /* script */
-var __vue_script__ = __webpack_require__(207)
+var __vue_script__ = __webpack_require__(210)
 /* template */
-var __vue_template__ = __webpack_require__(208)
+var __vue_template__ = __webpack_require__(211)
 /* template functional */
 var __vue_template_functional__ = false
 /* styles */
@@ -70070,13 +70272,13 @@ module.exports = Component.exports
 
 
 /***/ }),
-/* 205 */
+/* 208 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // style-loader: Adds some css to the DOM by adding a <style> tag
 
 // load the styles
-var content = __webpack_require__(206);
+var content = __webpack_require__(209);
 if(typeof content === 'string') content = [[module.i, content, '']];
 if(content.locals) module.exports = content.locals;
 // add the styles to the DOM
@@ -70096,7 +70298,7 @@ if(false) {
 }
 
 /***/ }),
-/* 206 */
+/* 209 */
 /***/ (function(module, exports, __webpack_require__) {
 
 exports = module.exports = __webpack_require__(3)(false);
@@ -70110,7 +70312,7 @@ exports.push([module.i, "\n.hours_list li[data-v-3488b516]\n{\n    list-style: n
 
 
 /***/ }),
-/* 207 */
+/* 210 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -70485,7 +70687,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 });
 
 /***/ }),
-/* 208 */
+/* 211 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var render = function() {
@@ -70922,19 +71124,19 @@ if (false) {
 }
 
 /***/ }),
-/* 209 */
+/* 212 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var disposed = false
 function injectStyle (ssrContext) {
   if (disposed) return
-  __webpack_require__(210)
+  __webpack_require__(213)
 }
 var normalizeComponent = __webpack_require__(1)
 /* script */
-var __vue_script__ = __webpack_require__(212)
+var __vue_script__ = __webpack_require__(215)
 /* template */
-var __vue_template__ = __webpack_require__(213)
+var __vue_template__ = __webpack_require__(216)
 /* template functional */
 var __vue_template_functional__ = false
 /* styles */
@@ -70973,13 +71175,13 @@ module.exports = Component.exports
 
 
 /***/ }),
-/* 210 */
+/* 213 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // style-loader: Adds some css to the DOM by adding a <style> tag
 
 // load the styles
-var content = __webpack_require__(211);
+var content = __webpack_require__(214);
 if(typeof content === 'string') content = [[module.i, content, '']];
 if(content.locals) module.exports = content.locals;
 // add the styles to the DOM
@@ -70999,7 +71201,7 @@ if(false) {
 }
 
 /***/ }),
-/* 211 */
+/* 214 */
 /***/ (function(module, exports, __webpack_require__) {
 
 exports = module.exports = __webpack_require__(3)(false);
@@ -71013,11 +71215,25 @@ exports.push([module.i, "\n.overall-table td[data-v-3e3d816e]\n{\n    width: 100
 
 
 /***/ }),
-/* 212 */
+/* 215 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 //
 //
 //
@@ -71302,6 +71518,19 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
       this.timeTableSubs.wed1 = status2.wed1;this.timeTableSubs.wed2 = status2.wed2;this.timeTableSubs.wed3 = status2.wed3;this.timeTableSubs.wed4 = status2.wed4;this.timeTableSubs.wed5 = status2.wed5;this.timeTableSubs.wed6 = status2.wed6;this.timeTableSubs.wed7 = status2.wed7;
       this.timeTableSubs.thu1 = status2.thu1;this.timeTableSubs.thu2 = status2.thu2;this.timeTableSubs.thu3 = status2.thu3;this.timeTableSubs.thu4 = status2.thu4;this.timeTableSubs.thu5 = status2.thu5;this.timeTableSubs.thu6 = status2.thu6;this.timeTableSubs.thu7 = status2.thu7;
       this.timeTableSubs.fri1 = status2.fri1;this.timeTableSubs.fri2 = status2.fri2;this.timeTableSubs.fri3 = status2.fri3;this.timeTableSubs.fri4 = status2.fri4;this.timeTableSubs.fri5 = status2.fri5;this.timeTableSubs.fri6 = status2.fri6;this.timeTableSubs.fri7 = status2.fri7;
+    },
+    resetModel: function resetModel() {
+      this.timeTableSubs.mon1 = "";this.timeTableSubs.mon2 = "";this.timeTableSubs.mon3 = "";this.timeTableSubs.mon4 = "";this.timeTableSubs.mon5 = "";this.timeTableSubs.mon6 = "";this.timeTableSubs.mon7 = "";
+      this.timeTableSubs.tue1 = "";this.timeTableSubs.tue2 = "";this.timeTableSubs.tue3 = "";this.timeTableSubs.tue4 = "";this.timeTableSubs.tue5 = "";this.timeTableSubs.tue6 = "";this.timeTableSubs.tue7 = "";
+      this.timeTableSubs.wed1 = "";this.timeTableSubs.wed2 = "";this.timeTableSubs.wed3 = "";this.timeTableSubs.wed4 = "";this.timeTableSubs.wed5 = "";this.timeTableSubs.wed6 = "";this.timeTableSubs.wed7 = "";
+      this.timeTableSubs.thu1 = "";this.timeTableSubs.thu2 = "";this.timeTableSubs.thu3 = "";this.timeTableSubs.thu4 = "";this.timeTableSubs.thu5 = "";this.timeTableSubs.thu6 = "";this.timeTableSubs.thu7 = "";
+      this.timeTableSubs.fri1 = "";this.timeTableSubs.fri2 = "";this.timeTableSubs.fri3 = "";this.timeTableSubs.fri4 = "";this.timeTableSubs.fri5 = "";this.timeTableSubs.fri6 = "";this.timeTableSubs.fri7 = "";
+
+      this.timeTables.mon1 = "";this.timeTables.mon2 = "";this.timeTables.mon3 = "";this.timeTables.mon4 = "";this.timeTables.mon5 = "";this.timeTables.mon6 = "";this.timeTables.mon7 = "";
+      this.timeTables.tue1 = "";this.timeTables.tue2 = "";this.timeTables.tue3 = "";this.timeTables.tue4 = "";this.timeTables.tue5 = "";this.timeTables.tue6 = "";this.timeTables.tue7 = "";
+      this.timeTables.wed1 = "";this.timeTables.wed2 = "";this.timeTables.wed3 = "";this.timeTables.wed4 = "";this.timeTables.wed5 = "";this.timeTables.wed6 = "";this.timeTables.wed7 = "";
+      this.timeTables.thu1 = "";this.timeTables.thu2 = "";this.timeTables.thu3 = "";this.timeTables.thu4 = "";this.timeTables.thu5 = "";this.timeTables.thu6 = "";this.timeTables.thu7 = "";
+      this.timeTables.fri1 = "";this.timeTables.fri2 = "";this.timeTables.fri3 = "";this.timeTables.fri4 = "";this.timeTables.fri5 = "";this.timeTables.fri6 = "";this.timeTables.fri7 = "";
     }
   },
   computed: {
@@ -71367,7 +71596,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 });
 
 /***/ }),
-/* 213 */
+/* 216 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var render = function() {
@@ -71625,7 +71854,7 @@ var render = function() {
                     attrs: {
                       type: "button",
                       "data-toggle": "modal",
-                      "data-target": ".bd-example-modal-lg"
+                      "data-target": "#exampleModalCenter"
                     },
                     on: {
                       click: function($event) {
@@ -71633,302 +71862,512 @@ var render = function() {
                       }
                     }
                   },
-                  [_vm._v("View")]
+                  [_vm._v("\n  View\n")]
+                ),
+                _vm._v(" "),
+                _c(
+                  "div",
+                  {
+                    staticClass: "modal fade",
+                    attrs: {
+                      id: "exampleModalCenter",
+                      tabindex: "-1",
+                      role: "dialog",
+                      "aria-labelledby": "exampleModalCenterTitle",
+                      "aria-hidden": "true"
+                    }
+                  },
+                  [
+                    _c(
+                      "div",
+                      {
+                        staticClass: "modal-dialog modal-dialog-centered",
+                        attrs: { role: "document" }
+                      },
+                      [
+                        _c("div", { staticClass: "modal-content" }, [
+                          _c("div", { staticClass: "modal-header" }, [
+                            _c(
+                              "h5",
+                              {
+                                staticClass: "modal-title",
+                                attrs: { id: "exampleModalCenterTitle" }
+                              },
+                              [_vm._v("Timetable based Overall")]
+                            ),
+                            _vm._v(" "),
+                            _c(
+                              "button",
+                              {
+                                staticClass: "close",
+                                attrs: {
+                                  type: "button",
+                                  "data-dismiss": "modal",
+                                  "aria-label": "Close"
+                                },
+                                on: {
+                                  click: function($event) {
+                                    _vm.resetModel()
+                                  }
+                                }
+                              },
+                              [
+                                _c(
+                                  "span",
+                                  { attrs: { "aria-hidden": "true" } },
+                                  [_vm._v("×")]
+                                )
+                              ]
+                            )
+                          ]),
+                          _vm._v(" "),
+                          _c("div", { staticClass: "modal-body" }, [
+                            _c(
+                              "table",
+                              {
+                                staticClass: "table text-center overall-table"
+                              },
+                              [
+                                _vm._m(1, true),
+                                _vm._v(" "),
+                                _c("tbody", [
+                                  _c("tr", [
+                                    _vm._m(2, true),
+                                    _vm._v(" "),
+                                    _c("td", [
+                                      _c("strong", [
+                                        _vm._v(_vm._s(_vm.timeTables.mon1))
+                                      ]),
+                                      _c(
+                                        "span",
+                                        { staticClass: "text-muted d-block" },
+                                        [_vm._v(_vm._s(_vm.timeTableSubs.mon1))]
+                                      )
+                                    ]),
+                                    _vm._v(" "),
+                                    _c("td", [
+                                      _c("strong", [
+                                        _vm._v(_vm._s(_vm.timeTables.mon2))
+                                      ]),
+                                      _c(
+                                        "span",
+                                        { staticClass: "text-muted d-block" },
+                                        [_vm._v(_vm._s(_vm.timeTableSubs.mon2))]
+                                      )
+                                    ]),
+                                    _vm._v(" "),
+                                    _c("td", [
+                                      _c("strong", [
+                                        _vm._v(_vm._s(_vm.timeTables.mon3))
+                                      ]),
+                                      _c(
+                                        "span",
+                                        { staticClass: "text-muted d-block" },
+                                        [_vm._v(_vm._s(_vm.timeTableSubs.mon3))]
+                                      )
+                                    ]),
+                                    _vm._v(" "),
+                                    _c("td", [
+                                      _c("strong", [
+                                        _vm._v(_vm._s(_vm.timeTables.mon4))
+                                      ]),
+                                      _c(
+                                        "span",
+                                        { staticClass: "text-muted d-block" },
+                                        [_vm._v(_vm._s(_vm.timeTableSubs.mon4))]
+                                      )
+                                    ]),
+                                    _vm._v(" "),
+                                    _c("td", [
+                                      _c("strong", [
+                                        _vm._v(_vm._s(_vm.timeTables.mon5))
+                                      ]),
+                                      _c(
+                                        "span",
+                                        { staticClass: "text-muted d-block" },
+                                        [_vm._v(_vm._s(_vm.timeTableSubs.mon5))]
+                                      )
+                                    ]),
+                                    _vm._v(" "),
+                                    _c("td", [
+                                      _c("strong", [
+                                        _vm._v(_vm._s(_vm.timeTables.mon6))
+                                      ]),
+                                      _c(
+                                        "span",
+                                        { staticClass: "text-muted d-block" },
+                                        [_vm._v(_vm._s(_vm.timeTableSubs.mon6))]
+                                      )
+                                    ]),
+                                    _vm._v(" "),
+                                    _c("td", [
+                                      _c("strong", [
+                                        _vm._v(_vm._s(_vm.timeTables.mon7))
+                                      ]),
+                                      _c(
+                                        "span",
+                                        { staticClass: "text-muted d-block" },
+                                        [_vm._v(_vm._s(_vm.timeTableSubs.mon7))]
+                                      )
+                                    ])
+                                  ]),
+                                  _vm._v(" "),
+                                  _c("tr", [
+                                    _vm._m(3, true),
+                                    _vm._v(" "),
+                                    _c("td", [
+                                      _c("strong", [
+                                        _vm._v(_vm._s(_vm.timeTables.tue1))
+                                      ]),
+                                      _c(
+                                        "span",
+                                        { staticClass: "text-muted d-block" },
+                                        [_vm._v(_vm._s(_vm.timeTableSubs.tue1))]
+                                      )
+                                    ]),
+                                    _vm._v(" "),
+                                    _c("td", [
+                                      _c("strong", [
+                                        _vm._v(_vm._s(_vm.timeTables.tue2))
+                                      ]),
+                                      _c(
+                                        "span",
+                                        { staticClass: "text-muted d-block" },
+                                        [_vm._v(_vm._s(_vm.timeTableSubs.tue2))]
+                                      )
+                                    ]),
+                                    _vm._v(" "),
+                                    _c("td", [
+                                      _c("strong", [
+                                        _vm._v(_vm._s(_vm.timeTables.tue3))
+                                      ]),
+                                      _c(
+                                        "span",
+                                        { staticClass: "text-muted d-block" },
+                                        [_vm._v(_vm._s(_vm.timeTableSubs.tue3))]
+                                      )
+                                    ]),
+                                    _vm._v(" "),
+                                    _c("td", [
+                                      _c("strong", [
+                                        _vm._v(_vm._s(_vm.timeTables.tue4))
+                                      ]),
+                                      _c(
+                                        "span",
+                                        { staticClass: "text-muted d-block" },
+                                        [_vm._v(_vm._s(_vm.timeTableSubs.tue4))]
+                                      )
+                                    ]),
+                                    _vm._v(" "),
+                                    _c("td", [
+                                      _c("strong", [
+                                        _vm._v(_vm._s(_vm.timeTables.tue5))
+                                      ]),
+                                      _c(
+                                        "span",
+                                        { staticClass: "text-muted d-block" },
+                                        [_vm._v(_vm._s(_vm.timeTableSubs.tue5))]
+                                      )
+                                    ]),
+                                    _vm._v(" "),
+                                    _c("td", [
+                                      _c("strong", [
+                                        _vm._v(_vm._s(_vm.timeTables.tue6))
+                                      ]),
+                                      _c(
+                                        "span",
+                                        { staticClass: "text-muted d-block" },
+                                        [_vm._v(_vm._s(_vm.timeTableSubs.tue6))]
+                                      )
+                                    ]),
+                                    _vm._v(" "),
+                                    _c("td", [
+                                      _c("strong", [
+                                        _vm._v(_vm._s(_vm.timeTables.tue7))
+                                      ]),
+                                      _c(
+                                        "span",
+                                        { staticClass: "text-muted d-block" },
+                                        [_vm._v(_vm._s(_vm.timeTableSubs.tue7))]
+                                      )
+                                    ])
+                                  ]),
+                                  _vm._v(" "),
+                                  _c("tr", [
+                                    _vm._m(4, true),
+                                    _vm._v(" "),
+                                    _c("td", [
+                                      _c("strong", [
+                                        _vm._v(_vm._s(_vm.timeTables.wed1))
+                                      ]),
+                                      _c(
+                                        "span",
+                                        { staticClass: "text-muted d-block" },
+                                        [_vm._v(_vm._s(_vm.timeTableSubs.wed1))]
+                                      )
+                                    ]),
+                                    _vm._v(" "),
+                                    _c("td", [
+                                      _c("strong", [
+                                        _vm._v(_vm._s(_vm.timeTables.wed2))
+                                      ]),
+                                      _c(
+                                        "span",
+                                        { staticClass: "text-muted d-block" },
+                                        [_vm._v(_vm._s(_vm.timeTableSubs.wed2))]
+                                      )
+                                    ]),
+                                    _vm._v(" "),
+                                    _c("td", [
+                                      _c("strong", [
+                                        _vm._v(_vm._s(_vm.timeTables.wed3))
+                                      ]),
+                                      _c(
+                                        "span",
+                                        { staticClass: "text-muted d-block" },
+                                        [_vm._v(_vm._s(_vm.timeTableSubs.wed3))]
+                                      )
+                                    ]),
+                                    _vm._v(" "),
+                                    _c("td", [
+                                      _c("strong", [
+                                        _vm._v(_vm._s(_vm.timeTables.wed4))
+                                      ]),
+                                      _c(
+                                        "span",
+                                        { staticClass: "text-muted d-block" },
+                                        [_vm._v(_vm._s(_vm.timeTableSubs.wed4))]
+                                      )
+                                    ]),
+                                    _vm._v(" "),
+                                    _c("td", [
+                                      _c("strong", [
+                                        _vm._v(_vm._s(_vm.timeTables.wed5))
+                                      ]),
+                                      _c(
+                                        "span",
+                                        { staticClass: "text-muted d-block" },
+                                        [_vm._v(_vm._s(_vm.timeTableSubs.wed5))]
+                                      )
+                                    ]),
+                                    _vm._v(" "),
+                                    _c("td", [
+                                      _c("strong", [
+                                        _vm._v(_vm._s(_vm.timeTables.wed6))
+                                      ]),
+                                      _c(
+                                        "span",
+                                        { staticClass: "text-muted d-block" },
+                                        [_vm._v(_vm._s(_vm.timeTableSubs.wed6))]
+                                      )
+                                    ]),
+                                    _vm._v(" "),
+                                    _c("td", [
+                                      _c("strong", [
+                                        _vm._v(_vm._s(_vm.timeTables.wed7))
+                                      ]),
+                                      _c(
+                                        "span",
+                                        { staticClass: "text-muted d-block" },
+                                        [_vm._v(_vm._s(_vm.timeTableSubs.wed7))]
+                                      )
+                                    ])
+                                  ]),
+                                  _vm._v(" "),
+                                  _c("tr", [
+                                    _vm._m(5, true),
+                                    _vm._v(" "),
+                                    _c("td", [
+                                      _c("strong", [
+                                        _vm._v(_vm._s(_vm.timeTables.thu1))
+                                      ]),
+                                      _c(
+                                        "span",
+                                        { staticClass: "text-muted d-block" },
+                                        [_vm._v(_vm._s(_vm.timeTableSubs.thu1))]
+                                      )
+                                    ]),
+                                    _vm._v(" "),
+                                    _c("td", [
+                                      _c("strong", [
+                                        _vm._v(_vm._s(_vm.timeTables.thu2))
+                                      ]),
+                                      _c(
+                                        "span",
+                                        { staticClass: "text-muted d-block" },
+                                        [_vm._v(_vm._s(_vm.timeTableSubs.thu2))]
+                                      )
+                                    ]),
+                                    _vm._v(" "),
+                                    _c("td", [
+                                      _c("strong", [
+                                        _vm._v(_vm._s(_vm.timeTables.thu3))
+                                      ]),
+                                      _c(
+                                        "span",
+                                        { staticClass: "text-muted d-block" },
+                                        [_vm._v(_vm._s(_vm.timeTableSubs.thu3))]
+                                      )
+                                    ]),
+                                    _vm._v(" "),
+                                    _c("td", [
+                                      _c("strong", [
+                                        _vm._v(_vm._s(_vm.timeTables.thu4))
+                                      ]),
+                                      _c(
+                                        "span",
+                                        { staticClass: "text-muted d-block" },
+                                        [_vm._v(_vm._s(_vm.timeTableSubs.thu4))]
+                                      )
+                                    ]),
+                                    _vm._v(" "),
+                                    _c("td", [
+                                      _c("strong", [
+                                        _vm._v(_vm._s(_vm.timeTables.thu5))
+                                      ]),
+                                      _c(
+                                        "span",
+                                        { staticClass: "text-muted d-block" },
+                                        [_vm._v(_vm._s(_vm.timeTableSubs.thu5))]
+                                      )
+                                    ]),
+                                    _vm._v(" "),
+                                    _c("td", [
+                                      _c("strong", [
+                                        _vm._v(_vm._s(_vm.timeTables.thu6))
+                                      ]),
+                                      _c(
+                                        "span",
+                                        { staticClass: "text-muted d-block" },
+                                        [_vm._v(_vm._s(_vm.timeTableSubs.thu6))]
+                                      )
+                                    ]),
+                                    _vm._v(" "),
+                                    _c("td", [
+                                      _c("strong", [
+                                        _vm._v(_vm._s(_vm.timeTables.thu7))
+                                      ]),
+                                      _c(
+                                        "span",
+                                        { staticClass: "text-muted d-block" },
+                                        [_vm._v(_vm._s(_vm.timeTableSubs.thu7))]
+                                      )
+                                    ])
+                                  ]),
+                                  _vm._v(" "),
+                                  _c("tr", [
+                                    _vm._m(6, true),
+                                    _vm._v(" "),
+                                    _c("td", [
+                                      _c("strong", [
+                                        _vm._v(_vm._s(_vm.timeTables.fri1))
+                                      ]),
+                                      _c(
+                                        "span",
+                                        { staticClass: "text-muted d-block" },
+                                        [_vm._v(_vm._s(_vm.timeTableSubs.fri1))]
+                                      )
+                                    ]),
+                                    _vm._v(" "),
+                                    _c("td", [
+                                      _c("strong", [
+                                        _vm._v(_vm._s(_vm.timeTables.fri2))
+                                      ]),
+                                      _c(
+                                        "span",
+                                        { staticClass: "text-muted d-block" },
+                                        [_vm._v(_vm._s(_vm.timeTableSubs.fri2))]
+                                      )
+                                    ]),
+                                    _vm._v(" "),
+                                    _c("td", [
+                                      _c("strong", [
+                                        _vm._v(_vm._s(_vm.timeTables.fri3))
+                                      ]),
+                                      _c(
+                                        "span",
+                                        { staticClass: "text-muted d-block" },
+                                        [_vm._v(_vm._s(_vm.timeTableSubs.fri3))]
+                                      )
+                                    ]),
+                                    _vm._v(" "),
+                                    _c("td", [
+                                      _c("strong", [
+                                        _vm._v(_vm._s(_vm.timeTables.fri4))
+                                      ]),
+                                      _c(
+                                        "span",
+                                        { staticClass: "text-muted d-block" },
+                                        [_vm._v(_vm._s(_vm.timeTableSubs.fri4))]
+                                      )
+                                    ]),
+                                    _vm._v(" "),
+                                    _c("td", [
+                                      _c("strong", [
+                                        _vm._v(_vm._s(_vm.timeTables.fri5))
+                                      ]),
+                                      _c(
+                                        "span",
+                                        { staticClass: "text-muted d-block" },
+                                        [_vm._v(_vm._s(_vm.timeTableSubs.fri5))]
+                                      )
+                                    ]),
+                                    _vm._v(" "),
+                                    _c("td", [
+                                      _c("strong", [
+                                        _vm._v(_vm._s(_vm.timeTables.fri6))
+                                      ]),
+                                      _c(
+                                        "span",
+                                        { staticClass: "text-muted d-block" },
+                                        [_vm._v(_vm._s(_vm.timeTableSubs.fri6))]
+                                      )
+                                    ]),
+                                    _vm._v(" "),
+                                    _c("td", [
+                                      _c("strong", [
+                                        _vm._v(_vm._s(_vm.timeTables.fri7))
+                                      ]),
+                                      _c(
+                                        "span",
+                                        { staticClass: "text-muted d-block" },
+                                        [_vm._v(_vm._s(_vm.timeTableSubs.fri7))]
+                                      )
+                                    ])
+                                  ])
+                                ])
+                              ]
+                            )
+                          ]),
+                          _vm._v(" "),
+                          _c("div", { staticClass: "modal-footer" }, [
+                            _c(
+                              "button",
+                              {
+                                staticClass: "btn btn-secondary",
+                                attrs: {
+                                  type: "button",
+                                  "data-dismiss": "modal"
+                                },
+                                on: {
+                                  click: function($event) {
+                                    _vm.resetModel()
+                                  }
+                                }
+                              },
+                              [_vm._v("Close")]
+                            )
+                          ])
+                        ])
+                      ]
+                    )
+                  ]
                 )
               ])
             ])
           })
         )
-      ]),
-      _vm._v(" "),
-      _c(
-        "div",
-        {
-          staticClass: "modal fade bd-example-modal-lg",
-          attrs: {
-            tabindex: "-1",
-            role: "dialog",
-            "aria-labelledby": "myLargeModalLabel",
-            "aria-hidden": "true"
-          }
-        },
-        [
-          _c("div", { staticClass: "modal-dialog modal-lg" }, [
-            _c("div", { staticClass: "modal-content" }, [
-              _c("table", { staticClass: "table text-center overall-table" }, [
-                _vm._m(1),
-                _vm._v(" "),
-                _c("tbody", [
-                  _c("tr", [
-                    _vm._m(2),
-                    _vm._v(" "),
-                    _c("td", [
-                      _c("strong", [_vm._v(_vm._s(_vm.timeTables.mon1))]),
-                      _c("span", { staticClass: "text-muted d-block" }, [
-                        _vm._v(_vm._s(_vm.timeTableSubs.mon1))
-                      ])
-                    ]),
-                    _vm._v(" "),
-                    _c("td", [
-                      _c("strong", [_vm._v(_vm._s(_vm.timeTables.mon2))]),
-                      _c("span", { staticClass: "text-muted d-block" }, [
-                        _vm._v(_vm._s(_vm.timeTableSubs.mon2))
-                      ])
-                    ]),
-                    _vm._v(" "),
-                    _c("td", [
-                      _c("strong", [_vm._v(_vm._s(_vm.timeTables.mon3))]),
-                      _c("span", { staticClass: "text-muted d-block" }, [
-                        _vm._v(_vm._s(_vm.timeTableSubs.mon3))
-                      ])
-                    ]),
-                    _vm._v(" "),
-                    _c("td", [
-                      _c("strong", [_vm._v(_vm._s(_vm.timeTables.mon4))]),
-                      _c("span", { staticClass: "text-muted d-block" }, [
-                        _vm._v(_vm._s(_vm.timeTableSubs.mon4))
-                      ])
-                    ]),
-                    _vm._v(" "),
-                    _c("td", [
-                      _c("strong", [_vm._v(_vm._s(_vm.timeTables.mon5))]),
-                      _c("span", { staticClass: "text-muted d-block" }, [
-                        _vm._v(_vm._s(_vm.timeTableSubs.mon5))
-                      ])
-                    ]),
-                    _vm._v(" "),
-                    _c("td", [
-                      _c("strong", [_vm._v(_vm._s(_vm.timeTables.mon6))]),
-                      _c("span", { staticClass: "text-muted d-block" }, [
-                        _vm._v(_vm._s(_vm.timeTableSubs.mon6))
-                      ])
-                    ]),
-                    _vm._v(" "),
-                    _c("td", [
-                      _c("strong", [_vm._v(_vm._s(_vm.timeTables.mon7))]),
-                      _c("span", { staticClass: "text-muted d-block" }, [
-                        _vm._v(_vm._s(_vm.timeTableSubs.mon7))
-                      ])
-                    ])
-                  ]),
-                  _vm._v(" "),
-                  _c("tr", [
-                    _vm._m(3),
-                    _vm._v(" "),
-                    _c("td", [
-                      _c("strong", [_vm._v(_vm._s(_vm.timeTables.tue1))]),
-                      _c("span", { staticClass: "text-muted d-block" }, [
-                        _vm._v(_vm._s(_vm.timeTableSubs.tue1))
-                      ])
-                    ]),
-                    _vm._v(" "),
-                    _c("td", [
-                      _c("strong", [_vm._v(_vm._s(_vm.timeTables.tue2))]),
-                      _c("span", { staticClass: "text-muted d-block" }, [
-                        _vm._v(_vm._s(_vm.timeTableSubs.tue2))
-                      ])
-                    ]),
-                    _vm._v(" "),
-                    _c("td", [
-                      _c("strong", [_vm._v(_vm._s(_vm.timeTables.tue3))]),
-                      _c("span", { staticClass: "text-muted d-block" }, [
-                        _vm._v(_vm._s(_vm.timeTableSubs.tue3))
-                      ])
-                    ]),
-                    _vm._v(" "),
-                    _c("td", [
-                      _c("strong", [_vm._v(_vm._s(_vm.timeTables.tue4))]),
-                      _c("span", { staticClass: "text-muted d-block" }, [
-                        _vm._v(_vm._s(_vm.timeTableSubs.tue4))
-                      ])
-                    ]),
-                    _vm._v(" "),
-                    _c("td", [
-                      _c("strong", [_vm._v(_vm._s(_vm.timeTables.tue5))]),
-                      _c("span", { staticClass: "text-muted d-block" }, [
-                        _vm._v(_vm._s(_vm.timeTableSubs.tue5))
-                      ])
-                    ]),
-                    _vm._v(" "),
-                    _c("td", [
-                      _c("strong", [_vm._v(_vm._s(_vm.timeTables.tue6))]),
-                      _c("span", { staticClass: "text-muted d-block" }, [
-                        _vm._v(_vm._s(_vm.timeTableSubs.tue6))
-                      ])
-                    ]),
-                    _vm._v(" "),
-                    _c("td", [
-                      _c("strong", [_vm._v(_vm._s(_vm.timeTables.tue7))]),
-                      _c("span", { staticClass: "text-muted d-block" }, [
-                        _vm._v(_vm._s(_vm.timeTableSubs.tue7))
-                      ])
-                    ])
-                  ]),
-                  _vm._v(" "),
-                  _c("tr", [
-                    _vm._m(4),
-                    _vm._v(" "),
-                    _c("td", [
-                      _c("strong", [_vm._v(_vm._s(_vm.timeTables.wed1))]),
-                      _c("span", { staticClass: "text-muted d-block" }, [
-                        _vm._v(_vm._s(_vm.timeTableSubs.wed1))
-                      ])
-                    ]),
-                    _vm._v(" "),
-                    _c("td", [
-                      _c("strong", [_vm._v(_vm._s(_vm.timeTables.wed2))]),
-                      _c("span", { staticClass: "text-muted d-block" }, [
-                        _vm._v(_vm._s(_vm.timeTableSubs.wed2))
-                      ])
-                    ]),
-                    _vm._v(" "),
-                    _c("td", [
-                      _c("strong", [_vm._v(_vm._s(_vm.timeTables.wed3))]),
-                      _c("span", { staticClass: "text-muted d-block" }, [
-                        _vm._v(_vm._s(_vm.timeTableSubs.wed3))
-                      ])
-                    ]),
-                    _vm._v(" "),
-                    _c("td", [
-                      _c("strong", [_vm._v(_vm._s(_vm.timeTables.wed4))]),
-                      _c("span", { staticClass: "text-muted d-block" }, [
-                        _vm._v(_vm._s(_vm.timeTableSubs.wed4))
-                      ])
-                    ]),
-                    _vm._v(" "),
-                    _c("td", [
-                      _c("strong", [_vm._v(_vm._s(_vm.timeTables.wed5))]),
-                      _c("span", { staticClass: "text-muted d-block" }, [
-                        _vm._v(_vm._s(_vm.timeTableSubs.wed5))
-                      ])
-                    ]),
-                    _vm._v(" "),
-                    _c("td", [
-                      _c("strong", [_vm._v(_vm._s(_vm.timeTables.wed6))]),
-                      _c("span", { staticClass: "text-muted d-block" }, [
-                        _vm._v(_vm._s(_vm.timeTableSubs.wed6))
-                      ])
-                    ]),
-                    _vm._v(" "),
-                    _c("td", [
-                      _c("strong", [_vm._v(_vm._s(_vm.timeTables.wed7))]),
-                      _c("span", { staticClass: "text-muted d-block" }, [
-                        _vm._v(_vm._s(_vm.timeTableSubs.wed7))
-                      ])
-                    ])
-                  ]),
-                  _vm._v(" "),
-                  _c("tr", [
-                    _vm._m(5),
-                    _vm._v(" "),
-                    _c("td", [
-                      _c("strong", [_vm._v(_vm._s(_vm.timeTables.thu1))]),
-                      _c("span", { staticClass: "text-muted d-block" }, [
-                        _vm._v(_vm._s(_vm.timeTableSubs.thu1))
-                      ])
-                    ]),
-                    _vm._v(" "),
-                    _c("td", [
-                      _c("strong", [_vm._v(_vm._s(_vm.timeTables.thu2))]),
-                      _c("span", { staticClass: "text-muted d-block" }, [
-                        _vm._v(_vm._s(_vm.timeTableSubs.thu2))
-                      ])
-                    ]),
-                    _vm._v(" "),
-                    _c("td", [
-                      _c("strong", [_vm._v(_vm._s(_vm.timeTables.thu3))]),
-                      _c("span", { staticClass: "text-muted d-block" }, [
-                        _vm._v(_vm._s(_vm.timeTableSubs.thu3))
-                      ])
-                    ]),
-                    _vm._v(" "),
-                    _c("td", [
-                      _c("strong", [_vm._v(_vm._s(_vm.timeTables.thu4))]),
-                      _c("span", { staticClass: "text-muted d-block" }, [
-                        _vm._v(_vm._s(_vm.timeTableSubs.thu4))
-                      ])
-                    ]),
-                    _vm._v(" "),
-                    _c("td", [
-                      _c("strong", [_vm._v(_vm._s(_vm.timeTables.thu5))]),
-                      _c("span", { staticClass: "text-muted d-block" }, [
-                        _vm._v(_vm._s(_vm.timeTableSubs.thu5))
-                      ])
-                    ]),
-                    _vm._v(" "),
-                    _c("td", [
-                      _c("strong", [_vm._v(_vm._s(_vm.timeTables.thu6))]),
-                      _c("span", { staticClass: "text-muted d-block" }, [
-                        _vm._v(_vm._s(_vm.timeTableSubs.thu6))
-                      ])
-                    ]),
-                    _vm._v(" "),
-                    _c("td", [
-                      _c("strong", [_vm._v(_vm._s(_vm.timeTables.thu7))]),
-                      _c("span", { staticClass: "text-muted d-block" }, [
-                        _vm._v(_vm._s(_vm.timeTableSubs.thu7))
-                      ])
-                    ])
-                  ]),
-                  _vm._v(" "),
-                  _c("tr", [
-                    _vm._m(6),
-                    _vm._v(" "),
-                    _c("td", [
-                      _c("strong", [_vm._v(_vm._s(_vm.timeTables.fri1))]),
-                      _c("span", { staticClass: "text-muted d-block" }, [
-                        _vm._v(_vm._s(_vm.timeTableSubs.fri1))
-                      ])
-                    ]),
-                    _vm._v(" "),
-                    _c("td", [
-                      _c("strong", [_vm._v(_vm._s(_vm.timeTables.fri2))]),
-                      _c("span", { staticClass: "text-muted d-block" }, [
-                        _vm._v(_vm._s(_vm.timeTableSubs.fri2))
-                      ])
-                    ]),
-                    _vm._v(" "),
-                    _c("td", [
-                      _c("strong", [_vm._v(_vm._s(_vm.timeTables.fri3))]),
-                      _c("span", { staticClass: "text-muted d-block" }, [
-                        _vm._v(_vm._s(_vm.timeTableSubs.fri3))
-                      ])
-                    ]),
-                    _vm._v(" "),
-                    _c("td", [
-                      _c("strong", [_vm._v(_vm._s(_vm.timeTables.fri4))]),
-                      _c("span", { staticClass: "text-muted d-block" }, [
-                        _vm._v(_vm._s(_vm.timeTableSubs.fri4))
-                      ])
-                    ]),
-                    _vm._v(" "),
-                    _c("td", [
-                      _c("strong", [_vm._v(_vm._s(_vm.timeTables.fri5))]),
-                      _c("span", { staticClass: "text-muted d-block" }, [
-                        _vm._v(_vm._s(_vm.timeTableSubs.fri5))
-                      ])
-                    ]),
-                    _vm._v(" "),
-                    _c("td", [
-                      _c("strong", [_vm._v(_vm._s(_vm.timeTables.fri6))]),
-                      _c("span", { staticClass: "text-muted d-block" }, [
-                        _vm._v(_vm._s(_vm.timeTableSubs.fri6))
-                      ])
-                    ]),
-                    _vm._v(" "),
-                    _c("td", [
-                      _c("strong", [_vm._v(_vm._s(_vm.timeTables.fri7))]),
-                      _c("span", { staticClass: "text-muted d-block" }, [
-                        _vm._v(_vm._s(_vm.timeTableSubs.fri7))
-                      ])
-                    ])
-                  ])
-                ])
-              ])
-            ])
-          ])
-        ]
-      )
+      ])
     ])
   ])
 }
@@ -72010,19 +72449,19 @@ if (false) {
 }
 
 /***/ }),
-/* 214 */
+/* 217 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var disposed = false
 function injectStyle (ssrContext) {
   if (disposed) return
-  __webpack_require__(215)
+  __webpack_require__(218)
 }
 var normalizeComponent = __webpack_require__(1)
 /* script */
-var __vue_script__ = __webpack_require__(217)
+var __vue_script__ = __webpack_require__(220)
 /* template */
-var __vue_template__ = __webpack_require__(218)
+var __vue_template__ = __webpack_require__(221)
 /* template functional */
 var __vue_template_functional__ = false
 /* styles */
@@ -72061,13 +72500,13 @@ module.exports = Component.exports
 
 
 /***/ }),
-/* 215 */
+/* 218 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // style-loader: Adds some css to the DOM by adding a <style> tag
 
 // load the styles
-var content = __webpack_require__(216);
+var content = __webpack_require__(219);
 if(typeof content === 'string') content = [[module.i, content, '']];
 if(content.locals) module.exports = content.locals;
 // add the styles to the DOM
@@ -72087,7 +72526,7 @@ if(false) {
 }
 
 /***/ }),
-/* 216 */
+/* 219 */
 /***/ (function(module, exports, __webpack_require__) {
 
 exports = module.exports = __webpack_require__(3)(false);
@@ -72095,13 +72534,13 @@ exports = module.exports = __webpack_require__(3)(false);
 
 
 // module
-exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
+exports.push([module.i, "\n.student-table[data-v-e2614608]\n{\n    height:600px;\n}\n", ""]);
 
 // exports
 
 
 /***/ }),
-/* 217 */
+/* 220 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -72207,10 +72646,13 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
+      nameSearch: '',
       //Degree
       toDate: '',
       fromDate: '',
@@ -72258,8 +72700,13 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
       var _this2 = this;
 
       var sendData = {
-        'fromDate': this.fromDate,
-        'toDate': this.toDate
+        fromDate: this.fromDate,
+        toDate: this.toDate,
+        degree: this.degreeSelected,
+        department: this.degreeSelected,
+        year: this.yearSelected,
+        section: this.sectionSelected,
+        semester: this.semesterSelected
       };
       fetch('/api/student/at/month', {
         method: 'post',
@@ -72271,7 +72718,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         return res.json();
       }).then(function (res) {
         _this2.AtRecords = res.data;
-        console.log(_this2.AtRecords);
       }).catch(function (err) {
         return console.log(err);
       });
@@ -72282,8 +72728,14 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
       var _this3 = this;
 
       var sendData = {
-        'fromDate': this.fromDate,
-        'toDate': this.toDate
+        fromDate: this.fromDate,
+        toDate: this.toDate,
+        degree: this.degreeSelected,
+        department: this.degreeSelected,
+        year: this.yearSelected,
+        section: this.sectionSelected,
+        Semester: this.semesterSelected
+
       };
       fetch('/api/student/at/dates', {
         method: 'post',
@@ -72295,20 +72747,10 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         return res.json();
       }).then(function (res) {
         _this3.AtDates = res.data;
-        console.log(_this3.AtDates);
       }).catch(function (err) {
         return console.log(err);
       });
     },
-
-    // getAtDataByStud(AtDate, stud){
-    //   let test;
-
-    //   test = this.AtRecords.find(x => x.attendancedate === AtDate && x.student_id === stud);
-
-    // return test;
-
-    // }
     getAtDataByStud: function getAtDataByStud(AtDate, stud) {
       var status;
       var aData;
@@ -72375,12 +72817,13 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
       var filterDepartment = vm.departmentSelected;
       var filterYear = vm.yearSelected;
       var filterSection = vm.sectionSelected;
+      var search = vm.nameSearch;
 
       if (filterDepartment === "all" && filterYear === "all" && filterSection === "all") {
         return vm.Students;
       } else {
         return vm.Students.filter(function (student) {
-          return (filterDepartment === "all" || student.department === filterDepartment) && (filterYear === "all" || student.year === filterYear) && (filterSection === "all" || student.section === filterSection);
+          return (filterDepartment === "all" || student.department === filterDepartment) && (filterYear === "all" || student.year === filterYear) && (filterSection === "all" || student.section === filterSection) && student.name.toLowerCase().includes(search.toLowerCase());
         });
       }
     }
@@ -72389,7 +72832,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 });
 
 /***/ }),
-/* 218 */
+/* 221 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var render = function() {
@@ -72726,64 +73169,110 @@ var render = function() {
       _vm._v(" "),
       _vm.showStudd === true
         ? _c("div", { staticClass: "showstudd" }, [
-            _c("table", { staticClass: "table table-responsive" }, [
-              _c(
-                "thead",
-                [
-                  _c("th", [_vm._v("REG NO")]),
-                  _vm._v(" "),
-                  _c("th", [_vm._v("Name")]),
-                  _vm._v(" "),
-                  _vm._l(_vm.AtDates, function(AtDate) {
-                    return _c("th", { key: AtDate.id }, [
-                      _vm._v(
-                        _vm._s(
-                          _vm.moment(AtDate.attendancedate).format("Do-MM")
-                        )
-                      )
-                    ])
-                  })
+            _c("div", { staticClass: "name-search" }, [
+              _c("input", {
+                directives: [
+                  {
+                    name: "model",
+                    rawName: "v-model",
+                    value: _vm.nameSearch,
+                    expression: "nameSearch"
+                  }
                 ],
-                2
-              ),
-              _vm._v(" "),
-              _c(
-                "tbody",
-                _vm._l(_vm.filteredStudents, function(stud) {
-                  return _c(
-                    "tr",
-                    { key: stud.id },
-                    [
-                      _c("td", [_vm._v(_vm._s(stud.register_no))]),
-                      _vm._v(" "),
-                      _c("td", [_vm._v(_vm._s(stud.name))]),
-                      _vm._v(" "),
-                      _vm._l(_vm.AtDates, function(AtDate) {
-                        return _c(
-                          "td",
-                          {
-                            key: AtDate.id,
-                            staticStyle: { transform: "rotate(-90deg):" }
-                          },
-                          [
-                            _vm._v(
-                              "\n              " +
-                                _vm._s(
-                                  _vm.getAtDataByStud(
-                                    AtDate.attendancedate,
-                                    stud.id
-                                  )
-                                ) +
-                                "\n             "
-                            )
-                          ]
+                staticClass: "form-control mb-2",
+                staticStyle: { width: "250px" },
+                attrs: { type: "text", placeholder: "Search by Name" },
+                domProps: { value: _vm.nameSearch },
+                on: {
+                  input: function($event) {
+                    if ($event.target.composing) {
+                      return
+                    }
+                    _vm.nameSearch = $event.target.value
+                  }
+                }
+              })
+            ]),
+            _vm._v(" "),
+            _c("div", { staticClass: "table-responsive student-table" }, [
+              _c("table", { staticClass: "table" }, [
+                _c(
+                  "thead",
+                  [
+                    _c("th", [_vm._v("REG NO")]),
+                    _vm._v(" "),
+                    _c("th", [_vm._v("Name")]),
+                    _vm._v(" "),
+                    _vm._l(_vm.AtDates, function(AtDate) {
+                      return _c("th", { key: AtDate.id }, [
+                        _vm._v(
+                          _vm._s(
+                            _vm.moment(AtDate.attendancedate).format("Do-MM")
+                          )
                         )
-                      })
-                    ],
-                    2
-                  )
-                })
-              )
+                      ])
+                    })
+                  ],
+                  2
+                ),
+                _vm._v(" "),
+                _c(
+                  "tbody",
+                  _vm._l(_vm.filteredStudents, function(stud) {
+                    return _c(
+                      "tr",
+                      { key: stud.id },
+                      [
+                        _c("td", [_vm._v(_vm._s(stud.register_no))]),
+                        _vm._v(" "),
+                        _c("td", [_vm._v(_vm._s(stud.name))]),
+                        _vm._v(" "),
+                        _vm._l(_vm.AtDates, function(AtDate) {
+                          return _c(
+                            "td",
+                            {
+                              key: AtDate.id,
+                              staticClass: "text-center",
+                              staticStyle: { transform: "rotate(-90deg):" }
+                            },
+                            [
+                              _vm.getAtDataByStud(
+                                AtDate.attendancedate,
+                                stud.id
+                              ) == 0
+                                ? _c("span", { staticClass: "text-danger" }, [
+                                    _vm._v(
+                                      "\n                  A\n              "
+                                    )
+                                  ])
+                                : _vm._e(),
+                              _vm._v(" "),
+                              _vm.getAtDataByStud(
+                                AtDate.attendancedate,
+                                stud.id
+                              ) != 0
+                                ? _c("span", { staticClass: "text-primary" }, [
+                                    _vm._v(
+                                      "\n                  " +
+                                        _vm._s(
+                                          _vm.getAtDataByStud(
+                                            AtDate.attendancedate,
+                                            stud.id
+                                          )
+                                        ) +
+                                        "\n              "
+                                    )
+                                  ])
+                                : _vm._e()
+                            ]
+                          )
+                        })
+                      ],
+                      2
+                    )
+                  })
+                )
+              ])
             ])
           ])
         : _vm._e()
@@ -72801,15 +73290,15 @@ if (false) {
 }
 
 /***/ }),
-/* 219 */
+/* 222 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var disposed = false
 var normalizeComponent = __webpack_require__(1)
 /* script */
-var __vue_script__ = __webpack_require__(220)
+var __vue_script__ = __webpack_require__(223)
 /* template */
-var __vue_template__ = __webpack_require__(221)
+var __vue_template__ = __webpack_require__(224)
 /* template functional */
 var __vue_template_functional__ = false
 /* styles */
@@ -72848,7 +73337,7 @@ module.exports = Component.exports
 
 
 /***/ }),
-/* 220 */
+/* 223 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -73088,7 +73577,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 });
 
 /***/ }),
-/* 221 */
+/* 224 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var render = function() {
@@ -73772,10 +74261,135 @@ if (false) {
 }
 
 /***/ }),
-/* 222 */
+/* 225 */
 /***/ (function(module, exports) {
 
 // removed by extract-text-webpack-plugin
+
+/***/ }),
+/* 226 */,
+/* 227 */,
+/* 228 */,
+/* 229 */,
+/* 230 */,
+/* 231 */,
+/* 232 */,
+/* 233 */,
+/* 234 */,
+/* 235 */
+/***/ (function(module, exports, __webpack_require__) {
+
+// style-loader: Adds some css to the DOM by adding a <style> tag
+
+// load the styles
+var content = __webpack_require__(236);
+if(typeof content === 'string') content = [[module.i, content, '']];
+if(content.locals) module.exports = content.locals;
+// add the styles to the DOM
+var update = __webpack_require__(4)("09df3930", content, false, {});
+// Hot Module Replacement
+if(false) {
+ // When the styles change, update the <style> tags
+ if(!content.locals) {
+   module.hot.accept("!!../../../../node_modules/css-loader/index.js!../../../../node_modules/vue-loader/lib/style-compiler/index.js?{\"vue\":true,\"id\":\"data-v-b93aaf84\",\"scoped\":true,\"hasInlineConfig\":true}!../../../../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./StaffAttendance-bymonth.vue", function() {
+     var newContent = require("!!../../../../node_modules/css-loader/index.js!../../../../node_modules/vue-loader/lib/style-compiler/index.js?{\"vue\":true,\"id\":\"data-v-b93aaf84\",\"scoped\":true,\"hasInlineConfig\":true}!../../../../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./StaffAttendance-bymonth.vue");
+     if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
+     update(newContent);
+   });
+ }
+ // When the module is disposed, remove the <style> tags
+ module.hot.dispose(function() { update(); });
+}
+
+/***/ }),
+/* 236 */
+/***/ (function(module, exports, __webpack_require__) {
+
+exports = module.exports = __webpack_require__(3)(false);
+// imports
+
+
+// module
+exports.push([module.i, "\n.staff-table[data-v-b93aaf84]\n{\n    height:600px;\n}\n", ""]);
+
+// exports
+
+
+/***/ }),
+/* 237 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c("div", { staticClass: "staff-at-bymonth" }, [
+    _c("div", { staticClass: "table-responsive staff-table" }, [
+      _c("table", { staticClass: "table responsive-table" }, [
+        _c(
+          "thead",
+          [
+            _c("th", [_vm._v("#EID Name / Dates")]),
+            _vm._v(" "),
+            _vm._l(_vm.dates, function(date) {
+              return _c("th", [
+                _vm._v(
+                  "\n                " +
+                    _vm._s(date.attendanceDate) +
+                    "\n            "
+                )
+              ])
+            })
+          ],
+          2
+        ),
+        _vm._v(" "),
+        _c(
+          "tbody",
+          _vm._l(_vm.Staffs, function(staff) {
+            return _c(
+              "tr",
+              { key: staff.id },
+              [
+                _c("td", [
+                  _vm._v(
+                    "\n                    " +
+                      _vm._s(staff.eid) +
+                      "    " +
+                      _vm._s(staff.name) +
+                      "\n                "
+                  )
+                ]),
+                _vm._v(" "),
+                _vm._l(_vm.dates, function(date) {
+                  return _c("th", { key: date.id }, [
+                    _vm._v(
+                      "\n                   " +
+                        _vm._s(
+                          _vm.getAtDataByStaff(date.attendanceDate, staff.id)
+                        ) +
+                        "\n                "
+                    )
+                  ])
+                })
+              ],
+              2
+            )
+          })
+        )
+      ])
+    ])
+  ])
+}
+var staticRenderFns = []
+render._withStripped = true
+module.exports = { render: render, staticRenderFns: staticRenderFns }
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+    require("vue-hot-reload-api")      .rerender("data-v-b93aaf84", module.exports)
+  }
+}
 
 /***/ })
 /******/ ]);

@@ -19,6 +19,7 @@ class StaffAttendanceResource extends Resource
             'staff_id' => $this->staff_id,
             'dateStatus' => $this->dateStatus,
             'eid' => $this->eid,
+            'year_start' => $this->year_start,
         ];
     }
 }

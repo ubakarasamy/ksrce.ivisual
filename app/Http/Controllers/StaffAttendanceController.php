@@ -11,7 +11,6 @@ use App\StaffAtOverall;
 use App\Http\Resources\UserResource;
 use App\Http\Resources\StaffAttendanceResource;
 use App\Http\Resources\StaffAtOverallResource;
-
 use App\Http\Resources\StaffAttendanceRecordResource;
 
 class StaffAttendanceController extends Controller
@@ -43,12 +42,14 @@ class StaffAttendanceController extends Controller
             return response()->json($StaffData);
         }else{
         //else create
+        $acc = Academics::findOrFail(1);
         $attendance = new StaffAttendance;
 $staff = User::where('eid', $request->input('eid'))->first();
         $attendance->staff_id = $staff->id;
         $attendance->attendanceDate = $request->input('makedate');
         $attendance->eid = $request->input('eid');
         $attendance->dateStatus = 0;
+        $attendance->year_start = $acc->academic_year;
 $attendance->save();
 $date1 = $request->input('makedate');
             //if alredy not exists give attendance record table for inserting
@@ -234,9 +235,10 @@ $date1 = $request->input('makedate');
         }
     }
 
+    public function attendanceByOverall(){
+        return view('staffattendance.byoverall');
+    }
     public function attendanceByMonth(){
-       // StaffAttendanceRecord::whereMonth('attendanceDate' , Carbon::today()->month);
-       
         return view('staffattendance.bymonth');
     }
 
@@ -253,6 +255,26 @@ $date1 = $request->input('makedate');
         $start = $aca->academic_year;
         $overAll = StaffAtOverall::where([['academic_year', '>=', $start]])->get();
         return StaffAtOverallResource::collection($overAll);
+    }
+
+
+    public function getAllAtDates(Request $request){
+        $fromDate = $request->input('fromDate');
+        $toDate = $request->input('toDate');
+        $datas = StaffAttendance::where([
+            ['attendanceDate', '>=', $fromDate],
+            ['attendanceDate', '<=', $toDate]
+        ])->get();
+        return StaffAttendanceResource::collection($datas);
+    }
+    public function getAllAtDatas(Request $request){
+        $fromDate = $request->input('fromDate');
+        $toDate = $request->input('toDate');
+        $datas = StaffAttendanceRecord::where([
+            ['attendanceDate', '>=', $fromDate],
+            ['attendanceDate', '<=', $toDate]
+        ])->get();
+        return StaffAttendanceRecordResource::collection($datas);
     }
     
 

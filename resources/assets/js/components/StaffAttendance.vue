@@ -4,6 +4,7 @@
                        <div class="card-header">
                            <h3 class="card-title">
                                Make Attendance for {{ createAttendance.makedate }} 
+                               {{userRole}}
                            </h3>
                        </div>
                        <div class="card-body">
@@ -98,8 +99,10 @@ export default {
       settingStatus: {}
     };
   },
+  props:{
+    userId: Number ,
+  },
   methods: {
-    
     makeDate() {
       fetch("/api/staffattendance", {
         method: "post",

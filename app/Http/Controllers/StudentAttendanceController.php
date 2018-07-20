@@ -31,6 +31,8 @@ class StudentAttendanceController extends Controller
             $attendanceData = StudentAtRecord::all()->where('attendancedate', $date1);
             return 'date already exists';
         }else{
+
+            $acc  =Academics::findOrFail(1);
         //else create
         $attendance = new StudentAt;
         $staff = User::where('eid', $request->input('staff_eid'))->first();
@@ -39,6 +41,12 @@ class StudentAttendanceController extends Controller
         $attendance->staff_eid = $request->input('staff_eid');
         $attendance->day = $request->input('day');
         $attendance->dateStatus = 0;
+        $attendance->degree = $request->input('degree');
+        $attendance->department = $request->input('department');
+        $attendance->section = $request->input('section');
+        $attendance->year = $request->input('year');
+        $attendance->semester = $request->input('semester');
+        $attendance->sem_start = $acc->academic_semester_start;
         $attendance->save();
         $date1 = $request->input('makedate');
             //if alredy not exists give attendance record table for inserting
@@ -89,81 +97,99 @@ class StudentAttendanceController extends Controller
         $record->regno = $student_regno;
 
 if($h1){ 
-    if ($record->h1 === 'absent' || $record->h1 === 'leave' || $record->h1 === NULL && $h1 === 'present' || $h1 === 'od') {
+
+    
+    if ($record->h1 === 'absent' || $record->h1 === 'leave' and $h1 === 'present' || $h1 === 'od') {
         $in = false;
         //if increment
         $Tplus1 = 1; 
-    }else{
+        $this->incrementHourOnEdit($h1,'h1',$dd->day,$id,$in);
+        $record->h1 = $h1;
+    }elseif($record->h1 === 'present' || $record->h1 === 'od' and $h1 === 'absent' || $h1 === 'leave'){
         $in = true;
         $Tminus1 = 1; 
-    }
-      $this->incrementHourOnEdit($h1,'h1',$dd->day,$id,$in);
+        $this->incrementHourOnEdit($h1,'h1',$dd->day,$id,$in);
         $record->h1 = $h1;
+    }
+      
+    $record->h1 = $h1;
 }
 if($h2){ 
     if ($record->h2 === 'absent' || $record->h2 === 'leave' || $record->h2 === NULL && $h2 === 'present' || $h2 === 'od') {
         $in = false;
         $Tplus2 = 1; 
-    }else{
+        $this->incrementHourOnEdit($h2,'h2',$dd->day,$id,$in);
+    }elseif($record->h2 === 'present' || $record->h2 === 'od' and $h2 === 'absent' || $h2 === 'leave'){
         $in = true;
         $Tminus2 = 1; 
+        $this->incrementHourOnEdit($h2,'h2',$dd->day,$id,$in);
     }
-      $this->incrementHourOnEdit($h2,'h2',$dd->day,$id,$in);
+     
         $record->h2 = $h2;
 }
 if($h3){ 
     if ($record->h3 === 'absent' || $record->h3 === 'leave' || $record->h3 === NULL && $h3 === 'present' || $h3 === 'od') {
         $in = false;
         $Tplus3 = 1; 
-    }else{
+        $this->incrementHourOnEdit($h3,'h3',$dd->day,$id,$in);
+    }elseif($record->h3 === 'present' || $record->h3 === 'od' and $h3 === 'absent' || $h3 === 'leave'){
         $in = true;
         $Tminus3 = 1; 
+        $this->incrementHourOnEdit($h3,'h3',$dd->day,$id,$in);
     }
-      $this->incrementHourOnEdit($h3,'h3',$dd->day,$id,$in);
+      
         $record->h3 = $h3;
 }
 if($h4){ 
     if ($record->h4 === 'absent' || $record->h4 === 'leave' || $record->h4 === NULL && $h4 === 'present' || $h4 === 'od') {
         $in = false;
         $Tplus4 = 1; 
-    }else{
+        $this->incrementHourOnEdit($h4,'h4',$dd->day,$id,$in);
+    }elseif($record->h4 === 'present' || $record->h4 === 'od' and $h4 === 'absent' || $h4 === 'leave'){
         $in = true;
         $Tminus4 = 1; 
+        $this->incrementHourOnEdit($h4,'h4',$dd->day,$id,$in);
     }
-      $this->incrementHourOnEdit($h4,'h4',$dd->day,$id,$in);
+     
         $record->h4 = $h4;
 }
 if($h5){ 
     if ($record->h5 === 'absent' || $record->h5 === 'leave' || $record->h5 === NULL && $h5 === 'present' || $h5 === 'od') {
         $in = false;
         $Tplus5 = 1; 
-    }else{
+        $this->incrementHourOnEdit($h5,'h5',$dd->day,$id,$in);
+    }elseif($record->h5 === 'present' || $record->h5 === 'od' and $h5 === 'absent' || $h5 === 'leave'){
         $in = true;
         $Tminus5 = 1; 
+        $this->incrementHourOnEdit($h5,'h5',$dd->day,$id,$in);
     }
-      $this->incrementHourOnEdit($h5,'h5',$dd->day,$id,$in);
+      
         $record->h5 = $h5;
 }
 if($h6){ 
     if ($record->h6 === 'absent' || $record->h6 === 'leave' || $record->h6 === NULL && $h6 === 'present' || $h6 === 'od') {
         $in = false;
         $Tplus6 = 1; 
-    }else{
+        $this->incrementHourOnEdit($h6,'h6',$dd->day,$id,$in);
+    }elseif($record->h6 === 'present' || $record->h6 === 'od' and $h6 === 'absent' || $h6 === 'leave'){
         $in = true;
         $Tminus6 = 1; 
+        $this->incrementHourOnEdit($h6,'h6',$dd->day,$id,$in);
     }
-      $this->incrementHourOnEdit($h6,'h6',$dd->day,$id,$in);
+      
         $record->h6 = $h6;
 }
 if($h7){ 
     if ($record->h7 === 'absent' || $record->h7 === 'leave' || $record->h7 === NULL && $h7 === 'present' || $h7 === 'od') {
         $in = false;
         $Tplus7 = 1; 
-    }else{
+        $this->incrementHourOnEdit($h7,'h7',$dd->day,$id,$in);
+    }elseif($record->h7 === 'present' || $record->h7 === 'od' and $h7 === 'absent' || $h7 === 'leave'){
         $in = true;
         $Tminus7 = 1; 
+        $this->incrementHourOnEdit($h7,'h7',$dd->day,$id,$in);
     }
-      $this->incrementHourOnEdit($h7,'h7',$dd->day,$id,$in);
+      
         $record->h7 = $h7;
 }
 
@@ -185,12 +211,11 @@ $record->hrspresent = $totalhrs - $subNu;
        // $incc->save();
         return 'data Edited';
         }else{
-            //create attendance
-$extt = StudentOver::where('student_id', $id)->first();
+            //create
+
+            $acc  =Academics::findOrFail(1);
+$extt = StudentOver::where([['student_id', '=', $id],['sem_start', '=', $acc->academic_semester_start]])->get();
 if($extt === null){
-
-    $acc  =Academics::findOrFail(1);
-
 $incc = new StudentOver;
 $incc->student_id = $id;
 $incc->sem_start = $acc->academic_semester_start;
@@ -290,7 +315,7 @@ $record->sem_start = $acc->academic_semester_start;
         $ovrall = StudentOver::all();
         return StudentOverResource::collection($ovrall);
     } 
-    public function consolidatedMonth(Request $request){
+       public function consolidatedMonth(Request $request){
         $fromDate = $request->input('fromDate');
         $toDate = $request->input('toDate');
         $datas = StudentAtRecord::where([['attendancedate', '>=', $fromDate], ['attendancedate', '<=', $toDate]])->get();
@@ -331,8 +356,23 @@ if($ifExists !== null){
     $record = StudentAtRecord::where([['student_id', '=', $stud['id']], ['attendancedate', '=', $date]])->first();
 
 }else{
+
+    $acc  = Academics::findOrFail(1);
+    $extt = StudentOver::where([['student_id', '=', $stud['id']],['sem_start', '=', $acc->academic_semester_start]])->first();
+    if($extt === null){
+    $incc = new StudentOver;
+    $incc->student_id = $stud['id'];
+    $incc->sem_start = $acc->academic_semester_start;
+    $incc->mon1 = 0;$incc->mon2 = 0;$incc->mon3 = 0;$incc->mon4 = 0;$incc->mon5 = 0;$incc->mon6 = 0;$incc->mon7 = 0;
+    $incc->tue1 = 0;$incc->tue2 = 0;$incc->tue3 = 0;$incc->tue4 = 0;$incc->tue5 = 0;$incc->tue6 = 0;$incc->tue7 = 0;
+    $incc->wed1 = 0;$incc->wed2 = 0;$incc->wed3 = 0;$incc->wed4 = 0;$incc->wed5 = 0;$incc->wed6 = 0;$incc->wed7 = 0;
+    $incc->thu1 = 0;$incc->thu2 = 0;$incc->thu3 = 0;$incc->thu4 = 0;$incc->thu5 = 0;$incc->thu6 = 0;$incc->thu7 = 0;
+    $incc->fri1 = 0;$incc->fri2 = 0;$incc->fri3 = 0;$incc->fri4 = 0;$incc->fri5 = 0;$incc->fri6 = 0;$incc->fri7 = 0;
+    $incc->save();
+    }
+
+
     $record = new StudentAtRecord;
-    
 }
 $record->sem_start = $acc->academic_semester_start;
 $record->attendancedate = $date;

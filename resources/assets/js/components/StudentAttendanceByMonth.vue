@@ -70,7 +70,11 @@
 </div>
      </div>
 <div class="showstudd" v-if="showStudd === true">
-<table class="table table-responsive">
+  <div class="name-search">
+    <input type="text" v-model="nameSearch" class="form-control mb-2" placeholder="Search by Name" style="width:250px;">
+  </div>
+<div class="table-responsive student-table">
+<table class="table">
     <thead>
         <th>REG NO</th>
         <th>Name</th>
@@ -80,29 +84,28 @@
         <tr v-for="stud in filteredStudents" v-bind:key="stud.id">
             <td>{{stud.register_no}}</td>
             <td>{{stud.name}}</td>
-            <td v-for="AtDate in AtDates" v-bind:key="AtDate.id" style="transform: rotate(-90deg):">
-              {{ getAtDataByStud(AtDate.attendancedate, stud.id) }}
-             <!-- <span v-if="AtRecords.find(x => (x.attendancedate === AtDate.attendancedate && x.student_id === stud.id)) === null">Null</span>
-              <span v-if="AtRecords.find(x => (x.attendancedate === AtDate.attendancedate && x.student_id === stud.id)) !== null"> 
-                {{AtRecords.find(x => (x.attendancedate === AtDate.attendancedate && x.student_id === stud.id))}}
-              </span> -->
-              
+            <td class="text-center" v-for="AtDate in AtDates" v-bind:key="AtDate.id" style="transform: rotate(-90deg):">
+              <span class="text-danger" v-if="getAtDataByStud(AtDate.attendancedate, stud.id) == 0">
+                  A
+              </span>
+              <span class="text-primary" v-if="getAtDataByStud(AtDate.attendancedate, stud.id) != 0">
+                  {{ getAtDataByStud(AtDate.attendancedate, stud.id) }}
+              </span>
             </td>
         </tr>
-
-        
     </tbody>
 </table>
 </div>
+</div>
     </div>
 </div>
-    
 </template>
 
 <script>
 export default {
     data(){
         return{
+          nameSearch:'',
              //Degree
              toDate:'',
              fromDate:'',
@@ -186,8 +189,13 @@ sectionOptions: [
         //getAllAtDatas
         getAllAtDatas(){
           let sendData = {
-              'fromDate': this.fromDate,
-              'toDate': this.toDate
+              fromDate: this.fromDate,
+              toDate: this.toDate,
+              degree: this.degreeSelected,
+              department: this.degreeSelected,
+              year: this.yearSelected,
+              section: this.sectionSelected,
+              semester: this.semesterSelected
             }
           fetch('/api/student/at/month', {
             method: 'post',
@@ -198,15 +206,21 @@ sectionOptions: [
           }).then(res => res.json())
           .then(res => {
             this.AtRecords = res.data;
-            console.log(this.AtRecords);
+            
           }).catch(err => console.log(err));
           this.showStudd = true;
           this.getAllAtDates();
         },
         getAllAtDates(){
           let sendData = {
-              'fromDate': this.fromDate,
-              'toDate': this.toDate
+              fromDate: this.fromDate,
+              toDate: this.toDate,
+              degree: this.degreeSelected,
+              department: this.degreeSelected,
+              year: this.yearSelected,
+              section: this.sectionSelected,
+              Semester: this.semesterSelected
+
             }
           fetch('/api/student/at/dates', {
             method: 'post',
@@ -217,17 +231,9 @@ sectionOptions: [
           }).then(res => res.json())
           .then(res => {
             this.AtDates = res.data;
-            console.log(this.AtDates);
+            
           }).catch(err => console.log(err));
         },
-// getAtDataByStud(AtDate, stud){
-//   let test;
-
-//   test = this.AtRecords.find(x => x.attendancedate === AtDate && x.student_id === stud);
-
-// return test;
-
-// }
  getAtDataByStud(AtDate, stud) {
       var status;
       var aData;
@@ -296,6 +302,7 @@ sectionOptions: [
       let filterDepartment = vm.departmentSelected;
       let filterYear = vm.yearSelected;
       let filterSection = vm.sectionSelected;
+      let search = vm.nameSearch;
 
       if (
         filterDepartment === "all" &&
@@ -309,8 +316,9 @@ sectionOptions: [
             (filterDepartment === "all" ||
               student.department === filterDepartment) &&
             (filterYear === "all" || student.year === filterYear) &&
-            (filterSection === "all" || student.section === filterSection)
-          );
+            (filterSection === "all" || student.section === filterSection) &&
+            (student.name.toLowerCase().includes(search.toLowerCase()))
+          )
         });
       }
     }
@@ -321,5 +329,8 @@ sectionOptions: [
 
 
 <style scoped>
-
+.student-table
+{
+    height:600px;
+}
 </style>

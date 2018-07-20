@@ -32,7 +32,7 @@ Route::get('/staff/attendance/create', 'StaffAttendanceController@createAttendan
 Route::get('/student/attendance/create', 'StudentAttendanceController@createAttendance')->name('studentattendance-create');
 
 //get staff attendance data by month
-Route::get('/staff/attendance/month', 'StaffAttendanceController@attendanceByMonth')->name('staff-attendance-bymonth');
+Route::get('/staff/attendance/overall', 'StaffAttendanceController@attendanceByOverall')->name('staff-attendance-overall');
 
 //get student attendance data by month
 Route::get('/student/attendance/day', 'StudentAttendanceController@attendanceByDay')->name('student-attendance-byday');
@@ -48,3 +48,5 @@ Route::get('/staffapprovals/approve', 'StaffProfileController@Approve')->name('s
 Route::get('/student/timetables', 'TimeTablesController@timeTables')->name('time-tables');
 
 Route::get('/student/class/subjects', 'TimeTablesController@createSubjects')->name('create-subjects');
+
+Route::get('/staff/attendance/month' , 'StaffAttendanceController@attendanceBymonth')->name('staff-attendance-month');

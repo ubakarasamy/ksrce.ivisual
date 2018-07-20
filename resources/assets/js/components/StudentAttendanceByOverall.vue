@@ -1,9 +1,9 @@
 <template>
 <div class="card">
-    
-    <div class="card-body">
-       <div class="filter-options">
-  <div class="form-group col-md-2">
+
+<div class="card-body">
+<div class="filter-options">
+<div class="form-group col-md-2">
 <!-- Degree -->
  <label for="student_degree_filter">Degree</label><br>
 <select class="form-control" id="student_degree_filter" style="width:120px;display:inline-block;" v-model="degreeSelected">
@@ -41,7 +41,6 @@
   </select>
 </div>
 
-
 <div class="form-group col-md-2">
   <!-- Section -->
 <label for="student_filter_section">Section</label><br>
@@ -64,20 +63,22 @@
             <td>{{stud.register_no}}</td>
             <td>{{stud.name}}</td>
             <td>{{stud.department}}</td>
-            <td><button type="button" class="btn btn-outline-primary" @click="GetOverallByStudId(stud)" data-toggle="modal" data-target=".bd-example-modal-lg">View</button></td>
-        </tr>
-    </tbody>
-</table>
-
-
-
-<!-- Large modal -->
-
-
-<div class="modal fade bd-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
-  <div class="modal-dialog modal-lg">
+            <td>
+              <button type="button" @click="GetOverallByStudId(stud)" class="btn btn-outline-primary" data-toggle="modal" data-target="#exampleModalCenter">
+  View
+</button>
+<!-- Modal -->
+<div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
     <div class="modal-content">
-      <table class="table text-center overall-table">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalCenterTitle">Timetable based Overall</h5>
+        <button type="button" @click="resetModel()" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+       <table class="table text-center overall-table">
             <thead>
                 <th>Day / Hours</th>
                 <th>1</th>
@@ -141,9 +142,22 @@
                     </tr>
             </tbody>
         </table>
+
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" @click="resetModel()" data-dismiss="modal">Close</button>
+      </div>
     </div>
   </div>
 </div>
+
+             </td>
+        </tr>
+    </tbody>
+</table>
+
+
+
 
 
 
@@ -311,6 +325,21 @@ this.timeTableSubs.tue1 = status2.tue1;this.timeTableSubs.tue2 = status2.tue2;th
 this.timeTableSubs.wed1 = status2.wed1;this.timeTableSubs.wed2 = status2.wed2;this.timeTableSubs.wed3 = status2.wed3;this.timeTableSubs.wed4 = status2.wed4;this.timeTableSubs.wed5 = status2.wed5;this.timeTableSubs.wed6 = status2.wed6;this.timeTableSubs.wed7 = status2.wed7;
 this.timeTableSubs.thu1 = status2.thu1;this.timeTableSubs.thu2 = status2.thu2;this.timeTableSubs.thu3 = status2.thu3;this.timeTableSubs.thu4 = status2.thu4;this.timeTableSubs.thu5 = status2.thu5;this.timeTableSubs.thu6 = status2.thu6;this.timeTableSubs.thu7 = status2.thu7;
 this.timeTableSubs.fri1 = status2.fri1;this.timeTableSubs.fri2 = status2.fri2;this.timeTableSubs.fri3 = status2.fri3;this.timeTableSubs.fri4 = status2.fri4;this.timeTableSubs.fri5 = status2.fri5;this.timeTableSubs.fri6 = status2.fri6;this.timeTableSubs.fri7 = status2.fri7;
+
+
+},
+resetModel(){
+this.timeTableSubs.mon1 = "";this.timeTableSubs.mon2 = "";this.timeTableSubs.mon3 = "";this.timeTableSubs.mon4 = "";this.timeTableSubs.mon5 = "";this.timeTableSubs.mon6 = "";this.timeTableSubs.mon7 = "";
+this.timeTableSubs.tue1 = "";this.timeTableSubs.tue2 = "";this.timeTableSubs.tue3 = "";this.timeTableSubs.tue4 = "";this.timeTableSubs.tue5 = "";this.timeTableSubs.tue6 = "";this.timeTableSubs.tue7 = "";
+this.timeTableSubs.wed1 = "";this.timeTableSubs.wed2 = "";this.timeTableSubs.wed3 = "";this.timeTableSubs.wed4 = "";this.timeTableSubs.wed5 = "";this.timeTableSubs.wed6 = "";this.timeTableSubs.wed7 = "";
+this.timeTableSubs.thu1 = "";this.timeTableSubs.thu2 = "";this.timeTableSubs.thu3 = "";this.timeTableSubs.thu4 = "";this.timeTableSubs.thu5 = "";this.timeTableSubs.thu6 = "";this.timeTableSubs.thu7 = "";
+this.timeTableSubs.fri1 = "";this.timeTableSubs.fri2 = "";this.timeTableSubs.fri3 = "";this.timeTableSubs.fri4 = "";this.timeTableSubs.fri5 = "";this.timeTableSubs.fri6 = "";this.timeTableSubs.fri7 = "";
+
+this.timeTables.mon1 = "";this.timeTables.mon2 = "";this.timeTables.mon3 = "";this.timeTables.mon4 = "";this.timeTables.mon5 = "";this.timeTables.mon6 = "";this.timeTables.mon7 = "";
+this.timeTables.tue1 = "";this.timeTables.tue2 = "";this.timeTables.tue3 = "";this.timeTables.tue4 = "";this.timeTables.tue5 = "";this.timeTables.tue6 = "";this.timeTables.tue7 = "";
+this.timeTables.wed1 = "";this.timeTables.wed2 = "";this.timeTables.wed3 = "";this.timeTables.wed4 = "";this.timeTables.wed5 = "";this.timeTables.wed6 = "";this.timeTables.wed7 = "";
+this.timeTables.thu1 = "";this.timeTables.thu2 = "";this.timeTables.thu3 = "";this.timeTables.thu4 = "";this.timeTables.thu5 = "";this.timeTables.thu6 = "";this.timeTables.thu7 = "";
+this.timeTables.fri1 = "";this.timeTables.fri2 = "";this.timeTables.fri3 = "";this.timeTables.fri4 = "";this.timeTables.fri5 = "";this.timeTables.fri6 = "";this.timeTables.fri7 = "";
 
 
 }
