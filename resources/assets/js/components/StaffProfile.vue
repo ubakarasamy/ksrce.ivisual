@@ -1,12 +1,11 @@
 <template>
-    <div class="container">
+    <div class="main-stafft-profile">
             <div class="card">
                 <div class="card-header">
-                    <h1 class="card-title">Staff Profiles</h1>
+                    <h3 class="card-title">Staff Profiles</h3>
                     <button type="button" class="btn btn-primary float-right create-staff-btn" data-toggle="modal" data-target="#createStaff">
   Create New Staff
 </button>
-<br>
 <br>
 
 <div class="filter-options">

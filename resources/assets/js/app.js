@@ -37,5 +37,4 @@ Vue.component('create-subjects', require('./components/CreateSubjects.vue'));
 
 const app = new Vue({
     el: '#app'
-   
 });

@@ -17816,7 +17816,6 @@ Vue.component('create-subjects', __webpack_require__(224));
 
 var app = new Vue({
   el: '#app'
-
 });
 
 /***/ }),
@@ -60452,7 +60451,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
-//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   //datas declared
@@ -60643,10 +60641,10 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c("div", { staticClass: "container" }, [
+  return _c("div", { staticClass: "main-stafft-profile" }, [
     _c("div", { staticClass: "card" }, [
       _c("div", { staticClass: "card-header" }, [
-        _c("h1", { staticClass: "card-title" }, [_vm._v("Staff Profiles")]),
+        _c("h3", { staticClass: "card-title" }, [_vm._v("Staff Profiles")]),
         _vm._v(" "),
         _c(
           "button",
@@ -60660,8 +60658,6 @@ var render = function() {
           },
           [_vm._v("\n  Create New Staff\n")]
         ),
-        _vm._v(" "),
-        _c("br"),
         _vm._v(" "),
         _c("br"),
         _vm._v(" "),
