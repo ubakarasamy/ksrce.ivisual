@@ -23,6 +23,13 @@ class TimeTablesController extends Controller
         $section = $data['section'];
         $timetable = $data['timetable'];
       //create only
+      $ext = Timetables::where([
+        ['degree', '=', $degree],
+        ['year', '=', $year],
+        ['semester', '=', $semester],
+        ['department', '=', $department],
+        ['section', '=', $section]
+      ]);
         $creatTable = new Timetables;
         $creatTable->degree = $degree;
         $creatTable->year = $year;
@@ -66,8 +73,7 @@ class TimeTablesController extends Controller
         $creatTable->fri6 = $timetable['fri6'];
         $creatTable->fri7 = $timetable['fri7'];
         $creatTable->save();
-        
-        return 'created';
+        return response()->json('created');
     }
     public function showAllTable(){
         return TimetablesResource::collection(Timetables::all());

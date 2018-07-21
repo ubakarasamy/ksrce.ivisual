@@ -6,14 +6,30 @@
         <div class="card-body">
 
 <h3 class="mb-2">All Time Tables</h3>
-<ul class="list-group view-table-list mt-3">
-    <li class="list-group-item" v-for="allTimetable in allTimetables" v-bind:key="allTimetable.id">{{allTimetable.degree}} {{allTimetable.department}} {{allTimetable.year}}year {{allTimetable.semester}}Sem {{allTimetable.section}}
-<!-- Button trigger modal -->
-<button type="button" class="btn btn-outline-primary" data-toggle="modal" @click="viewTable(allTimetable)" data-target="#exampleModalCenter">
+<table class="table">
+    <thead>
+        <th>Degree</th>
+        <th>Department</th>
+        <th>Year</th>
+        <th>Semester</th>
+        <th>Section</th>
+        <th>View</th>
+    </thead>
+    <tbody>
+        <tr v-for="allTimetable in allTimetables" v-bind:key="allTimetable.id">
+            <td>{{allTimetable.degree}}</td>
+            <td>{{allTimetable.department}}</td>
+            <td>{{allTimetable.year}}</td>
+            <td>{{allTimetable.semester}}</td>
+            <td>{{allTimetable.section}}</td>
+            <td>
+                <button type="button" class="btn btn-outline-primary" data-toggle="modal" @click="viewTable(allTimetable)" data-target="#exampleModalCenter">
   view
 </button>
-    </li>
-</ul>
+            </td>
+        </tr>
+    </tbody>
+</table>
 
 <!-- Modal -->
 <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
@@ -97,9 +113,9 @@
   </div>
 </div>
 
-
+<hr>
 <div class="creat-times mt-4">
-<h3>Create or Edit Time Table</h3>
+<h3>Create Time Table</h3>
 <div class="row">
 <div class="form-group col-md-2">
 <!-- Degree -->
@@ -331,6 +347,7 @@ fri1:'',fri2:'',fri3:'',fri4:'',fri5:'',fri6:'',fri7:''
                 this.sectionSelected = '',
                 this.departmentSelected = '',
                 this.timeTables = ''
+                alert(res.data);
             })
             .catch(err => console.log(err));
             this.fetchTimetables();

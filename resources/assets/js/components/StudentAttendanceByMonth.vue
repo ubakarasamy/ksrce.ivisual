@@ -1,8 +1,8 @@
 <template>
 <div class="card">
     
-    <div class="card-body">
-      <div class="input-options" v-if="showStudd === false">
+<div class="card-body">
+<div class="input-options" v-if="showStudd === false">
 <div class="filter-options row">
   <div class="form-group col-md-2">
 <!-- Degree -->
@@ -70,6 +70,7 @@
 </div>
      </div>
 <div class="showstudd" v-if="showStudd === true">
+    <h4>Attendance Record {{fromDate}} to {{toDate}}</h4>
   <div class="name-search">
     <input type="text" v-model="nameSearch" class="form-control mb-2" placeholder="Search by Name" style="width:250px;">
   </div>
@@ -231,7 +232,6 @@ sectionOptions: [
           }).then(res => res.json())
           .then(res => {
             this.AtDates = res.data;
-            
           }).catch(err => console.log(err));
         },
  getAtDataByStud(AtDate, stud) {

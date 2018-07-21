@@ -7,14 +7,13 @@
    <div class="row">
        <div class="col-md-6">
                    <h3>For Staffs Academic Year</h3>
-        <p class="text-info">Note: based on this the year attendance will be calculated.</p>
 <form @submit.prevent="submitAcademic">
-<h4 class="text-dark">Academic Year Start</h4> 
+<label class="text-dark pt-3">Academic Year Start</label> 
 <input type="date" v-model="academic.academicYear" id="date" name="date" class="form-control" style="width:200px;">
 <em><strong>Current Year Started</strong> {{gotData.academic_year}}</em>
 
 <br><br>
-<p>Enter Defaults <span class="text-info">This Can't Be Modifiable Till the current academic year Ends</span></p>
+<h3 class="pt-3 pb-2">Enter Staff Leave Limits</h3>
 <div class="form-group" style="width:300px;">
     <label for="cl">CL</label><span class="text-muted pl-3">Casual Leaves + Medical Leaves</span><br>
     <input type="number" v-model="academic.academicCL" class="form-control"  name="cl" id="cl" >
@@ -41,10 +40,9 @@
             <h3>For Student Academic Semester</h3>
             <div class="form-group" style="width:300px;">
     <br>
-    <h3>Semester: <strong>{{gotData.academic_semester}}</strong></h3>
-<h4 class="text-dark">Academic Semester Start</h4> 
+<label class="text-dark">Academic Semester Start</label> 
     <input type="date" v-model="academicStudent.semStart" id="datesem" name="datesem" class="form-control" style="width:200px;">
-<em><strong>Current Semester Started</strong> {{gotData.academic_year}}</em>
+<em><strong>Current Semester Started</strong> {{gotData.academic_year}} {{gotData.academic_semester}}</em>
     <br>
     <button class="btn btn-primary mt-3" v-on:click="updateSem">Update Semester</button>
     
@@ -82,6 +80,7 @@ export default {
     created(){
         this.fetchSem();
     },
+     props:['userrole', 'authenticateduser'],
     methods:{
         //Fetch sem
         fetchSem(){

@@ -171,18 +171,20 @@ $date1 = $request->input('makedate');
             // $dateStatus->save();
             // }
             //create
+            $aca = Academics::findOrFail(1);
+            $start = $aca->academic_year;
         $record = new StaffAttendanceRecord;
         $record->attendanceDate = $date;
         $record->staff_id = $id;
         $record->status = $status;
         $record->eid = $staff_eid;
+        $record->year_start = $start;
         $record->save();
 
         //increment on overalltable on statuses
         //if already exists edit
         $ifEx = StaffAtOverall::where('staff_id', $id)->first();
         if($ifEx){ 
-          
             switch ($status) {
                 case 'present':
                     $ifEx->present = $ifEx->present+1;
@@ -257,26 +259,31 @@ $date1 = $request->input('makedate');
         return StaffAtOverallResource::collection($overAll);
     }
 
-
     public function getAllAtDates(Request $request){
         $fromDate = $request->input('fromDate');
         $toDate = $request->input('toDate');
+        $aca = Academics::findOrFail(1);
+        $start = $aca->academic_year;
         $datas = StaffAttendance::where([
             ['attendanceDate', '>=', $fromDate],
-            ['attendanceDate', '<=', $toDate]
+            ['attendanceDate', '<=', $toDate],
+            ['year_start', '<=', $start]
         ])->get();
         return StaffAttendanceResource::collection($datas);
     }
     public function getAllAtDatas(Request $request){
         $fromDate = $request->input('fromDate');
         $toDate = $request->input('toDate');
+        $aca = Academics::findOrFail(1);
+        $start = $aca->academic_year;
         $datas = StaffAttendanceRecord::where([
             ['attendanceDate', '>=', $fromDate],
-            ['attendanceDate', '<=', $toDate]
+            ['attendanceDate', '<=', $toDate],
+            ['year_start', '<=', $start]
         ])->get();
         return StaffAttendanceRecordResource::collection($datas);
     }
-    
+
 
 
 }

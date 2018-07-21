@@ -110,8 +110,17 @@
   </div>
 
   <div class="form-group">
-    <label for="staff_department">Staff Department</label>
+    <label for="staff_department">Studied Department</label>
 <select class="form-control" v-model="staff.department" id="staff_department" style="width:120px;">
+  <option v-for="create_departmentoption in create_departmentoptions" v-bind:value="create_departmentoption.value">
+    {{ create_departmentoption.text }}
+  </option>
+</select>
+  </div>
+
+    <div class="form-group">
+    <label for="staff_departmentfor">Working Department</label>
+<select class="form-control" v-model="staff.departmentfor" id="staff_departmentfor" style="width:120px;">
   <option v-for="create_departmentoption in create_departmentoptions" v-bind:value="create_departmentoption.value">
     {{ create_departmentoption.text }}
   </option>
@@ -278,7 +287,8 @@ errors:[],
         occupation: '',
         department: '',
         mojoined: '',
-        eid: ''
+        eid: '',
+        departmentfor:''
       },
       user_id: '',
       pagination: {},
@@ -332,6 +342,7 @@ errors:[],
             this.staff.department = '';
             this.staff.mojoined = '';
             this.staff.eid = '';
+            this.staff.departmentfor = '';
             alert('Staff Added');
             this.fetchUsers();
           })
@@ -355,6 +366,7 @@ errors:[],
             this.staff.department = '';
             this.staff.mojoined = '';
             this.staff.eid = '';
+            this.staff.departmentfor = '';
             alert('Staff Updated');
             this.fetchUsers();
           })
@@ -371,6 +383,7 @@ errors:[],
       this.staff.role = staff.role;
       this.staff.occupation = staff.occupation;
       this.staff.department = staff.department;
+      this.staff.departmentfor = staff.departmentfor;
       this.staff.mojoined = staff.mojoined;
       this.staff.eid = staff.eid;
     },
@@ -382,6 +395,7 @@ errors:[],
       this.staff.password = staff.password;
       this.staff.role = staff.role;
       this.staff.occupation = staff.occupation;
+      this.staff.departmentfor = staff.departmentfor;
       this.staff.department = staff.department;
       this.staff.mojoined = staff.mojoined;
       this.staff.eid = staff.eid;
@@ -394,7 +408,8 @@ errors:[],
             this.staff.occupation = '';
             this.staff.department = '';
             this.staff.mojoined = '';
-            this.staff.eid = ''
+            this.staff.eid = '';
+            this.staff.departmentfor = '';
     }
     },
     computed: {

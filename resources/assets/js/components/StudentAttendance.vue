@@ -4,7 +4,7 @@
     <div class="card">
         <div class="card-header">
           <h1>Make Attendance for {{createAttendance.makedate}}</h1>
-          {{userRole}}
+          <!-- {{userrole}} {{authenticateduser.department}} -->
         </div>
         <div class="card-body">
             <div class="row">
@@ -29,7 +29,7 @@
 <div class="form-group col-md-2">
     <!-- Deaprtment -->
  <label for="student_filter_department">Department</label><br>
-<select class="form-control" id="student_filter_department" v-model="departmentSelected" style="width:120px;">
+<select :disabled="userrole > 2" class="form-control" id="student_filter_department" v-model="departmentSelected" style="width:120px;">
   <option v-for="departmentOption in filteredDepartments" v-bind:value="departmentOption.value">
     {{ departmentOption.text }}
   </option>
@@ -81,7 +81,7 @@
                                             </select>
                                        </div>
                                </div>
-                               <button type="submit" class="btn btn-primary">Submit</button>
+                               <button :disabled="validateDepart == 1" type="submit" class="btn btn-primary">Submit</button>
                             </form>
                             
             </div>
@@ -123,6 +123,7 @@
                         <th>Change Status</th>
                     </thead>
                     <tbody>
+                      <tr class="text-center pt-3"><h1>Students Not Found</h1></tr>
                         <tr v-for="student in filteredStudents" v-bind:key="student.id">
                             <td>{{ student.register_no }}</td>
                             <td>{{ student.name }}</td>
@@ -280,17 +281,19 @@ sectionOptions: [
           h5:'',
           h6:'',
           h7:''
-      }
+      },
+      validateDepart: ''
     };
   },
   created(){
     this.fetchTimes();
+    this.setuserDepaartment();
   },
-  props:{
-    userRole: Number
-  },
+  props:['userrole', 'authenticateduser'],
   methods: {
-
+setuserDepaartment(){
+      
+    },
 makeallPresent(){
   const PassData = {};
         PassData.students = this.filteredStudents;
@@ -344,6 +347,7 @@ makeallPresent(){
       this.createForm = false;
       alert("success");
       this.getAllStudents();
+      
     },
     //get all students
     getAllStudents() {
@@ -537,7 +541,13 @@ makeallPresent(){
   computed: {
     filteredStudents() {
       let vm = this;
-      let filterDepartment = vm.departmentSelected;
+
+      if(this.userrole > 2){
+        this.departmentSelected = this.authenticateduser.department;
+        this.validateDepart = 1;
+      }
+let filterDepartment = vm.departmentSelected;
+
       let filterYear = vm.yearSelected;
       let filterSection = vm.sectionSelected;
       let search = this.searchStud;

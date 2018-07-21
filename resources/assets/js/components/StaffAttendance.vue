@@ -4,14 +4,10 @@
                        <div class="card-header">
                            <h3 class="card-title">
                                Make Attendance for {{ createAttendance.makedate }} 
-                               {{userRole}}
                            </h3>
                        </div>
                        <div class="card-body">
-
-
                            <div class="showCreateAttendance" v-if="showCreateAttendance">
-
                             <!-- Form  -->
                             <form @submit.prevent="makeDate">
                                <div class="row">
@@ -65,7 +61,6 @@
                            </div>
                        </div>
                    </div>
-
 </template>
 
 <script>
@@ -98,9 +93,6 @@ export default {
       ],
       settingStatus: {}
     };
-  },
-  props:{
-    userId: Number ,
   },
   methods: {
     makeDate() {

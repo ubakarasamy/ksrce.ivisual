@@ -3,6 +3,6 @@
 @section('content')
 
             <div class="dashboard" style="margin:30px;">
-                   <student-attendance :user-role={{ Auth::user()->getRole() }}></student-attendance>
+                   <student-attendance :userrole={{ Auth::user()->id }} :authenticateduser="{{ Auth::user() }}"></student-attendance>
             </div>
 @endsection

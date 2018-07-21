@@ -1,21 +1,41 @@
 <template>
 <div class="staff-at-bymonth">
-    <div class="table-responsive staff-table">
+
+<div class="from-to" v-if="showAtTable === false">
+  <!-- from date -->
+<div class="form-group">
+<label for="fromDate">From Date</label>
+<input type="date" id="fromDate" v-model="fromDate" name="fromDate" max="3000-12-31" min="1000-01-01" class="form-control" style="width:200px;">
+</div>
+  <!-- to date -->
+<div class="form-group">
+<label for="toDate">From Date</label>
+<input type="date" id="toDate" v-model="toDate" name="toDate" max="3000-12-31" min="1000-01-01" class="form-control" style="width:200px;">
+</div>
+<button type="submit" class="btn btn-primary" @click="getallDates()">Submit</button>
+</div>
+
+<div class="table-responsive staff-table" v-if="showAtTable">
+Attendance Record {{fromDate}} to {{toDate}}
+<div class="input-name-search">
+    <input v-model="nameSearch" type="text" class="form-control mb-2" placeholder="Search by Name" style="width:200px;">
+</div>
+
     <table class="table responsive-table">
         <thead>
             <th>#EID Name / Dates</th>
             <th v-for="date in dates">
-                {{date.attendanceDate}}
+                {{moment(date.attendanceDate).format('Do-MM')}}
             </th>
         </thead>
         <tbody>
-            <tr v-for="staff in Staffs" v-bind:key="staff.id">
+            <tr v-for="staff in filterStaffs" v-bind:key="staff.id">
                 <td>
                     {{staff.eid}} &nbsp&nbsp {{staff.name}}
                 </td>
-                <th v-for="date in dates" v-bind:key="date.id">
+                <td v-for="date in dates" v-bind:key="date.id">
                    {{getAtDataByStaff(date.attendanceDate, staff.id)}}
-                </th>
+                </td>
             </tr>
         </tbody>
     </table>
@@ -29,14 +49,14 @@ export default {
             Staffs:[],
             dates:[],
             atDatas:[],
-            fromDate:'2018-07-1',
-            toDate:'2018-07-31'
+            fromDate:'',
+            toDate:'',
+            showAtTable:false,
+            nameSearch: ''
         }
     },
 created(){
     this.fetchUsers();
-    this.getallDates();
-    this.getallAttendance();
 },
 
     methods:{
@@ -47,7 +67,6 @@ created(){
         .then(res => res.json())
         .then(res => {
           this.Staffs = res.data;
-          console.log(res.data);
         })
         .catch(err => console.log(err));
      },
@@ -67,8 +86,9 @@ created(){
             .then(res => res.json())
             .then(res => {
                 this.dates = res.data;
-                 console.log(res.data);
             }).catch(err => console.log(err));
+            this.showAtTable = true;
+            this.getallAttendance();
         },
         //get present data
         getallAttendance(){
@@ -86,7 +106,6 @@ created(){
             .then(res => res.json())
             .then(res => {
                 this.atDatas = res.data;
-                 console.log(res.data);
             }).catch(err => console.log(err));
         },
         
@@ -107,6 +126,21 @@ created(){
         return 'absent';
       }
     },
+    },
+    computed:{
+        filterStaffs(){
+            let staffs = this.Staffs;
+            let search = this.nameSearch;
+            if(search === ""){
+                return staffs;
+            }else{
+            return staffs.filter(function(staff){
+                return staff.name.toLowerCase().includes(search.toLowerCase());
+            });
+            }
+
+
+        }
     }
 
 }

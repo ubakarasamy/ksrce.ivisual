@@ -5,7 +5,7 @@
         <div class="form-group">
             <label for="staff_filter_department">Department</label>
 <div class="filter-options">
-<select class="form-control" v-model="selectedDepartment" style="width:120px;display:inline-block;">
+<select :disabled="disableDepart == 1" class="form-control" v-model="selectedDepartment" style="width:120px;display:inline-block;">
   <option v-for="departmentOption in departmentOptions" v-bind:value="departmentOption.value">
     {{ departmentOption.text }}
   </option>
@@ -42,7 +42,7 @@
 export default {
     data(){
         return {
-            
+            disableDepart:'',
             Staffs:[],
             StaffApprovals:[],
             selectedDepartment:'all',
@@ -83,6 +83,7 @@ export default {
         //remove attempted
         this.removeAttempts();
     },
+     props:['userrole', 'authenticateduser'],
     methods:{
         
     //Featch all Staffs
@@ -204,6 +205,10 @@ export default {
     computed:{
         filterapprovals(){
         //filter with department
+        if(this.userrole > 1){
+            this.selectedDepartment = this.authenticateduser.department;
+            this.disableDepart = 1;
+        }
         var dprtmnt = this.selectedDepartment;
          return this.StaffApprovals.filter(function(StaffApproval){
              if(dprtmnt === 'all'){
@@ -211,7 +216,6 @@ export default {
              }else{
                  return (StaffApproval.attempt != 1) && (StaffApproval.department === dprtmnt);
              }
-             
          });
         }
     }
