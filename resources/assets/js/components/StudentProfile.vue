@@ -3,7 +3,7 @@
             <div class="card">
                 <div class="card-header">
                     <h4 class="float-left card-title">Student Profiles</h4>
-                    <button type="button" :disabled="userRole != 1 | userRole != 1 " class="btn btn-primary float-right" data-toggle="modal" data-target="#createStudent">
+                    <button type="button" :disabled="userrole > 2" class="btn btn-primary float-right" data-toggle="modal" data-target="#createStudent">
   Create New Student
 </button>
 <br>
@@ -183,7 +183,7 @@
       <td>{{ student.email }}</td>
       <td>{{ student.department }}</td>
       <td>{{ student.year }} / {{ student.section }}</td>
-       <td><button type="button" :disabled="userRole != 1 | userRole != 1 " class="btn btn-outline-primary btn-sm" data-toggle="modal" @click="editStudent(student)" data-target="#createStudent">
+       <td><button type="button" :disabled="userrole > 2"  class="btn btn-outline-primary btn-sm" data-toggle="modal" @click="editStudent(student)" data-target="#createStudent">
         
   Edit
 </button></td>
@@ -314,9 +314,7 @@ student_section_create_options: [
 
     }
     },
-    props:{
-      userRole: Number,
-    },
+    props:['userrole', 'authenticateduser'],
     created(){
         this.fetchStudents();
     },

@@ -16,29 +16,28 @@ use App\Http\Resources\StaffAttendanceRecordResource;
 class StaffAttendanceController extends Controller
 {
 
-
+    /*
+     * make staff AT View
+     */
     public function createAttendance(){
         return view('staffattendance.createAttendance');
     }
 
 
-
+    /*
+     * Create or Edit Staff AT
+     */
     public function storeDateStaff(Request $request)
     {
         //if date already exists edit
         $date = StaffAttendance::where('attendanceDate', $request->input('makedate'))->first();
         if($date !== null){
             //if alredy exists get data from attendance record table and return for editing
-
             $date1 = $request->input('makedate');
             $staffs = User::all();
-
             $attendanceData = StaffAttendanceRecord::all()->where('attendanceDate', $date1);
-
             $staffAttendanceData = StaffAttendanceRecordResource::collection($attendanceData);
-
             $StaffData = [$staffs, $staffAttendanceData];
-
             return response()->json($StaffData);
         }else{
         //else create
@@ -61,7 +60,9 @@ $date1 = $request->input('makedate');
             return response()->json($StaffData);
         }
 }
-
+    /*
+     * get Staff AT by date
+     */
     public function getStaffAttendance(Request $request, $makedate)
     {
     if($request->route('makedate'))
@@ -76,27 +77,30 @@ $date1 = $request->input('makedate');
         }
     }
 
+    /*
+     * get all staffs
+     */
     public function AllStaffs(){
         $staffs = User::all();
         // Return collection of Users as a resource
         return UserResource::collection($staffs);
     }
 
+    /*
+     * set Staff At
+     */
     public function SetStaffData(Request $request){
         $aca = Academics::findOrFail(1);
         $start = $aca->academic_year;
-
         $id = $request->input('staff_id');
         $status = $request->input('staff_status');
         $date = $request->input('date');
-
         $staff = User::where('id', $id)->first();
         $staff_eid = $staff->eid;
         $ifExists = StaffAttendanceRecord::where([['staff_id', '=', $id], ['attendanceDate', '=', $date]])->first();
         if($ifExists !== null){
             //edit
         $record = StaffAttendanceRecord::where([['staff_id', '=', $id], ['attendanceDate', '=', $date]])->first();
-
         //for overall
         $ifEx = StaffAtOverall::where('staff_id', $id)->first();
         if($ifEx){ 
@@ -154,22 +158,13 @@ $date1 = $request->input('makedate');
             }
             $ifEx->save();
         }
-
         $record->attendanceDate = $date;
         $record->staff_id = $id;
         $record->status = $status;
         $record->eid = $staff_eid;
         $record->save();
-
-
         return 'data Edited';
         }else{
-            //need to make a update
-            // $dateStatus = StaffAttendance::where('attendanceDate', $request->input('date'))->first();
-            // if($dateStatus->dateStatus == 0){
-            //     $dateStatus->dateStatus = 1;
-            // $dateStatus->save();
-            // }
             //create
             $aca = Academics::findOrFail(1);
             $start = $aca->academic_year;
@@ -237,13 +232,23 @@ $date1 = $request->input('makedate');
         }
     }
 
+    /*
+     * AT Overall View
+     */
     public function attendanceByOverall(){
         return view('staffattendance.byoverall');
     }
+
+    /*
+     * AT Month View
+     */
     public function attendanceByMonth(){
         return view('staffattendance.bymonth');
     }
 
+    /*
+     * Get all At data
+     */
     public function getAllAttendance(){
         $aca = Academics::findOrFail(1);
         $start = $aca->academic_year;

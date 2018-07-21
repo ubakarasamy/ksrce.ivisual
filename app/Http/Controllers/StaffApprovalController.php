@@ -11,16 +11,22 @@ use App\User;
 use App\Academics;
 use App\StaffAtOverall;
 
+    
 class StaffApprovalController extends Controller
 {
+    /*
+     * get Staff approvals by id
+     */
     public function getStatus(Request $request, $id){
         $user = User::findOrFail($id);
         $approvals = StaffApproval::where([['staff_id' , '=', $id]])->get();
         return StaffApprovalResource::collection($approvals);
     }
 
+    /*
+     * Create Staff Approval
+     */
     public function createApproval(Request $request){
-
     if($request->isMethod('put')){
         $Aid = $request->input('Aid');
         $status = $request->input('status');
@@ -29,9 +35,7 @@ class StaffApprovalController extends Controller
         $A->attempt = 1;
         $A->save();
         return 'updated approval';
-    
     }else{
-
         $staffId = $request->input('userId'); //staff id
         $date = $request->input('date');
         $Astaffid = $request->input('AlternativeStaffId');
@@ -43,7 +47,6 @@ class StaffApprovalController extends Controller
         // approvedby and status will be null at creation
         $approvedBy = null; 
         $status = 3;
-
         //create  new approval
         $create = new StaffApproval;
         $create->staff_id = $staffId;
@@ -60,26 +63,31 @@ class StaffApprovalController extends Controller
         return 'created approval';
     }
 }
-
+    /*
+     * Remove Approval
+     */
     public function removeApproval(Request $request){
         $removeId = $request->input('removeId'); //removeId 
         $remove = StaffApproval::findOrFail($removeId);
         $remove->delete();
         return 'removed';
     }
-
+    /*
+     * fetch Approval
+     */
     public function getAllApprovals(){
         $staffApprovals = StaffApproval::all();
         return StaffApprovalResource::collection($staffApprovals);
     }
 
+    /*
+     * get Approval limits
+     */
     public function getMyLimits(Request $request, $userid){
         $uId = $userid;
         $aca = Academics::findOrFail(1);
         $start = $aca->academic_year;
-
         $dd = StaffAtOverall::where([['staff_id', '=', $uId],['academic_year', '=', $start]])->get();
-
         return StaffAtOverallResource::collection($dd);
     }
 

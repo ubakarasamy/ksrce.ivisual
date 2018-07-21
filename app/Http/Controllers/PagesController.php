@@ -10,13 +10,16 @@ use Illuminate\Http\Response;
 
 class PagesController extends Controller
 {
+    /*
+     * Update Year and semester | close semester View
+     */
     public function closeSemesterview(){
-       
-        
         return view('common.closeSemester');
     }
 
-
+    /*
+     * /increase Semester and Year of student
+     */
     public function closeSemester(Request $request){
         $semm = Academics::findOrFail(1);
 
@@ -68,14 +71,20 @@ class PagesController extends Controller
                 $student->save();
             }
         }
-        return 'closed';
+        return response()->json('closed');
     }
     }
 
+    /*
+     * fetch Academic
+     */
     public function fetchSemester(){
         return new AcademicsResource(Academics::find(1));
     }
 
+    /*
+     * post Academic
+     */
     public function postAcademic(Request $request){
         $year = $request->input('academicYear');
         $cl = $request->input('academicCL');
@@ -91,6 +100,7 @@ class PagesController extends Controller
         $data->staff_late_register = $late;
         $data->save();
 
+        return response()->json('updated');
     }
 
     

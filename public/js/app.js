@@ -61838,9 +61838,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     };
   },
 
-  props: {
-    userRole: Number
-  },
+  props: ['userrole', 'authenticateduser'],
   created: function created() {
     this.fetchStudents();
   },
@@ -62007,7 +62005,7 @@ var render = function() {
             staticClass: "btn btn-primary float-right",
             attrs: {
               type: "button",
-              disabled: _vm._f("userRole != 1")(_vm.userRole != 1),
+              disabled: _vm.userrole > 2,
               "data-toggle": "modal",
               "data-target": "#createStudent"
             }
@@ -63054,9 +63052,7 @@ var render = function() {
                           staticClass: "btn btn-outline-primary btn-sm",
                           attrs: {
                             type: "button",
-                            disabled: _vm._f("userRole != 1")(
-                              _vm.userRole != 1
-                            ),
+                            disabled: _vm.userrole > 2,
                             "data-toggle": "modal",
                             "data-target": "#createStudent"
                           },
@@ -63283,7 +63279,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         this.fetchSem();
     },
 
-    props: ['userrole', 'authenticateduser'],
     methods: {
         //Fetch sem
         fetchSem: function fetchSem() {

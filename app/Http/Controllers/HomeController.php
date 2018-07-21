@@ -23,28 +23,29 @@ class HomeController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+    /*
+     * Homepage
+     */
     public function index()
     {
-        $title = 'home';
         $staff_total = User::all()->count();
         $student_total = Student::all()->count();
-        $data = ['staff_total' => $staff_total, 'student_total' => $student_total, 'title' => $title];
+        $data = ['staff_total' => $staff_total, 'student_total' => $student_total];
         return view('home')->with('data', $data);
     }
 
+    
 
     public function closeSemesterview(){
-       
-        
         return view('common.closeSemester');
     }
 
-
+    
     public function closeSemester(Request $request){
+        
         $students = Student::all();
         if($request->test == 'closesem'){
         foreach($students as $student){
-        
         if($student->semester < 8 && $student->semester == 2 || $student->semester == 4 || $student->semester == 6){
             //increase Semester and Year
             $student->semester = $student->semester + 1;
@@ -54,8 +55,6 @@ class HomeController extends Controller
             //increase semester
             $student->semester = $student->semester + 1;
         }
-            
-            
             $student->save();
         }
        

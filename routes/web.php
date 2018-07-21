@@ -36,7 +36,9 @@ Route::get('/staff/attendance/overall', 'StaffAttendanceController@attendanceByO
 
 //get student attendance data by month
 Route::get('/student/attendance/day', 'StudentAttendanceController@attendanceByDay')->name('student-attendance-byday');
+
 Route::get('/student/attendance/month', 'StudentAttendanceController@attendanceByMonth')->name('student-attendance-bymonth');
+
 Route::get('/student/attendance/overall', 'StudentAttendanceController@attendanceByOverall')->name('student-attendance-byoverall');
 
 Route::get('/staffprofile/myprofile', 'StaffProfileController@showStaffProfile')->name('staffprofile.myprofile');

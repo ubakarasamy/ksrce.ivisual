@@ -80,7 +80,6 @@ export default {
     created(){
         this.fetchSem();
     },
-     props:['userrole', 'authenticateduser'],
     methods:{
         //Fetch sem
         fetchSem(){
