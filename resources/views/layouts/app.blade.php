@@ -44,25 +44,25 @@
             <li class=" @if($route = Route::current()->getName() == 'staffprofile-home') <?php echo "active" ?> @endif"><a href="{{route('staffprofile-home')}}"><i class="fas fa-user"></i> Staff Profile</a></li>
             <li class=" @if($route = Route::current()->getName() == 'staffattendance-create' || $route = Route::current()->getName() == 'staff-attendance-bymonth') <?php echo "subactive" ?> @endif"><a href="#at_staff" data-toggle="collapse" aria-expanded="true"><i class="fas fa-graduation-cap"></i> Staff Attendance</a>
                 <ul id="at_staff" class="list-unstyled collapse" style="">
-                    <li class=" @if($route = Route::current()->getName() == 'staffattendance-create') <?php echo "active" ?> @endif"><a href="{{route('staffattendance-create')}}"><i class="fas fa-graduation-cap"></i>Attendace Make</a></li>
-                    <li class=" @if($route = Route::current()->getName() == 'staff-attendance-overall') <?php echo "active" ?> @endif"><a href="{{route('staff-attendance-overall')}}"><i class="fas fa-graduation-cap"></i>Attendace View</a></li>
+                    <li class=" @if($route = Route::current()->getName() == 'staffattendance-create') <?php echo "active" ?> @endif"><a href="{{route('staffattendance-create')}}"><i class="fas fa-plus"></i>Attendace Make</a></li>
+                    <li class=" @if($route = Route::current()->getName() == 'staff-attendance-overall') <?php echo "active" ?> @endif"><a href="{{route('staff-attendance-overall')}}"><i class="fas fa-eye"></i>Attendace View</a></li>
                 </ul>
             </li>
             @endif
-            <li class=" @if($route = Route::current()->getName() == 'studentprofile-home') <?php echo "active" ?> @endif"><a href="{{route('studentprofile-home')}}"><i class="fas fa-graduation-cap"></i> Student Profile</a></li>
+            <li class=" @if($route = Route::current()->getName() == 'studentprofile-home') <?php echo "active" ?> @endif"><a href="{{route('studentprofile-home')}}"><i class="fas fa-user"></i> Student Profile</a></li>
             {{-- Attendances --}}
         <li>
             <a href="#at_student" data-toggle="collapse" aria-expanded="true"><i class="fas fa-graduation-cap"></i>Student Attendace</a>
             <ul id="at_student" class="list-unstyled collapse" style="">
-                <li class=" @if($route = Route::current()->getName() == 'studentattendance-create') <?php echo "active" ?> @endif"><a href="{{route('studentattendance-create')}}"><i class="fas fa-graduation-cap"></i>Attendace Make</a></li>
-                <li class=" @if($route = Route::current()->getName() == 'student-attendance-bymonth') <?php echo "active" ?> @endif"><a href="{{route('student-attendance-bymonth')}}"><i class="fas fa-graduation-cap"></i>Attendace View</a></li>
+                <li class=" @if($route = Route::current()->getName() == 'studentattendance-create') <?php echo "active" ?> @endif"><a href="{{route('studentattendance-create')}}"><i class="fas fa-plus"></i>Attendace Make</a></li>
+                <li class=" @if($route = Route::current()->getName() == 'student-attendance-bymonth') <?php echo "active" ?> @endif"><a href="{{route('student-attendance-bymonth')}}"><i class="fas fa-eye"></i>Attendace View</a></li>
             </ul>
         </li>
             {{-- Semester --}}
-            <li class=" @if($route = Route::current()->getName() == 'time-tables') <?php echo "active" ?> @endif"><a href="{{route('time-tables')}}"><i class="fas fa-graduation-cap"></i>Time Tables</a></li>    
+            <li class=" @if($route = Route::current()->getName() == 'time-tables') <?php echo "active" ?> @endif"><a href="{{route('time-tables')}}"><i class="fa fa-table"></i>Time Tables</a></li>    
         @if(Auth::user()->GetRole() == 1 || Auth::user()->GetRole() == 2)    
-            <li class=" @if($route = Route::current()->getName() == 'close-semester') <?php echo "active" ?> @endif"><a href="{{route('close-semester')}}"><i class="fas fa-graduation-cap"></i>Year and Semester</a></li>
-            <li class=" @if($route = Route::current()->getName() == 'staffapprovals-approve') <?php echo "active" ?> @endif"><a href="{{route('staffapprovals-approve')}}"><i class="fas fa-graduation-cap"></i>Leave Approvals</a></li>
+            <li class=" @if($route = Route::current()->getName() == 'close-semester') <?php echo "active" ?> @endif"><a href="{{route('close-semester')}}"><i class="fa fa-cogs"></i>Year and Semester</a></li>
+            <li class=" @if($route = Route::current()->getName() == 'staffapprovals-approve') <?php echo "active" ?> @endif"><a href="{{route('staffapprovals-approve')}}"><i class="fa fa-envelope"></i>Leave Approvals</a></li>
         @endif
         </ul>
     </div>
@@ -75,7 +75,7 @@
         <div class="navbar-collapse collapse">
             <ul class="navbar-nav ml-auto">
                 <li class="nav-item dropdown">
-                    <a href="#" id="dd_user" class="nav-link dropdown-toggle" data-toggle="dropdown"><i class="fa fa-user"></i>&nbsp&nbsp  {{ Auth::user()->name }}</a>
+                <a href="#" id="dd_user" class="nav-link dropdown-toggle" data-toggle="dropdown"><img src="{{asset('img/profile_default_pic.png')}}" style="width:40px;border-radius:50px;">&nbsp&nbsp{{ Auth::user()->name }}</a>
                     <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dd_user">
                         <a href="{{ route('staffprofile.myprofile') }}" class="dropdown-item">Profile</a>
                         <a href="{{ route('staffapprovals-myapprovals') }}" class="dropdown-item">My Approvals</a>
@@ -84,7 +84,6 @@
                                                      document.getElementById('logout-form').submit();">
                                             Logout
                                         </a>
-
                                         <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
                                             {{ csrf_field() }}
                                         </form>

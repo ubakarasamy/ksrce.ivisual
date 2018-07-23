@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @section('content')
-<div class="dashboard" style="margin:30px;">
+<div class="dashboard">
             <close-semeter></close-semeter>
 </div>
 @endsection

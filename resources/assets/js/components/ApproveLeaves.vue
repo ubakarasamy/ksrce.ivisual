@@ -19,6 +19,7 @@
             <th>Name</th>
             <th>Request For</th>
             <th>Request On</th>
+            <th>Alternative</th>
             <th>Approve / Disapprove</th>
         </thead>
         <tbody>
@@ -26,7 +27,7 @@
                 <td>{{StaffEid(staffApproval.staff_id)}}</td>
                 <td>{{StaffName(staffApproval.staff_id)}}</td>
                 <td>{{staffApproval.approvalfor}}</td>
-                <td>{{staffApproval.description}}</td>
+                <td>{{staffApproval.alternative_staff_name}}</td>
                 <td>{{staffApproval.date}}</td>
                 <td><button @click="acceptApproval(staffApproval.id,1,staffApproval.date,staffApproval.staff_id,staffApproval.approvalfor)" class="btn btn-outline-primary">Approve</button><button @click="acceptApproval(staffApproval.id,0,staffApproval.date,staffApproval.staff_id,staffApproval.approvalfor)" class="ml-3 btn btn-outline-danger">DisApprove</button></td>
             </tr>

@@ -10,6 +10,16 @@ html {
 body {
 	overflow-x: hidden
 }
+/* edited */
+.navbar
+{
+	margin-bottom: 5px;
+}
+.dashboard
+{
+	margin: 0px 20px;
+}
+
 
 .navbar-dark .navbar-nav .nav-link,
 .navbar-dark .navbar-text {

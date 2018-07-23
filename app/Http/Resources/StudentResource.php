@@ -30,6 +30,7 @@ class StudentResource extends Resource
             'semester' => $this->semester,
             'created_at' => $this->created_at,
             'updated_at' => $this->updated_at,
+            'bloodGroup' => $this->bloodGroup
         ];
     }
 }

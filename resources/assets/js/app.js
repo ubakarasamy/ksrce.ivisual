@@ -33,7 +33,7 @@ Vue.component('stud-attendance-view', require('./components/StudAttendanceView.v
 Vue.component('stud-attendance-view-byoverall', require('./components/StudentAttendanceByOverall.vue'));
 Vue.component('stud-attendance-view-bymonth', require('./components/StudentAttendanceByMonth.vue'));
 Vue.component('create-subjects', require('./components/CreateSubjects.vue'));
-
+Vue.component('student-bgroup', require('./components/StudentBgroup.vue'));
 
 const app = new Vue({
     el: '#app'

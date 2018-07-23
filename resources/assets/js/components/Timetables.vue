@@ -1,7 +1,7 @@
 <template>
     <div class="card">
         <div class="card-header">
-            <h1>Time Tables</h1>
+            <h3>Time Tables</h3>
         </div>
         <div class="card-body">
 

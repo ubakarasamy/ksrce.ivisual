@@ -17768,7 +17768,7 @@ module.exports = Cancel;
 /***/ (function(module, exports, __webpack_require__) {
 
 __webpack_require__(138);
-module.exports = __webpack_require__(227);
+module.exports = __webpack_require__(230);
 
 
 /***/ }),
@@ -17813,6 +17813,7 @@ Vue.component('stud-attendance-view', __webpack_require__(209));
 Vue.component('stud-attendance-view-byoverall', __webpack_require__(214));
 Vue.component('stud-attendance-view-bymonth', __webpack_require__(219));
 Vue.component('create-subjects', __webpack_require__(224));
+Vue.component('student-bgroup', __webpack_require__(227));
 
 var app = new Vue({
   el: '#app'
@@ -61785,6 +61786,14 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
@@ -61805,12 +61814,14 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         address: '',
         gurdian_name: '',
         degree: '',
-        semester: ''
+        semester: '',
+        bgroup: ''
       },
       edit: false,
       student_id: '',
       degreeOptions: [{ text: 'BE', value: 'be' }, { text: 'ME', value: 'me' }],
-
+      // student_bgroupSelected: '',
+      student_bgroups: [{ text: 'O-positive', value: 'O-positive' }, { text: 'O-negative', value: 'O-negative' }, { text: 'A-positive', value: 'A-positive' }, { text: 'A-negative', value: 'A-negative' }, { text: 'B-positive', value: 'B-positive' }, { text: 'B-negative', value: 'B-negative' }, { text: 'AB-positive', value: 'AB-positive' }, { text: 'AB-negative', value: 'AB-negative' }],
       // student section filter
       student_degree_filter_selected: 'all',
       student_degree_filter_options: [{ text: 'all', value: 'all' }, { text: 'BE', value: 'be' }, { text: 'ME', value: 'me' }],
@@ -61856,6 +61867,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         return res.json();
       }).then(function (res) {
         _this.students = res.data;
+      }).catch(function (err) {
+        return console.log(err);
       });
     },
     addStudent: function addStudent() {
@@ -61874,7 +61887,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         }).then(function (res) {
           return res.json();
         }).then(function (data) {
-          _this2.student.name = '', _this2.student.email = '', _this2.student.department = '', _this2.student.year = '', _this2.student.section = '', _this2.student.register_no = '', _this2.student.batch = '', _this2.student.phone = '', _this2.student.address = '', _this2.student.gurdian_name = '', _this2.student.degree = '', _this2.student.semester = '';
+          _this2.student.name = '', _this2.student.email = '', _this2.student.department = '', _this2.student.year = '', _this2.student.section = '', _this2.student.register_no = '', _this2.student.batch = '', _this2.student.phone = '', _this2.student.address = '', _this2.student.gurdian_name = '', _this2.student.degree = '', _this2.student.semester = '', _this2.student.bgroup = '';
           alert('Student Added');
           _this2.fetchStudents();
           console.log(_this2.student);
@@ -61892,7 +61905,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         }).then(function (res) {
           return res.json();
         }).then(function (data) {
-          _this2.student.name = '', _this2.student.email = '', _this2.student.department = '', _this2.student.year = '', _this2.student.section = '', _this2.student.register_no = '', _this2.student.batch = '', _this2.student.phone = '', _this2.student.address = '', _this2.student.gurdian_name = '', _this2.student.degree = '', _this2.student.semester = '';
+          _this2.student.name = '', _this2.student.email = '', _this2.student.department = '', _this2.student.year = '', _this2.student.section = '', _this2.student.register_no = '', _this2.student.batch = '', _this2.student.phone = '', _this2.student.address = '', _this2.student.gurdian_name = '', _this2.student.degree = '', _this2.student.semester = '', _this2.student.bgroup = '';
           alert('Student Updated');
           console.log(JSON.stringify(_this2.student));
           _this2.fetchStudents();
@@ -61917,6 +61930,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
       this.student.gurdian_name = student.gurdian_name;
       this.student.degree = student.degree;
       this.student.semester = student.semester;
+      this.student.bgroup = student.bgroup;
     },
     viewStudent: function viewStudent(student) {
       this.student.id = student.id;
@@ -61932,9 +61946,10 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
       this.student.address = student.address;
       this.student.degree = student.degree;
       this.student.semester = student.semester;
+      this.student.bgroup = student.bgroup;
     },
     closeEdit: function closeEdit() {
-      this.student.name = '', this.student.email = '', this.student.department = '', this.student.year = '', this.student.section = '', this.student.register_no = '', this.student.batch = '', this.student.phone = '', this.student.address = '', this.student.gurdian_name = '', this.student.degree = '', this.student.semester = '';
+      this.student.name = '', this.student.email = '', this.student.department = '', this.student.year = '', this.student.section = '', this.student.register_no = '', this.student.batch = '', this.student.phone = '', this.student.address = '', this.student.gurdian_name = '', this.student.degree = '', this.student.semester = '', this.student.bgroup = '';
     }
   },
   computed: {
@@ -61992,10 +62007,10 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c("div", { staticClass: "container" }, [
+  return _c("div", { staticClass: "stud-profile" }, [
     _c("div", { staticClass: "card" }, [
       _c("div", { staticClass: "card-header" }, [
-        _c("h4", { staticClass: "float-left card-title" }, [
+        _c("h3", { staticClass: "float-left card-title" }, [
           _vm._v("Student Profiles")
         ]),
         _vm._v(" "),
@@ -62781,6 +62796,70 @@ var render = function() {
                                   }
                                 }
                               })
+                            ]),
+                            _vm._v(" "),
+                            _c("div", { staticClass: "form-group" }, [
+                              _c(
+                                "label",
+                                { attrs: { for: "student_filter_bgroup" } },
+                                [_vm._v("Blood Group")]
+                              ),
+                              _vm._v(" "),
+                              _c(
+                                "select",
+                                {
+                                  directives: [
+                                    {
+                                      name: "model",
+                                      rawName: "v-model",
+                                      value: _vm.student.bgroup,
+                                      expression: "student.bgroup"
+                                    }
+                                  ],
+                                  staticClass: "form-control",
+                                  staticStyle: { width: "120px" },
+                                  attrs: { id: "student_filter_bgroup" },
+                                  on: {
+                                    change: function($event) {
+                                      var $$selectedVal = Array.prototype.filter
+                                        .call($event.target.options, function(
+                                          o
+                                        ) {
+                                          return o.selected
+                                        })
+                                        .map(function(o) {
+                                          var val =
+                                            "_value" in o ? o._value : o.value
+                                          return val
+                                        })
+                                      _vm.$set(
+                                        _vm.student,
+                                        "bgroup",
+                                        $event.target.multiple
+                                          ? $$selectedVal
+                                          : $$selectedVal[0]
+                                      )
+                                    }
+                                  }
+                                },
+                                _vm._l(_vm.student_bgroups, function(
+                                  student_bgroup
+                                ) {
+                                  return _c(
+                                    "option",
+                                    {
+                                      domProps: { value: student_bgroup.value }
+                                    },
+                                    [
+                                      _vm._v(
+                                        "\n    " +
+                                          _vm._s(student_bgroup.text) +
+                                          "\n  "
+                                      )
+                                    ]
+                                  )
+                                })
+                              )
                             ]),
                             _vm._v(" "),
                             _c("div", { staticClass: "form-group" }, [
@@ -64478,8 +64557,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
-//
-//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
@@ -64922,7 +64999,7 @@ var render = function() {
       ? _c("div", { staticClass: "createAttendance-form" }, [
           _c("div", { staticClass: "card" }, [
             _c("div", { staticClass: "card-header" }, [
-              _c("h1", [
+              _c("h3", [
                 _vm._v(
                   "Make Attendance for " + _vm._s(_vm.createAttendance.makedate)
                 )
@@ -68169,6 +68246,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
     data: function data() {
@@ -68413,7 +68491,9 @@ var render = function() {
                 _vm._v(" "),
                 _c("td", [_vm._v(_vm._s(staffApproval.approvalfor))]),
                 _vm._v(" "),
-                _c("td", [_vm._v(_vm._s(staffApproval.description))]),
+                _c("td", [
+                  _vm._v(_vm._s(staffApproval.alternative_staff_name))
+                ]),
                 _vm._v(" "),
                 _c("td", [_vm._v(_vm._s(staffApproval.date))]),
                 _vm._v(" "),
@@ -68482,6 +68562,8 @@ var staticRenderFns = [
       _c("th", [_vm._v("Request For")]),
       _vm._v(" "),
       _c("th", [_vm._v("Request On")]),
+      _vm._v(" "),
+      _c("th", [_vm._v("Alternative")]),
       _vm._v(" "),
       _c("th", [_vm._v("Approve / Disapprove")])
     ])
@@ -70457,7 +70539,7 @@ var staticRenderFns = [
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
     return _c("div", { staticClass: "card-header" }, [
-      _c("h1", [_vm._v("Time Tables")])
+      _c("h3", [_vm._v("Time Tables")])
     ])
   },
   function() {
@@ -74656,6 +74738,217 @@ if (false) {
 
 /***/ }),
 /* 227 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var disposed = false
+var normalizeComponent = __webpack_require__(1)
+/* script */
+var __vue_script__ = __webpack_require__(228)
+/* template */
+var __vue_template__ = __webpack_require__(229)
+/* template functional */
+var __vue_template_functional__ = false
+/* styles */
+var __vue_styles__ = null
+/* scopeId */
+var __vue_scopeId__ = null
+/* moduleIdentifier (server only) */
+var __vue_module_identifier__ = null
+var Component = normalizeComponent(
+  __vue_script__,
+  __vue_template__,
+  __vue_template_functional__,
+  __vue_styles__,
+  __vue_scopeId__,
+  __vue_module_identifier__
+)
+Component.options.__file = "resources/assets/js/components/StudentBgroup.vue"
+
+/* hot reload */
+if (false) {(function () {
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), false)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-0a49965e", Component.options)
+  } else {
+    hotAPI.reload("data-v-0a49965e", Component.options)
+  }
+  module.hot.dispose(function (data) {
+    disposed = true
+  })
+})()}
+
+module.exports = Component.exports
+
+
+/***/ }),
+/* 228 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+    data: function data() {
+        return {
+            students: [],
+            filterBgroup: ''
+        };
+    },
+    created: function created() {
+        this.fetchStudents();
+    },
+
+    methods: {
+        fetchStudents: function fetchStudents() {
+            var _this = this;
+
+            fetch('/api/studentProfile').then(function (res) {
+                return res.json();
+            }).then(function (res) {
+                _this.students = res.data;
+            }).catch(function (err) {
+                return console.log(err);
+            });
+        }
+    },
+    computed: {
+        filteredStudents: function filteredStudents() {
+            var vm = this;
+            var filterBgroup = vm.filterBgroup;
+            var students = vm.students;
+            if (filterBgroup === '') {
+                return vm.students;
+            } else {
+                return vm.students.filter(function (student) {
+
+                    return student.bloodGroup.toLowerCase().includes(filterBgroup.toLowerCase());
+                });
+            }
+        }
+    }
+});
+
+/***/ }),
+/* 229 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c("div", { staticClass: "stud bgroup" }, [
+    _c("div", { staticClass: "form-group" }, [
+      _c("input", {
+        directives: [
+          {
+            name: "model",
+            rawName: "v-model",
+            value: _vm.filterBgroup,
+            expression: "filterBgroup"
+          }
+        ],
+        staticClass: "form-control",
+        staticStyle: { width: "250px" },
+        attrs: { type: "text", placeholder: "Search Blood Group" },
+        domProps: { value: _vm.filterBgroup },
+        on: {
+          input: function($event) {
+            if ($event.target.composing) {
+              return
+            }
+            _vm.filterBgroup = $event.target.value
+          }
+        }
+      })
+    ]),
+    _vm._v(" "),
+    _c("p", { staticClass: "text-muted" }, [
+      _vm._v("Current Student on college")
+    ]),
+    _vm._v(" "),
+    _c("table", { staticClass: "table" }, [
+      _vm._m(0),
+      _vm._v(" "),
+      _c(
+        "tbody",
+        _vm._l(_vm.filteredStudents, function(student) {
+          return _c("tr", { key: student.id }, [
+            _c("th", { attrs: { scope: "row" } }, [
+              _vm._v(_vm._s(student.register_no))
+            ]),
+            _vm._v(" "),
+            _c("td", [_vm._v(_vm._s(student.name))]),
+            _vm._v(" "),
+            _c("td", [_vm._v(_vm._s(student.bloodGroup))]),
+            _vm._v(" "),
+            _c("td", [_vm._v(_vm._s(student.phone))])
+          ])
+        })
+      )
+    ])
+  ])
+}
+var staticRenderFns = [
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("thead", [
+      _c("tr", [
+        _c("th", { attrs: { scope: "col" } }, [_vm._v("#REG NO")]),
+        _vm._v(" "),
+        _c("th", { attrs: { scope: "col" } }, [_vm._v("Name")]),
+        _vm._v(" "),
+        _c("th", { attrs: { scope: "col" } }, [_vm._v("Blood Group")]),
+        _vm._v(" "),
+        _c("th", { attrs: { scope: "col" } }, [_vm._v("Phone")])
+      ])
+    ])
+  }
+]
+render._withStripped = true
+module.exports = { render: render, staticRenderFns: staticRenderFns }
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+    require("vue-hot-reload-api")      .rerender("data-v-0a49965e", module.exports)
+  }
+}
+
+/***/ }),
+/* 230 */
 /***/ (function(module, exports) {
 
 // removed by extract-text-webpack-plugin

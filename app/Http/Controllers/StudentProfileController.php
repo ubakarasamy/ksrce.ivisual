@@ -36,6 +36,7 @@ class StudentProfileController extends Controller
                 $student->section = $request->input('section');
                 $student->semester = $request->input('semester');
                 $student->degree = $request->input('degree');
+                $student->bloodGroup = $request->input('bloodGroup');
                 $student->status = 'current';
             
             $student->save();
@@ -57,6 +58,7 @@ class StudentProfileController extends Controller
                 $student->section = $request->input('section');
                 $student->semester = $request->input('semester');
                 $student->degree = $request->input('degree');
+                $student->bloodGroup = $request->input('bgroup');
                 $student->status = 'current';
                 $student->save();
             if($student->save()) {
@@ -66,6 +68,10 @@ class StudentProfileController extends Controller
         
  
        
+    }
+
+    public function studBgroup(){
+        return view('studentprofile.stud-bgroup');
     }
 
 }

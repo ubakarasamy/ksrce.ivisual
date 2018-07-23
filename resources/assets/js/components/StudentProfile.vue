@@ -1,8 +1,8 @@
 <template>
-    <div class="container">
+    <div class="stud-profile">
             <div class="card">
                 <div class="card-header">
-                    <h4 class="float-left card-title">Student Profiles</h4>
+                    <h3 class="float-left card-title">Student Profiles</h3>
                     <button type="button" :disabled="userrole > 2" class="btn btn-primary float-right" data-toggle="modal" data-target="#createStudent">
   Create New Student
 </button>
@@ -15,12 +15,12 @@
   <option v-for="student_degree_filter_option in student_degree_filter_options" v-bind:value="student_degree_filter_option.value">{{ student_degree_filter_option.text }}</option>
 </select>
 
-   <label for="student_department_filter">Department</label>
+<label for="student_department_filter">Department</label>
 <select class="form-control" id="student_department_filter" style="width:120px;display:inline-block;" v-model="student_department_filter_selected">
   <option v-for="student_department_filter_option in student_department_filter_options" v-bind:value="student_department_filter_option.value">{{ student_department_filter_option.text }}</option>
 </select>
 
- <label for="student_year_filter">Year</label>
+<label for="student_year_filter">Year</label>
 <select class="form-control" id="student_year_filter" v-model="student_year_filter_selected" style="width:120px;display:inline-block;">
   <option v-for="student_year_filter_option in student_year_filter_options" v-bind:value="student_year_filter_option.value">
     {{ student_year_filter_option.text }}
@@ -128,6 +128,14 @@
     <label for="Studentgurdian_namecreate">Gurdian Name</label>
     <input type="text" class="form-control" id="Studentgurdian_namecreate" v-model="student.gurdian_name" aria-describedby="Studentgurdian_nameHelp" placeholder="Gurdian Name" >
   </div>
+    <div class="form-group">
+    <label for="student_filter_bgroup">Blood Group</label>
+<select class="form-control" id="student_filter_bgroup" v-model="student.bgroup" style="width:120px;">
+  <option v-for="student_bgroup in student_bgroups" v-bind:value="student_bgroup.value">
+    {{ student_bgroup.text }}
+  </option>
+</select>
+  </div>
   <div class="form-group">
     <label for="student_filter_department">Department</label>
 <select class="form-control" id="student_filter_department" v-model="student.department" style="width:120px;">
@@ -223,7 +231,8 @@ export default {
             address: '',
             gurdian_name: '',
             degree: '',
-            semester: ''
+            semester: '',
+            bgroup: ''
         },
         edit: false,
         student_id: '',
@@ -231,7 +240,17 @@ export default {
           { text:'BE', value: 'be'},
           { text:'ME', value: 'me'}
         ],
-
+// student_bgroupSelected: '',
+student_bgroups: [
+      { text: 'O-positive', value: 'O-positive' },
+      { text: 'O-negative', value: 'O-negative' },
+      { text: 'A-positive', value: 'A-positive' },
+      { text: 'A-negative', value: 'A-negative' },
+      { text: 'B-positive', value: 'B-positive' },
+      { text: 'B-negative', value: 'B-negative' },
+      { text: 'AB-positive', value: 'AB-positive' },
+      { text: 'AB-negative', value: 'AB-negative' }
+],
 // student section filter
 student_degree_filter_selected: 'all',
 student_degree_filter_options: [
@@ -330,6 +349,7 @@ student_section_create_options: [
                 .then(res => {
                     this.students = res.data;
                 })
+                .catch(err => console.log(err));
         },
         addStudent() {
           //this.checkForm();
@@ -356,7 +376,8 @@ student_section_create_options: [
             this.student.address = '',
             this.student.gurdian_name = '',
             this.student.degree = '',
-            this.student.semester = ''
+            this.student.semester = '',
+            this.student.bgroup = ''
             alert('Student Added');
             this.fetchStudents();
             console.log(this.student)
@@ -384,7 +405,8 @@ student_section_create_options: [
             this.student.address = '',
             this.student.gurdian_name = '',
             this.student.degree = '',
-            this.student.semester = ''
+            this.student.semester = '',
+            this.student.bgroup = ''
             alert('Student Updated');
              console.log(JSON.stringify(this.student));
             this.fetchStudents();
@@ -408,6 +430,7 @@ student_section_create_options: [
       this.student.gurdian_name = student.gurdian_name;
       this.student.degree = student.degree;
       this.student.semester = student.semester;
+      this.student.bgroup = student.bgroup;
     },viewStudent(student){
       this.student.id = student.id;
       this.student.student_id = student.id;
@@ -422,6 +445,7 @@ student_section_create_options: [
       this.student.address = student.address;
       this.student.degree = student.degree;
       this.student.semester = student.semester;
+      this.student.bgroup = student.bgroup;
     }
     ,closeEdit(){
       this.student.name = '',
@@ -435,7 +459,8 @@ student_section_create_options: [
             this.student.address = '',
             this.student.gurdian_name = '',
             this.student.degree = '',
-            this.student.semester = ''
+            this.student.semester = '',
+            this.student.bgroup = ''
     }
     },
     computed: {

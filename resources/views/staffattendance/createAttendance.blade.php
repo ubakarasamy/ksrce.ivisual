@@ -2,7 +2,7 @@
 
 @section('content')
 
-            <div class="dashboard" style="margin:30px;">
+            <div class="dashboard">
                    <staff-attendance></staff-attendance>
             </div>
 @endsection

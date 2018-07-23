@@ -23,7 +23,8 @@ class StaffApprovalResource extends Resource
             'description' => $this->description,
             'department' => $this->department,
             'attempt' => $this->attempt,
-            'status' => $this->status
+            'status' => $this->status,
+            'alternative_staff_name' => $this->alternative_staff_name
         ];
     }
 }

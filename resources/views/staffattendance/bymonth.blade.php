@@ -2,7 +2,7 @@
 
 @section('content')
 
-            <div class="dashboard" style="margin:30px;">
+            <div class="dashboard">
                    <div class="card">
                        <div class="card-header">
                            <h3 class="card-title">

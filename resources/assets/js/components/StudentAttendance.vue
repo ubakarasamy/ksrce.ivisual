@@ -3,8 +3,7 @@
     <div class="createAttendance-form" v-if="createForm === true">
     <div class="card">
         <div class="card-header">
-          <h1>Make Attendance for {{createAttendance.makedate}}</h1>
-          <!-- {{userrole}} {{authenticateduser.department}} -->
+          <h3>Make Attendance for {{createAttendance.makedate}}</h3>
         </div>
         <div class="card-body">
             <div class="row">
@@ -46,7 +45,6 @@
   </select>
 </div>
 
-
 <div class="form-group col-md-2">
   <!-- Section -->
 <label for="student_filter_section">Section</label><br>
@@ -57,7 +55,7 @@
 </select>  
 </div>
             </div>
-            <!-- Form  -->
+            <!-- Form -->
                             <form @submit.prevent="makeDate">
                                <div class="row">
                                     <div class="form-group col-md-4">
