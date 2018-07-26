@@ -1,9 +1,16 @@
 <template>
     <div class="stud bgroup">
 
-    <div class="form-group">
+                        <div class="form-group">
+<select class="form-control" v-model="filterBgroup" id="selectedBloodgroup" style="width:120px;"> 
+  <option v-for="bgroup in bgroups" v-bind:key="bgroup.value">
+    {{ bgroup.text }}
+  </option>
+</select>
+</div>
+    <!-- <div class="form-group">
         <input type="text" v-model="filterBgroup" class="form-control" style="width:250px;" placeholder="Search Blood Group">
-    </div>
+    </div> -->
 <p class="text-muted">Current Student on college</p>
         <table class="table">
   <thead>
@@ -32,7 +39,17 @@ export default {
     data(){
         return {
             students:[],
-            filterBgroup:''
+            filterBgroup:'',
+            bgroups: [
+                { text:'O-positive', value:'O-positive' },
+                { text:'O-negative', value:'O-negative' },
+                { text:'A-positive', value:'A-positive' },
+                { text:'A-negative', value:'A-negative' },
+                { text:'B-positive', value:'B-positive' },
+                { text:'B-negative', value:'B-negative' },
+                { text:'AB-positive', value:'AB-positive' },
+                { text:'AB-negative', value:'AB-negative' }
+            ]
         }
     },
     created(){

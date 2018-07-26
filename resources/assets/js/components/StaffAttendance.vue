@@ -29,6 +29,7 @@
                            <div class="showNew" v-if="showCreateAttendance === false">
 
                                 <input type="text" class="form-control col-md-4 mb-3" style="text-transform:uppercase;margin-botom:20px;" placeholder="Search with Employee Id" v-model="search">
+                                <button class="btn btn-primary float-right" @click="setAllStaffAt()">Make all Present</button>
                                 <table class="table">
                                    <thead>
                                        <th>#EID</th>
@@ -80,6 +81,7 @@ export default {
         selectedStatus: "",
         id: ""
       },
+      
       setStatuses: [
         { text: "Not Updated", value: "null" },
         { text: "Present", value: "present" },
@@ -169,6 +171,33 @@ export default {
       this.fetchAttendanceData(this.createAttendance.makedate);
        this.fetchAllstaffs();
       //console.log(JSON.stringify(PassData));
+    },
+    setAllStaffAt(){
+      const PassData = {
+        staffs: this.Staffs,
+        staff_status: 'present',
+        date: this.createAttendance.makedate
+      };
+      let sure = confirm('Are you sure?');
+
+      if(sure === true){
+       fetch("/api/staffattendance/setallstatus", {
+        method: "post",
+        body: JSON.stringify(PassData),
+        headers: {
+          "content-type": "application/json"
+        }
+      })
+        .then(res => res.json())
+        .then(res => {
+          
+          
+        })
+        .catch(err => console.log(err));
+        this.fetchAttendanceData(this.createAttendance.makedate);
+       this.fetchAllstaffs();
+       alert('attendance updated')
+      }
     }
   },
 

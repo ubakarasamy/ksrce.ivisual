@@ -232,6 +232,52 @@ $date1 = $request->input('makedate');
         }
     }
 
+    public function makePresentAllStaffs(Request $request){
+        $data = $request->json()->all();
+        $staffs = $data['staffs'];
+        $aca = Academics::findOrFail(1);
+        $start = $aca->academic_year;
+
+        foreach($staffs as $st) {
+            $staff = User::where('id', $st['id'])->first();
+        $id = $staff->id;
+        $status = $request->input('staff_status');
+        $date = $request->input('date');
+        // $staff = User::where('id', $id)->first();
+        $staff_eid = $staff->eid;
+        $ifExists = StaffAttendanceRecord::where([['staff_id', '=', $id], ['attendanceDate', '=', $date]])->first();
+        if($ifExists === null){
+        //new att
+        $record = new StaffAttendanceRecord;
+        $record->attendanceDate = $date;
+        $record->staff_id = $id;
+        $record->status = $status;
+        $record->eid = $staff_eid;
+        $record->year_start = $start;
+        $record->save();
+
+        $ifEx = StaffAtOverall::where('staff_id', $id)->first();
+        if($ifEx){ 
+            $ifEx->present = $ifEx->present+1;
+
+            $ifEx->save();
+        }else{
+
+        //else create
+        $inc = new StaffAtOverall;
+        $inc->staff_id = $id;
+        $inc->academic_year = $start;
+        $inc->present = 1;
+        $inc->save();
+
+        }
+
+        }
+        }
+        return response()->json('attendance updated');
+
+    }
+
     /*
      * AT Overall View
      */

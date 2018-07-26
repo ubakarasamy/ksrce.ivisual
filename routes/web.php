@@ -53,4 +53,4 @@ Route::get('/student/class/subjects', 'TimeTablesController@createSubjects')->na
 
 Route::get('/staff/attendance/month' , 'StaffAttendanceController@attendanceBymonth')->name('staff-attendance-month');
 
-Route::get('/student/blodgroup', 'StudentProfileController@studBgroup')->name('studentprofile.stud-bgroup');
+Route::get('/student/bloodgroup', 'StudentProfileController@studBgroup')->name('stud-bgroup');

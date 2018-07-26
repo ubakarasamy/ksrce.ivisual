@@ -1,10 +1,14 @@
 @extends('layouts.app-wo-nav')
 
 @section('content')
-<div class="login-frm" style="margin-top:200px;">
+<div class="login-frm">
 <div class="container">
     <div class="row">
         <div class="col-md-8 col-md-offset-2">
+            <div class="login-logo">
+                    <center><img src="{{asset('img/ksrceLogo.png')}}"></center>
+            </div>
+        
             <div class="panel panel-default">
                 <div class="panel-heading">Login</div>
 
@@ -55,8 +59,7 @@
                                 <button type="submit" class="btn btn-primary">
                                     Login
                                 </button>
-
-                                
+                               
                             </div>
                         </div>
                     </form>

@@ -19,10 +19,11 @@
     <link rel="stylesheet" href="{{ asset('css/fontawesome-all.min.css') }}">
     <link rel="stylesheet" href="{{ asset('css/dashboard.css') }}">
     <style>
-        #at_staff::before, #at_student::before
+        #at_staff::before, #at_student::before, #at_stud_profile::before 
         {
             content: none;
         }
+        
     </style>
     @yield('inline-styles')
 </head>
@@ -49,7 +50,12 @@
                 </ul>
             </li>
             @endif
-            <li class=" @if($route = Route::current()->getName() == 'studentprofile-home') <?php echo "active" ?> @endif"><a href="{{route('studentprofile-home')}}"><i class="fas fa-user"></i> Student Profile</a></li>
+            <li class=" @if($route = Route::current()->getName() == 'studentprofile-home' || $route = Route::current()->getName() == 'stud-bgroup') <?php echo "subactive" ?> @endif"><a href="#at_stud_profile" data-toggle="collapse" aria-expanded="true"><i class="fas fa-graduation-cap"></i>Student Profile</a>
+                <ul id="at_stud_profile" class="list-unstyled collapse" style="">
+                    <li class=" @if($route = Route::current()->getName() == 'studentprofile-home') <?php echo "active" ?> @endif"><a href="{{route('studentprofile-home')}}"><i class="fas fa-plus"></i>Student Profile</a></li>
+                    <li class=" @if($route = Route::current()->getName() == 'stud-bgroup') <?php echo "active" ?> @endif"><a href="{{route('stud-bgroup')}}"><i class="fas fa-eye"></i>Blood Group</a></li>
+                </ul>
+            </li>
             {{-- Attendances --}}
         <li>
             <a href="#at_student" data-toggle="collapse" aria-expanded="true"><i class="fas fa-graduation-cap"></i>Student Attendace</a>

@@ -13,7 +13,7 @@
     </div>
     <div class="card-body">
         {{-- <stud-attendance-view></stud-attendance-view>   --}}
-        <stud-attendance-view-byoverall></stud-attendance-view-byoverall>
+        <stud-attendance-view-byoverall  :userrole={{ Auth::user()->id }} :authenticateduser="{{ Auth::user() }}"></stud-attendance-view-byoverall>
     </div>
   </div>
 </div>

@@ -12,7 +12,7 @@
       </ul>
     </div>
     <div class="card-body">
-        <stud-attendance-view></stud-attendance-view>  
+        <stud-attendance-view  :userrole={{ Auth::user()->id }} :authenticateduser="{{ Auth::user() }}"></stud-attendance-view>  
     </div>
   </div>
 </div>

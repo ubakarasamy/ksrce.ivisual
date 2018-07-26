@@ -98,3 +98,5 @@ Route::post('studentattendance/setallstatus', 'StudentAttendanceController@makAl
 Route::post('allstaffdates', 'StaffAttendanceController@getAllAtDates');
 
 Route::post('allstaffatdatas', 'StaffAttendanceController@getAllAtDatas');
+
+Route::post('staffattendance/setallstatus', 'StaffAttendanceController@makePresentAllStaffs');

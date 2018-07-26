@@ -20,6 +20,7 @@ import moment from 'moment'
 Vue.prototype.moment = moment
 
 Vue.component('staff-profile', require('./components/StaffProfile.vue'));
+Vue.component('my-profile', require('./components/MyProfile.vue'));
 Vue.component('student-profile', require('./components/StudentProfile.vue'));
 Vue.component('close-semeter', require('./components/CloseSemester.vue'));
 Vue.component('staff-attendance', require('./components/StaffAttendance.vue'));

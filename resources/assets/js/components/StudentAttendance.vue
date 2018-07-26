@@ -121,7 +121,6 @@
                         <th>Change Status</th>
                     </thead>
                     <tbody>
-                      <tr class="text-center pt-3"><h1>Students Not Found</h1></tr>
                         <tr v-for="student in filteredStudents" v-bind:key="student.id">
                             <td>{{ student.register_no }}</td>
                             <td>{{ student.name }}</td>
@@ -289,8 +288,10 @@ sectionOptions: [
   },
   props:['userrole', 'authenticateduser'],
   methods: {
-setuserDepaartment(){
-      
+showSet(){
+        if(this.userrole < 2){
+          return true;
+        }
     },
 makeallPresent(){
   const PassData = {};
