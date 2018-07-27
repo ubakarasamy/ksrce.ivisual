@@ -1,5 +1,5 @@
 /node_modules
-/public
+public/
 /storage/*.key
 /vendor
 /.idea
@@ -10,13 +10,4 @@ npm-debug.log
 yarn-error.log
 .env
 .htaccess
-/css
-/fonts
-/img
-/js
-index.php
-mix-manifest.json
-robots.txt
-web.config
-webfonts/
 
