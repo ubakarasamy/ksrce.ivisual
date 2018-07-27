@@ -35,15 +35,21 @@ class StaffProfileController extends Controller
        return new UserResource($staff);
    }
 
+   public function changePassword(Request $request){
+    //Update Request
+    if($request->input('change_pwd')){
+     $staff = User::findOrFail($request->user_id);
+     $staff->password = Hash::make($request->input('password'));
+     $staff->save();
+    }
+    return response()->json('password updated');
+   }
+
    public function store(Request $request){
 
        if($request->isMethod('put')){
            //Update Request
-           if($request->input('change_pwd')){
-            $staff = User::findOrFail($request->user_id);
-            $staff->password = Hash::make($request->input('password'));
-            $staff->save();
-           }else{
+           
            $staff = User::findOrFail($request->user_id);
            $staff->id = $request->input('user_id');
            $staff->name = $request->input('name');
@@ -61,7 +67,7 @@ class StaffProfileController extends Controller
            if($staff->save()) {
                return new UserResource($staff);
            }
-        }
+        
        }else{
            //Create Request
                 $staff = new User;

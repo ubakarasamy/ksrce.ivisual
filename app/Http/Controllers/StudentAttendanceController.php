@@ -26,10 +26,11 @@ class StudentAttendanceController extends Controller
         $date = StudentAt::where('attendancedate', $request->input('makedate'))->first();
         if($date !== null){
             //if alredy exists get data from attendance record table and return for editing
-            $date1 = $request->input('makedate');
-            $students = Student::all();
-            $attendanceData = StudentAtRecord::all()->where('attendancedate', $date1);
-            return 'date already exists';
+            $date->dateStatus = rand(1,10); // empty string
+            $date->staff_eid = $request->input('staff_eid');
+            $date->save();
+            return response('Hello World', 200)
+            ->header('Content-Type', 'text/json');
         }else{
 
             $acc  =Academics::findOrFail(1);

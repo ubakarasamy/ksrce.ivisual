@@ -34,6 +34,7 @@ export default {
     data(){
         return {
             staff:{
+                user_id: '',
                 password:'',
                 change_pwd:true
             },
@@ -48,8 +49,9 @@ export default {
              this.showPwd = true;
         },
             change_password(){
+                this.staff.user_id = this.authenticateduser.id;
                 //save password
-                fetch('/api/staffprofile', {
+                fetch('/api/changepwd', {
           method: 'put',
           body: JSON.stringify(this.staff),
           headers: {

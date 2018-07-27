@@ -25,6 +25,7 @@ Route::post('staffprofile', 'StaffProfileController@store');
 // Update Staff
 Route::put('staffprofile', 'StaffProfileController@store');
 
+Route::put('changepwd', 'StaffProfileController@changePassword');
 
 // Student Profile
 Route::get('studentProfile', 'StudentProfileController@index');

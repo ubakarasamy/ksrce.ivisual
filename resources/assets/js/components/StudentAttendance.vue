@@ -77,6 +77,7 @@
                                               <option value="thu">Thusday</option>
                                               <option value="fri">Friday</option>
                                             </select>
+                                            <p class="text-muted">Day is not modifiable</p>
                                        </div>
                                </div>
                                <button :disabled="validateDepart == 1" type="submit" class="btn btn-primary">Submit</button>
@@ -284,7 +285,6 @@ sectionOptions: [
   },
   created(){
     this.fetchTimes();
-    this.setuserDepaartment();
   },
   props:['userrole', 'authenticateduser'],
   methods: {
@@ -341,7 +341,7 @@ makeallPresent(){
       })
         .then(res => res.json())
         .then(res => {
-          //console.log(res.data);
+          console.log(res.data);
         });
       this.createForm = false;
       alert("success");
