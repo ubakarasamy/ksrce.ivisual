@@ -1,0 +1,104 @@
+body{
+    background: #f2f2f2;
+}
+.login-logo img
+{
+	width: 150px;
+	margin-bottom: 50px;
+}
+.ksrce-main-navbar{
+    -webkit-box-shadow: 0 8px 6px -6px #d8d8d8;
+position: fixed;
+    z-index: 1000;
+    left: 230px;
+    right: 0;
+    border-radius: 0;
+}
+.sidebar-brand
+{
+    position: fixed;
+}
+.ksrce-sidebar .list-stop
+{
+    position: fixed;
+    margin-top: 60px;
+}
+.ksrce-sidebar .list-stop 
+{
+    margin-left: 9px;
+}
+.content .card
+{
+    margin-top: 65px;
+}
+.content .card table
+{
+    font-size: 12px;
+}
+.user-dropdown .nav-link.dropdown-toggle
+{
+    color: #909090;
+    text-transform: lowercase;
+}
+.user-dropdown, .user-dropdown .dropdown-item 
+{
+    font-size: 12px;
+}
+.dashboard .card .card-header
+{
+    background: none;
+}
+.dashboard .card .card-header .card-title
+{
+    font-size: 22px;
+}
+.staffprofile-tab-head
+{
+    background: #efefef;
+    padding: 10px;
+}
+.staffprofile-tab-head .form-group{
+    margin-bottom: 0;
+}
+
+
+
+
+
+
+/* xl screen */
+@media only screen and (max-width:2000px){
+.login-frm
+{
+    margin-top: 200px;
+}
+}
+
+/* lg screen */
+@media only screen and (max-width:1500px){
+    .login-frm
+{
+    margin-top: 100px;
+}
+}
+/* md screen */
+@media only screen and (max-width:900px){
+    .login-frm
+    {
+        margin-top: 50px;
+    }
+    .ksrce-main-navbar{
+        position: fixed;
+    z-index: 1000;
+        left: 0;
+    }
+
+    }
+/* sm screen */
+@media only screen and (max-width:465px){
+.login-frm
+{
+    margin-top: 50px;
+}
+}
+
